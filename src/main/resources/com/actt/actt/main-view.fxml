@@ -4,17 +4,15 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<AnchorPane prefHeight="800" prefWidth="1600" xmlns:fx="http://javafx.com/fxml"
+<AnchorPane prefHeight="800" prefWidth="1600" style="-fx-background-color:#29292b" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.actt.actt.HelloController">
     <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <HBox spacing="60.0" style="-fx-background-color: red">
+        <HBox spacing="60.0">
             <padding>
                 <Insets bottom="30.0" top="30.0" left="20.0"/>
             </padding>
 
-            <ComboBox prefWidth="450" prefHeight="30.0" fx:id="tournamentsComboBox">
-
-            </ComboBox>
+            <ComboBox styleClass="dropdown" fx:id="tournamentsComboBox"/>
 
             <Button text="Hello!" onAction="#onHelloButtonClick"/>
             <Button text="Hello!" onAction="#onHelloButtonClick"/>
