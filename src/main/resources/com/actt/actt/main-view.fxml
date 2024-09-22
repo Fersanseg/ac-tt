@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane prefHeight="800" prefWidth="1600" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.actt.actt.HelloController">
+    <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <HBox spacing="60.0" style="-fx-background-color: red">
+            <padding>
+                <Insets bottom="30.0" top="30.0" left="20.0"/>
+            </padding>
+
+            <ComboBox prefWidth="450" prefHeight="30.0" fx:id="tournamentsComboBox">
+
+            </ComboBox>
+
+            <Button text="Hello!" onAction="#onHelloButtonClick"/>
+            <Button text="Hello!" onAction="#onHelloButtonClick"/>
+        </HBox>
+
+        <VBox VBox.vgrow="ALWAYS">
+            <Label fx:id="welcomeText"/>
+            <Button text="Hello!" onAction="#onHelloButtonClick"/>
+        </VBox>
+
+    </VBox>
+</AnchorPane>
