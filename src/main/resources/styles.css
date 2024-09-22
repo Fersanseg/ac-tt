@@ -5,6 +5,11 @@
 .dropdown {
     -fx-background-color:transparent;
     -fx-border-color: red;
+    -fx-border-radius: 9px;
     -fx-height: 30px;
     -fx-width: 450px;
+}
+
+.dropdown .list-cell {
+    -fx-text-fill: white;
 }

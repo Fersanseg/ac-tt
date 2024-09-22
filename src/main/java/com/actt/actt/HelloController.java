@@ -1,15 +1,12 @@
 package com.actt.actt;
 
-import javafx.beans.Observable;
+import com.actt.actt.controls.Dropdown;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
-import java.io.Console;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -19,7 +16,7 @@ public class HelloController implements Initializable {
     private Label welcomeText;
 
     @FXML
-    private ComboBox<String> tournamentsComboBox;
+    private Dropdown tournamentsComboBox;
     private ObservableList<String> tournamentsList = FXCollections.observableArrayList(
             "2024 WEC",
             "2001 Formula One World Championship",

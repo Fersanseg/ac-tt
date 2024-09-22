@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import com.actt.actt.controls.Dropdown?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.actt.actt.HelloController"
             styleClass="window__background" prefWidth="1600" prefHeight="800">
     <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -12,7 +13,7 @@
                 <Insets bottom="30.0" top="30.0" left="20.0"/>
             </padding>
 
-            <ComboBox styleClass="dropdown" fx:id="tournamentsComboBox"/>
+            <Dropdown fx:id="tournamentsComboBox"/>
 
             <Button text="Hello!" onAction="#onHelloButtonClick"/>
             <Button text="Hello!" onAction="#onHelloButtonClick"/>
