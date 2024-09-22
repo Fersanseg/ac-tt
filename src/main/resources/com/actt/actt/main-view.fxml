@@ -4,8 +4,8 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<AnchorPane prefHeight="800" prefWidth="1600" style="-fx-background-color:#29292b" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.actt.actt.HelloController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.actt.actt.HelloController"
+            styleClass="window__background" prefWidth="1600" prefHeight="800">
     <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <HBox spacing="60.0">
             <padding>

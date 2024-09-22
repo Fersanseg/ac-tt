@@ -1,0 +1,10 @@
+.window__background {
+    -fx-background-color: #29292b;
+}
+
+.dropdown {
+    -fx-background-color:transparent;
+    -fx-border-color: red;
+    -fx-height: 30px;
+    -fx-width: 450px;
+}
