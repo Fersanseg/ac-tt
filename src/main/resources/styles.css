@@ -1,5 +1,7 @@
 .window__background {
     -fx-background-color: #29292b;
+    -fx-border-width: 0 0.5 0.5 0.5;
+    -fx-border-color: black;
 }
 
 /*******************************************************************************
