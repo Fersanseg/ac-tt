@@ -41,7 +41,7 @@ public class MainController implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resouces) {
+    public void initialize(URL location, ResourceBundle resources) {
         tournamentsComboBox.setItems(tournamentsList);
         tournamentsComboBox.setPrefWidth(600);
         tournamentsComboBox.setPrefHeight(50);
