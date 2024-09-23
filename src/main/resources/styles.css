@@ -20,6 +20,10 @@
     -fx-font-size: 20;
 }
 
+.dropdown__placeholder-value .list-cell {
+    -fx-text-fill: grey;
+}
+
 .dropdown .combo-box-popup .list-view { /*the popup's background, behind each cell*/
     -fx-background-color: #29292b;
     -fx-border-color: #3333f5;

@@ -3,6 +3,7 @@ package com.actt.actt;
 import com.actt.actt.controls.Dropdown;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -11,7 +12,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class HelloController implements Initializable {
+public class MainController implements Initializable {
     @FXML
     private Label welcomeText;
 
@@ -31,13 +32,17 @@ public class HelloController implements Initializable {
         else {
             welcomeText.setText("");
         }
+    }
 
+    @FXML
+    protected void onDropdownSelect(ActionEvent ev) {
+        String selectedTournament = ((Dropdown)ev.getTarget()).getValue();
+        System.out.println("SELECTED TOURNAMENT: " + selectedTournament);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resouces) {
         tournamentsComboBox.setItems(tournamentsList);
-        tournamentsComboBox.setValue(tournamentsList.getFirst());
         tournamentsComboBox.setPrefWidth(600);
         tournamentsComboBox.setPrefHeight(50);
     }
