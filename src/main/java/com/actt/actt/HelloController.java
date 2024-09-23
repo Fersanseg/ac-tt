@@ -38,5 +38,7 @@ public class HelloController implements Initializable {
     public void initialize(URL location, ResourceBundle resouces) {
         tournamentsComboBox.setItems(tournamentsList);
         tournamentsComboBox.setValue(tournamentsList.getFirst());
+        tournamentsComboBox.setPrefWidth(600);
+        tournamentsComboBox.setPrefHeight(50);
     }
 }

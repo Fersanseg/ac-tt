@@ -2,14 +2,64 @@
     -fx-background-color: #29292b;
 }
 
+/*******************************************************************************
+ *                                                                             *
+ * Dropdown (Custom ComboBox)                                                  *
+ *                                                                             *
+ ******************************************************************************/
 .dropdown {
-    -fx-background-color:transparent;
-    -fx-border-color: red;
-    -fx-border-radius: 9px;
-    -fx-height: 30px;
-    -fx-width: 450px;
+    -fx-background-color: transparent;
+    -fx-border-color: #3333f5;
+    -fx-height: 100px;
+    -fx-width: 1000px;
 }
 
-.dropdown .list-cell {
+.dropdown .list-cell { /*the "button" cell*/
     -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-font-size: 20;
 }
+
+.dropdown .combo-box-popup .list-view { /*the popup's background, behind each cell*/
+    -fx-background-color: #29292b;
+    -fx-border-color: #3333f5;
+    -fx-border-width: 0 1 1 1;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell { /*the popup's cells*/
+    -fx-border-width: 0px;
+    -fx-text-fill: white;
+    -fx-background-color: #29292b;
+}
+
+.dropdown .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #56565c;
+}
+
+/**************************** Dropdown Scrollbar **************************************/
+.dropdown .combo-box-popup .list-view .scroll-bar: vertical *.increment-button,
+.dropdown .combo-box-popup .list-view .scroll-bar: vertical *.decrement-button {
+    -fx-background-color: #29292b;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 1;
+}
+
+.dropdown .combo-box-popup .list-view .scroll-bar: vertical *.increment-arrow,
+.dropdown .combo-box-popup .list-view .scroll-bar: vertical *.decrement-arrow {
+    -fx-background-color: #29292b;
+    -fx-fill-color: #29292b;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-shape: null;
+    -fx-padding :0.0 0.3em;
+}
+
+.dropdown .combo-box-popup .list-view .scroll-bar: vertical *.track {
+    -fx-background-color: #29292b;
+}
+
+.dropdown .combo-box-popup .list-view .scroll-bar: vertical *.thumb {
+    -fx-background-color: #3333f5;
+}
+
