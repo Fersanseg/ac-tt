@@ -3,7 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="HBox" alignment="CENTER" maxHeight="30.0" maxWidth="550.0" minHeight="30.0" minWidth="550.0" prefHeight="30.0" prefWidth="550.0" spacing="20.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
-    <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Button" />
-    <TextField editable="false" maxHeight="30.0" maxWidth="440.0" minHeight="30.0" minWidth="440.0" prefHeight="30.0" prefWidth="440.0" />
+<fx:root type="HBox" alignment="CENTER" maxHeight="30.0" maxWidth="550.0" minHeight="30.0" minWidth="550.0"
+         prefHeight="30.0" prefWidth="550.0" spacing="20.0"
+         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
+    <Button fx:id="button" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Button" />
+    <TextField fx:id="textField" editable="false" maxHeight="30.0" maxWidth="440.0" minHeight="30.0" minWidth="440.0"
+               prefHeight="30.0" prefWidth="440.0" />
 </fx:root>

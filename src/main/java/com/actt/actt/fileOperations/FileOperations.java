@@ -1,9 +1,10 @@
 package com.actt.actt.fileOperations;
 
+import com.actt.actt.controls.Filepicker;
+import javafx.geometry.Insets;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -40,16 +41,17 @@ public class FileOperations {
 
     private static void showInitialConfigDialog() {
         double dialogWidth = 700;
-        ButtonType closeButton = new ButtonType("Go", ButtonBar.ButtonData.OK_DONE);
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Configuration");
-        dialog.getDialogPane().getButtonTypes().add(closeButton);
-        dialog.getDialogPane().setPrefWidth(dialogWidth);
+
 
         /*
         DirectoryChooser filePicker = new DirectoryChooser();
         File folder = filePicker.showDialog(dialog.getOwner());*/
 
+        ButtonType closeButton = new ButtonType("Go", ButtonBar.ButtonData.OK_DONE);
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Configuration");
+        dialog.getDialogPane().getButtonTypes().add(closeButton);
+        dialog.getDialogPane().setPrefWidth(dialogWidth);
         //noinspection SpellCheckingInspection
         Text mainText = new Text("""
                 It seems like this is the first time you launch the app. Welcome!
@@ -58,9 +60,12 @@ public class FileOperations {
                 steamapps -> common -> assettocorsa), as well as the folder where you want to save your tournaments.""");
         mainText.setWrappingWidth(dialogWidth);
         mainText.setFont(new Font(16));
-        TextField acPathField = new TextField();
-        TextField appPathField = new TextField();
-        VBox container = new VBox(20.0, mainText, acPathField, appPathField);
+
+        Filepicker acPathPicker = new Filepicker("AC Path", "foo");
+        Filepicker appPathPicker = new Filepicker("App Path", "bar");
+        VBox fpContainer = new VBox(20.0, acPathPicker, appPathPicker);
+        fpContainer.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
+        VBox container = new VBox(20.0, mainText, fpContainer);
         dialog.getDialogPane().setContent(container);
 
         dialog.showAndWait();
