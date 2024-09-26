@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
+import java.util.Optional;
 
 public class FileOperations {
     public static void checkAppConfig() {
@@ -68,7 +69,10 @@ public class FileOperations {
         VBox container = new VBox(20.0, mainText, fpContainer);
         dialog.getDialogPane().setContent(container);
 
-        dialog.showAndWait();
+        Optional<ButtonType> res = dialog.showAndWait();
+        if (res.isEmpty() || res.get() != ButtonType.OK) {
+            System.exit(1);
+        }
     }
 
     private static void showInvalidOSError() {
@@ -78,6 +82,8 @@ public class FileOperations {
         dialog.setContentText("Your Operating System is not currently supported!\nThe app only supports Windows at " +
                 "this time. Support for other OSs will come soon!");
         dialog.getDialogPane().getButtonTypes().add(closeButton);
-        dialog.showAndWait().ifPresent(_ -> System.exit(1));
+
+        dialog.showAndWait();
+        System.exit(1);
     }
 }
