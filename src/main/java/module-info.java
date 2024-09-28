@@ -4,6 +4,7 @@ module com.actm.actm {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires java.desktop;
 
     opens com.actt.actt to javafx.fxml;
     exports com.actt.actt;

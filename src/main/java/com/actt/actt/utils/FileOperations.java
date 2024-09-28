@@ -1,6 +1,8 @@
-package com.actt.actt.fileOperations;
+package com.actt.actt.utils;
 
-import com.actt.actt.controls.Filepicker;
+import com.actt.actt.controls.DirectoryPicker;
+import com.actt.actt.events.DirectoryChosenEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -9,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,11 +46,8 @@ public class FileOperations {
 
     private static void showInitialConfigDialog() {
         double dialogWidth = 700;
-
-
-        /*
-        DirectoryChooser filePicker = new DirectoryChooser();
-        File folder = filePicker.showDialog(dialog.getOwner());*/
+        String defaultAppPath = FileSystemView.getFileSystemView().getDefaultDirectory().toString().replace("/", "\\");
+        String defaultAcPath = (System.getenv("ProgramFiles(x86)") + "/Steam/steamappscommon/assettocorsa").replace("/", "\\");
 
         ButtonType closeButton = new ButtonType("Go", ButtonBar.ButtonData.OK_DONE);
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -62,8 +63,9 @@ public class FileOperations {
         mainText.setWrappingWidth(dialogWidth);
         mainText.setFont(new Font(16));
 
-        Filepicker acPathPicker = new Filepicker("AC Path", "foo");
-        Filepicker appPathPicker = new Filepicker("App Path", "bar");
+        DirectoryPicker acPathPicker = new DirectoryPicker("AC Path", defaultAcPath);
+        acPathPicker.addEventHandler(DirectoryChosenEvent.DIR_CHOSEN, onACPathPicked);
+        DirectoryPicker appPathPicker = new DirectoryPicker("App Path", defaultAppPath);
         VBox fpContainer = new VBox(20.0, acPathPicker, appPathPicker);
         fpContainer.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
         VBox container = new VBox(20.0, mainText, fpContainer);
@@ -86,4 +88,13 @@ public class FileOperations {
         dialog.showAndWait();
         System.exit(1);
     }
+
+    // When the selected AC installation path changes, validates it as a correct AC installation
+    private static final EventHandler<DirectoryChosenEvent> onACPathPicked = event -> {
+        File dir = event.getDirectory();
+        File acExe = new File(dir, "AssettoCorsa.exe");
+        if (!acExe.exists()) {
+            System.out.println("Invalid Assetto Corsa installation directory!");
+        }
+    };
 }

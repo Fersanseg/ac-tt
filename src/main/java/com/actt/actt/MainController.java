@@ -1,7 +1,7 @@
 package com.actt.actt;
 
 import com.actt.actt.controls.Dropdown;
-import com.actt.actt.fileOperations.FileOperations;
+import com.actt.actt.utils.FileOperations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
