@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -47,7 +48,11 @@ public class MainController implements Initializable {
         tournamentsComboBox.setPrefWidth(600);
         tournamentsComboBox.setPrefHeight(50);
 
-        FileOperations.checkAppConfig();
+        try {
+            FileOperations.checkAppConfig();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

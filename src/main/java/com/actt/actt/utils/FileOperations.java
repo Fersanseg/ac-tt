@@ -2,6 +2,8 @@ package com.actt.actt.utils;
 
 import com.actt.actt.controls.DirectoryPicker;
 import com.actt.actt.events.DirectoryChosenEvent;
+import com.actt.actt.models.AppConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonBar;
@@ -16,14 +18,25 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
+import static com.actt.actt.utils.ControlOperations.GetNodesByType;
+
 public class FileOperations {
-    public static void checkAppConfig() {
+    private static final String AC_BUTTON_TEXT = "AC Path";
+    private static final String APP_BUTTON_TEXT = "App Path";
+    private static final String CONFIG_FILENAME = "config.json";
+    private static final String CONFIG_PATH = String.valueOf(Path.of(System.getenv("LOCALAPPDATA"), "AC Tournament Tracker"));
+
+    public static void checkAppConfig() throws IOException {
         String os = System.getProperty("os.name").toLowerCase(Locale.ROOT);
         if (os.contains("win")) {
-            Path configPath = Path.of(System.getenv("LOCALAPPDATA"), "AC Tournament Tracker");
+            Path configPath = Path.of(CONFIG_PATH);
+            Path configFilePath = configPath.resolve(CONFIG_FILENAME);
+
             if (!Files.exists(configPath)) {
                 try {
                     Files.createDirectory(configPath);
@@ -32,8 +45,9 @@ public class FileOperations {
                 }
             }
 
-            if (!Files.exists(configPath.resolve("config.json"))) {
-                showInitialConfigDialog();
+            if (!Files.exists(configFilePath)) {
+                Dialog<ButtonType> dialog = showInitialConfigDialog();
+                SaveConfig(dialog, configFilePath);
             }
         }
         else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
@@ -44,7 +58,17 @@ public class FileOperations {
         }
     }
 
-    private static void showInitialConfigDialog() {
+    private static Dialog<ButtonType> showInitialConfigDialog() throws IOException {
+        Dialog<ButtonType> dialog = CreateInitialConfigDialog();
+        Optional<ButtonType> res = dialog.showAndWait();
+        if (res.isEmpty() || res.get().getButtonData() != ButtonBar.ButtonData.OK_DONE) {
+            System.exit(1);
+        }
+
+        return dialog;
+    }
+
+    private static Dialog<ButtonType> CreateInitialConfigDialog() {
         double dialogWidth = 700;
         String defaultAppPath = FileSystemView.getFileSystemView().getDefaultDirectory().toString().replace("/", "\\");
         String defaultAcPath = (System.getenv("ProgramFiles(x86)") + "/Steam/steamappscommon/assettocorsa").replace("/", "\\");
@@ -63,18 +87,35 @@ public class FileOperations {
         mainText.setWrappingWidth(dialogWidth);
         mainText.setFont(new Font(16));
 
-        DirectoryPicker acPathPicker = new DirectoryPicker("AC Path", defaultAcPath);
+        DirectoryPicker acPathPicker = new DirectoryPicker(AC_BUTTON_TEXT, defaultAcPath);
         acPathPicker.addEventHandler(DirectoryChosenEvent.DIR_CHOSEN, onACPathPicked);
-        DirectoryPicker appPathPicker = new DirectoryPicker("App Path", defaultAppPath);
+        DirectoryPicker appPathPicker = new DirectoryPicker(APP_BUTTON_TEXT, defaultAppPath);
         VBox fpContainer = new VBox(20.0, acPathPicker, appPathPicker);
         fpContainer.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
         VBox container = new VBox(20.0, mainText, fpContainer);
         dialog.getDialogPane().setContent(container);
+        return dialog;
+    }
 
-        Optional<ButtonType> res = dialog.showAndWait();
-        if (res.isEmpty() || res.get() != ButtonType.OK) {
-            System.exit(1);
-        }
+    private static void SaveConfig(Dialog<ButtonType> dialog, Path saveToPath) throws IOException {
+        AppConfig configJson = new AppConfig();
+        ObjectMapper mapper = new ObjectMapper();
+        List<DirectoryPicker> dirPickers = GetNodesByType(dialog.getDialogPane(), DirectoryPicker.class);
+        String acDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, AC_BUTTON_TEXT)).getPath();
+        String appDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, APP_BUTTON_TEXT)).getPath();
+
+        configJson.setAcPath(acDirPath);
+        configJson.setAppPath(appDirPath);
+        mapper.writeValue(new File(String.valueOf(saveToPath)), configJson);
+    }
+
+    private static DirectoryPicker GetDirPickerByText(List<DirectoryPicker> dirPickers, String buttonText) {
+        return dirPickers != null
+                ? dirPickers.stream()
+                    .filter(p -> Objects.equals(p.getButton().getText(), buttonText))
+                    .toList()
+                    .getFirst()
+                : null;
     }
 
     private static void showInvalidOSError() {
@@ -94,6 +135,7 @@ public class FileOperations {
         File dir = event.getDirectory();
         File acExe = new File(dir, "AssettoCorsa.exe");
         if (!acExe.exists()) {
+            // TODO validate and show error msg if not AC installation directory
             System.out.println("Invalid Assetto Corsa installation directory!");
         }
     };
