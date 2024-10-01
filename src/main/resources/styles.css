@@ -1,7 +1,42 @@
+/* MAIN BACKGROUND COLOR: #29292b */
+/* MAIN BORDER/ACCENT BLUE: #3333f5 */
+/* OFF BACKGROUND COLOR (HOVER ETC): #333336*/
+
 .window__background {
     -fx-background-color: #29292b;
     -fx-border-width: 0 0.5 0.5 0.5;
     -fx-border-color: black;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Button                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+ .button {
+    -fx-background-color: #29292b;
+    -fx-text-fill: white;
+    -fx-border-color: #3333f5;
+    -fx-cursor: hand;
+ }
+
+ .button:hover {
+    -fx-background-color: #333336;
+ }
+
+/*******************************************************************************
+ *                                                                             *
+ * Dialog                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+ .dialog * {
+    -fx-background-color: #29292b;
+    -fx-text-fill: white;
+}
+
+.dialog .text-field {
+    -fx-border-color: #3333f5;
+    -fx-border-radius: 6;
 }
 
 /*******************************************************************************

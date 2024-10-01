@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -75,6 +76,8 @@ public class FileOperations {
 
         ButtonType closeButton = new ButtonType("Go", ButtonBar.ButtonData.OK_DONE);
         Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.getDialogPane().getStylesheets().add(FileOperations.class.getResource("/styles.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialog");
         dialog.setTitle("Configuration");
         dialog.getDialogPane().getButtonTypes().add(closeButton);
         dialog.getDialogPane().setPrefWidth(dialogWidth);
@@ -86,6 +89,7 @@ public class FileOperations {
                 steamapps -> common -> assettocorsa), as well as the folder where you want to save your tournaments.""");
         mainText.setWrappingWidth(dialogWidth);
         mainText.setFont(new Font(16));
+        mainText.setFill(Color.GHOSTWHITE);
 
         DirectoryPicker acPathPicker = new DirectoryPicker(AC_BUTTON_TEXT, defaultAcPath);
         acPathPicker.addEventHandler(DirectoryChosenEvent.DIR_CHOSEN, onACPathPicked);
