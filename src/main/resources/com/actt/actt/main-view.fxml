@@ -5,12 +5,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import com.actt.actt.controls.Dropdown?>
+<?import com.actt.actt.controls.HorizontalSeparator?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.actt.actt.MainController"
-            styleClass="window__background" prefWidth="1600" prefHeight="800">
+            styleClass="window__background" prefWidth="1600" prefHeight="800" maxWidth="1600" maxHeight="800">
     <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <HBox spacing="60.0">
             <padding>
-                <Insets bottom="30.0" top="30.0" left="20.0"/>
+                <Insets bottom="20.0" top="30.0" left="20.0"/>
             </padding>
 
             <Dropdown fx:id="tournamentsComboBox" defaultValue="Select a championship." onAction="#onDropdownSelect"/>
@@ -18,6 +19,8 @@
             <Button text="Hello!" onAction="#onHelloButtonClick"/>
             <Button text="Hello!" onAction="#onHelloButtonClick"/>
         </HBox>
+
+        <HorizontalSeparator/>
 
         <VBox VBox.vgrow="ALWAYS">
             <Label fx:id="welcomeText"/>
