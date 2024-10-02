@@ -36,7 +36,7 @@ public class DirectoryPicker extends HBox {
     }
 
     private void setup(String buttonText, String textFieldPlaceholder) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Dropdown.class.getResource("directoryPicker.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("directoryPicker.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 

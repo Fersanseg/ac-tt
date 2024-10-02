@@ -16,7 +16,7 @@ public class HorizontalSeparator extends VBox {
     }
 
     private void setup() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Dropdown.class.getResource("horizontalSeparator.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("horizontalSeparator.fxml"));
         getStyleClass().add("separator-horizontal--container");
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
