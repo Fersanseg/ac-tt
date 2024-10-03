@@ -1,5 +1,6 @@
 package com.actt.actt.controls;
 
+import com.actt.actt.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -11,11 +12,20 @@ import javafx.scene.transform.Translate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Scanner;
 
 public class HeaderButtonBar extends HBox {
     @FXML
     private Button refreshButton;
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button addButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button configButton;
 
     public HeaderButtonBar() {
         setup();
@@ -24,6 +34,7 @@ public class HeaderButtonBar extends HBox {
     private void setup() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headerButtonBar.fxml"));
         getStyleClass().add("custom-button-bar");
+        setSpacing(35);
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
@@ -37,6 +48,13 @@ public class HeaderButtonBar extends HBox {
     }
 
     private void setButtonIcons() {
+        List<Button> buttons = Utils.getFieldsOfType(this, Button.class);
+        for (Button button : buttons) {
+            setButtonIcon(button);
+        }
+    }
+
+    private void setButtonIcon(Button button) {
         String svgContent = loadSVGFromFile("/com/actt/actt/images/reload.svg");
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(svgContent);
@@ -44,13 +62,15 @@ public class HeaderButtonBar extends HBox {
 
         svgPath.setFill(Color.SILVER);
 
-        refreshButton.setGraphic(svgPath);
+        button.setGraphic(svgPath);
     }
 
     private String loadSVGFromFile(String path) {
-        try (InputStream inputStream = getClass().getResourceAsStream(path);
-             Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
-            return scanner.useDelimiter("\\A").next();
+        try (InputStream inputStream = getClass().getResourceAsStream(path)) {
+            assert inputStream != null;
+            try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
+                return scanner.useDelimiter("\\A").next();
+            }
         } catch (Exception e) {
             throw new RuntimeException("Failed to load SVG file", e);
         }

@@ -4,9 +4,21 @@
 <?import javafx.scene.layout.*?>
 
 <fx:root alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-         prefHeight="50.0" prefWidth="600.0" type="HBox" xmlns="http://javafx.com/javafx/17.0.12"
+         prefHeight="50.0" prefWidth="600.0" type="HBox" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml/1">
    <Button fx:id="refreshButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0"
+           mnemonicParsing="false" prefHeight="41.0" prefWidth="41.0" textAlignment="CENTER">
+   </Button>
+   <Button fx:id="editButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0"
+           mnemonicParsing="false" prefHeight="41.0" prefWidth="41.0" textAlignment="CENTER">
+   </Button>
+   <Button fx:id="addButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0"
+           mnemonicParsing="false" prefHeight="41.0" prefWidth="41.0" textAlignment="CENTER">
+   </Button>
+   <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0"
+           mnemonicParsing="false" prefHeight="41.0" prefWidth="41.0" textAlignment="CENTER">
+   </Button>
+   <Button fx:id="configButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0"
            mnemonicParsing="false" prefHeight="41.0" prefWidth="41.0" textAlignment="CENTER">
    </Button>
 </fx:root>
