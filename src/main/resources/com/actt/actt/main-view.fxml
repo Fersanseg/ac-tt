@@ -17,7 +17,7 @@
 
             <Dropdown fx:id="tournamentsComboBox" defaultValue="Select a championship." onAction="#onDropdownSelect"/>
 
-            <HeaderButtonBar/>
+            <HeaderButtonBar fx:id="headerButtonBar"/>
         </HBox>
 
         <HorizontalSeparator/>

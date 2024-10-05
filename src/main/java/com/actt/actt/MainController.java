@@ -1,6 +1,8 @@
 package com.actt.actt;
 
 import com.actt.actt.controls.Dropdown;
+import com.actt.actt.controls.HeaderButtonBar;
+import com.actt.actt.events.ButtonPressedEvent;
 import com.actt.actt.utils.FileOperations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +22,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Dropdown tournamentsComboBox;
+
+    @FXML
+    private HeaderButtonBar headerButtonBar;
     private ObservableList<String> tournamentsList = FXCollections.observableArrayList(
             "2024 WEC",
             "2001 Formula One World Championship",
@@ -42,11 +47,18 @@ public class MainController implements Initializable {
         System.out.println("SELECTED TOURNAMENT: " + selectedTournament);
     }
 
+    @FXML
+    protected void onHeaderButtonPressed(String buttonId) {
+        System.out.println("BUTTON PRESSED: " + buttonId);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tournamentsComboBox.setItems(tournamentsList);
         tournamentsComboBox.setPrefWidth(600);
         tournamentsComboBox.setPrefHeight(50);
+
+        headerButtonBar.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, event -> onHeaderButtonPressed(event.getButtonId()));
 
         try {
             FileOperations.checkAppConfig();

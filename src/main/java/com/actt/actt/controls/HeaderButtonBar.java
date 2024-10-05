@@ -1,5 +1,6 @@
 package com.actt.actt.controls;
 
+import com.actt.actt.events.ButtonPressedEvent;
 import com.actt.actt.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,8 +60,10 @@ public class HeaderButtonBar extends HBox {
     private void setButtonIcon(Button button) {
         String buttonName = button.getId();
         String iconFileName = buttonName.replace("Button", "") + ".svg";
+
         button.setPadding(new Insets(5, 5, 5, 5));
         button.setPrefSize(50, 50);
+        button.setOnAction(_ -> fireEvent(new ButtonPressedEvent(buttonName)));
 
         String svgContent = loadSVGFromFile("/com/actt/actt/images/" + iconFileName);
         SVGPath svgPath = new SVGPath();
