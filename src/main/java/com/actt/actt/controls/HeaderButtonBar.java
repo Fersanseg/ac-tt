@@ -51,30 +51,29 @@ public class HeaderButtonBar extends HBox {
     }
 
     private void setButtonIcons() {
-        List<Pair<String, Button>> buttons = Utils.getFieldsOfType(this, Button.class);
-        for (Pair<String, Button> button : buttons) {
+        List<Button> buttons = Utils.getFieldsOfType(this, Button.class);
+        for (Button button : buttons) {
             setButtonIcon(button);
         }
     }
 
-    private void setButtonIcon(Pair<String, Button> kvp) {
-        String fieldName = kvp.getKey();
-        String iconFileName = fieldName.replace("Button", "") + ".svg";
-        Button buttonInstance = kvp.getValue();
-        buttonInstance.setPadding(new Insets(5, 5, 5, 5));
-        buttonInstance.setPrefSize(50, 50);
+    private void setButtonIcon(Button button) {
+        String buttonName = button.getId();
+        String iconFileName = buttonName.replace("Button", "") + ".svg";
+        button.setPadding(new Insets(5, 5, 5, 5));
+        button.setPrefSize(50, 50);
 
         String svgContent = loadSVGFromFile("/com/actt/actt/images/" + iconFileName);
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(svgContent);
-        if (fieldName.equals("refreshButton") || fieldName.equals("editButton")) {
+        if (buttonName.equals("refreshButton") || buttonName.equals("editButton")) {
             svgPath.getTransforms().add(new Scale(1.5, 1.5));
             svgPath.getTransforms().add(new Translate(-3.5, -4.2));
         }
 
         svgPath.setFill(Color.SILVER);
 
-        buttonInstance.setGraphic(svgPath);
+        button.setGraphic(svgPath);
     }
 
     private String loadSVGFromFile(String path) {
