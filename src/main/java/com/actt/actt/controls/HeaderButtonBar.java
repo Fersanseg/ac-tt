@@ -3,11 +3,14 @@ package com.actt.actt.controls;
 import com.actt.actt.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,21 +51,30 @@ public class HeaderButtonBar extends HBox {
     }
 
     private void setButtonIcons() {
-        List<Button> buttons = Utils.getFieldsOfType(this, Button.class);
-        for (Button button : buttons) {
+        List<Pair<String, Button>> buttons = Utils.getFieldsOfType(this, Button.class);
+        for (Pair<String, Button> button : buttons) {
             setButtonIcon(button);
         }
     }
 
-    private void setButtonIcon(Button button) {
-        String svgContent = loadSVGFromFile("/com/actt/actt/images/reload.svg");
+    private void setButtonIcon(Pair<String, Button> kvp) {
+        String fieldName = kvp.getKey();
+        String iconFileName = fieldName.replace("Button", "") + ".svg";
+        Button buttonInstance = kvp.getValue();
+        buttonInstance.setPadding(new Insets(5, 5, 5, 5));
+        buttonInstance.setPrefSize(50, 50);
+
+        String svgContent = loadSVGFromFile("/com/actt/actt/images/" + iconFileName);
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(svgContent);
-        svgPath.getTransforms().add(new Translate(1, 0));
+        if (fieldName.equals("refreshButton") || fieldName.equals("editButton")) {
+            svgPath.getTransforms().add(new Scale(1.5, 1.5));
+            svgPath.getTransforms().add(new Translate(-3.5, -4.2));
+        }
 
         svgPath.setFill(Color.SILVER);
 
-        button.setGraphic(svgPath);
+        buttonInstance.setGraphic(svgPath);
     }
 
     private String loadSVGFromFile(String path) {
