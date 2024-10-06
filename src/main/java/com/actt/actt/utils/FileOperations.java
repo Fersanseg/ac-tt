@@ -42,6 +42,13 @@ public class FileOperations {
                     throw new RuntimeException(e);
                 }
             }
+            if (!Files.exists(configPath.resolve(Path.of("log")))) {
+                try {
+                    Files.createDirectory(configPath.resolve(Path.of("log")));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
             if (!Files.exists(configFilePath)) {
                 Dialog<ButtonType> dialog = showInitialConfigDialog();
@@ -57,9 +64,9 @@ public class FileOperations {
     }
 
     public static FileInputStream getLogFile() throws IOException {
-        String logFileName = getLogFilePath();
+        String logFileName = getLogFileName();
 
-        String strFilePath = CONFIG_PATH + "\\" + logFileName;
+        String strFilePath = CONFIG_PATH + "\\log\\" + logFileName;
         Path filePath = Path.of(strFilePath);
         if (!Files.exists(filePath)) {
             Files.createFile(filePath);
@@ -69,9 +76,9 @@ public class FileOperations {
     }
 
     public static void saveLogFile(byte[] bytes) throws IOException {
-        String logFileName = getLogFilePath();
+        String logFileName = getLogFileName();
 
-        String strFilePath = CONFIG_PATH + "\\" + logFileName;
+        String strFilePath = CONFIG_PATH + "\\log\\" + logFileName;
 
         File file = new File(strFilePath);
         FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -79,7 +86,7 @@ public class FileOperations {
         fileOutputStream.close();
     }
 
-    private static String getLogFilePath() {
+    private static String getLogFileName() {
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         String year = String.valueOf(ts.toLocalDateTime().getYear());
         String month = String.valueOf(ts.toLocalDateTime().getMonthValue());
