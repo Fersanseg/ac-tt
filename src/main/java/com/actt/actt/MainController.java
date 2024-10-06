@@ -4,7 +4,6 @@ import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
 import com.actt.actt.events.ButtonPressedEvent;
 import com.actt.actt.utils.FileOperations;
-import com.actt.actt.utils.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

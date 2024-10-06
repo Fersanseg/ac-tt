@@ -87,7 +87,7 @@ public class FileOperations {
         return "Log_" + year + "-" + month + "-" + dayOfMonth + ".txt";
     }
 
-    private static Dialog<ButtonType> showInitialConfigDialog() throws IOException {
+    private static Dialog<ButtonType> showInitialConfigDialog() {
         Dialog<ButtonType> dialog = CreateInitialConfigDialog();
         Optional<ButtonType> res = dialog.showAndWait();
         if (res.isEmpty() || res.get().getButtonData() != ButtonBar.ButtonData.OK_DONE) {
