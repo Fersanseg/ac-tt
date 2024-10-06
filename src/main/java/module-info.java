@@ -6,6 +6,8 @@ module com.actm.actm {
     requires org.kordamp.bootstrapfx.core;
     requires com.fasterxml.jackson.databind;
     requires java.desktop;
+    requires jdk.jfr;
+    requires java.sql;
 
     opens com.actt.actt to javafx.fxml;
     exports com.actt.actt;

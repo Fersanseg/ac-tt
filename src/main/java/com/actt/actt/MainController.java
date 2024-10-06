@@ -4,6 +4,7 @@ import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
 import com.actt.actt.events.ButtonPressedEvent;
 import com.actt.actt.utils.FileOperations;
+import com.actt.actt.utils.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,7 +49,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    protected void onHeaderButtonPressed(String buttonId) {
+    protected void onHeaderButtonPressed(String buttonId) throws IOException {
         System.out.println("BUTTON PRESSED: " + buttonId);
     }
 
@@ -58,7 +59,13 @@ public class MainController implements Initializable {
         tournamentsComboBox.setPrefWidth(600);
         tournamentsComboBox.setPrefHeight(50);
 
-        headerButtonBar.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, event -> onHeaderButtonPressed(event.getButtonId()));
+        headerButtonBar.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, event -> {
+            try {
+                onHeaderButtonPressed(event.getButtonId());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         try {
             FileOperations.checkAppConfig();

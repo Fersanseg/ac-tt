@@ -15,14 +15,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import javax.swing.filechooser.FileSystemView;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static com.actt.actt.utils.ControlOperations.GetNodesByType;
 
@@ -57,6 +54,37 @@ public class FileOperations {
         else {
             showInvalidOSError();
         }
+    }
+
+    public static FileInputStream getLogFile() throws IOException {
+        String logFileName = getLogFilePath();
+
+        String strFilePath = CONFIG_PATH + "\\" + logFileName;
+        Path filePath = Path.of(strFilePath);
+        if (!Files.exists(filePath)) {
+            Files.createFile(filePath);
+        }
+
+       return new FileInputStream(strFilePath);
+    }
+
+    public static void saveLogFile(byte[] bytes) throws IOException {
+        String logFileName = getLogFilePath();
+
+        String strFilePath = CONFIG_PATH + "\\" + logFileName;
+
+        File file = new File(strFilePath);
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(bytes);
+        fileOutputStream.close();
+    }
+
+    private static String getLogFilePath() {
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        String year = String.valueOf(ts.toLocalDateTime().getYear());
+        String month = String.valueOf(ts.toLocalDateTime().getMonthValue());
+        String dayOfMonth = String.valueOf(ts.toLocalDateTime().getDayOfMonth());
+        return "Log_" + year + "-" + month + "-" + dayOfMonth + ".txt";
     }
 
     private static Dialog<ButtonType> showInitialConfigDialog() throws IOException {
