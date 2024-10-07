@@ -51,8 +51,7 @@ public class FileOperations {
             }
 
             if (!Files.exists(configFilePath)) {
-                Dialog<ButtonType> dialog = showInitialConfigDialog();
-                SaveConfig(dialog, configFilePath);
+                showConfigDialog(true);
             }
         }
         else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
@@ -61,6 +60,11 @@ public class FileOperations {
         else {
             showInvalidOSError();
         }
+    }
+
+    public static void showConfigDialog(boolean killOnExit) throws IOException {
+        Dialog<ButtonType> dialog = showInitialConfigDialog(killOnExit);
+        SaveConfig(dialog, Path.of(CONFIG_PATH).resolve(Path.of(CONFIG_FILENAME)));
     }
 
     public static FileInputStream getLogFile() throws IOException {
@@ -94,10 +98,10 @@ public class FileOperations {
         return "Log_" + year + "-" + month + "-" + dayOfMonth + ".txt";
     }
 
-    private static Dialog<ButtonType> showInitialConfigDialog() {
+    private static Dialog<ButtonType> showInitialConfigDialog(boolean killOnExit) {
         Dialog<ButtonType> dialog = CreateInitialConfigDialog();
         Optional<ButtonType> res = dialog.showAndWait();
-        if (res.isEmpty() || res.get().getButtonData() != ButtonBar.ButtonData.OK_DONE) {
+        if (killOnExit && (res.isEmpty() || res.get().getButtonData() != ButtonBar.ButtonData.OK_DONE)) {
             System.exit(1);
         }
 

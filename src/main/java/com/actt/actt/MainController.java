@@ -4,6 +4,7 @@ import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
 import com.actt.actt.events.ButtonPressedEvent;
 import com.actt.actt.utils.FileOperations;
+import com.actt.actt.utils.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,7 +50,26 @@ public class MainController implements Initializable {
 
     @FXML
     protected void onHeaderButtonPressed(String buttonId) throws IOException {
-        System.out.println("BUTTON PRESSED: " + buttonId);
+        switch (buttonId) {
+            case "addButton":
+                openTournamentEditor(true);
+                break;
+            case "editButton":
+                openTournamentEditor(false);
+                break;
+            case "deleteButton":
+                deleteTournament();
+                break;
+            case "refreshButton":
+                loadTournament();
+                break;
+            case "configButton":
+                config();
+                break;
+            default:
+                Logger.log("Unrecognized button press ("+buttonId+")");
+                break;
+        }
     }
 
     @Override
@@ -73,5 +93,20 @@ public class MainController implements Initializable {
         }
     }
 
+    private void loadTournament() {
+        System.out.println("LOAD TOURNAMENT");
+    }
+
+    private void openTournamentEditor(boolean isCreateMode) {
+        System.out.println("EDIT/CREATE TOURNAMENT ("+isCreateMode+")");
+    }
+
+    private void deleteTournament() {
+        System.out.println("DELETE TOURNAMENT");
+    }
+
+    private void config() throws IOException {
+        FileOperations.showConfigDialog(false);
+    }
 
 }
