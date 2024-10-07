@@ -7,7 +7,7 @@
 <?import com.actt.actt.controls.Dropdown?>
 <?import com.actt.actt.controls.HorizontalSeparator?>
 <?import com.actt.actt.controls.HeaderButtonBar?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.actt.actt.MainController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.actt.actt.MainController" fx:id="ap"
             styleClass="window__background" prefWidth="1600" prefHeight="800" maxWidth="1600" maxHeight="800">
     <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <HBox spacing="60.0">

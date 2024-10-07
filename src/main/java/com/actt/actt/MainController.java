@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +20,11 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
+    private SceneController sceneController;
+
+    @FXML
+    private AnchorPane ap;
+
     @FXML
     private Label welcomeText;
 
@@ -31,6 +38,29 @@ public class MainController implements Initializable {
             "2001 Formula One World Championship",
             "1980 BMW M1 Procar Championship"
     );
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        sceneController = new SceneController();
+
+        tournamentsComboBox.setItems(tournamentsList);
+        tournamentsComboBox.setPrefWidth(600);
+        tournamentsComboBox.setPrefHeight(50);
+
+        headerButtonBar.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, event -> {
+            try {
+                onHeaderButtonPressed(event.getButtonId());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        try {
+            FileOperations.checkAppConfig();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @FXML
     protected void onHelloButtonClick() {
@@ -72,33 +102,13 @@ public class MainController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        tournamentsComboBox.setItems(tournamentsList);
-        tournamentsComboBox.setPrefWidth(600);
-        tournamentsComboBox.setPrefHeight(50);
-
-        headerButtonBar.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, event -> {
-            try {
-                onHeaderButtonPressed(event.getButtonId());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        try {
-            FileOperations.checkAppConfig();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void loadTournament() {
         System.out.println("LOAD TOURNAMENT");
     }
 
-    private void openTournamentEditor(boolean isCreateMode) {
+    private void openTournamentEditor(boolean isCreateMode) throws IOException {
         System.out.println("EDIT/CREATE TOURNAMENT ("+isCreateMode+")");
+        sceneController.showScene(SceneController.SCENES.EDIT, (Stage) ap.getScene().getWindow());
     }
 
     private void deleteTournament() {
