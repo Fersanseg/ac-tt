@@ -5,28 +5,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.actt.actt.EditTournament"
-            styleClass="window__background">
+<AnchorPane prefHeight="800.0" prefWidth="1600.0" styleClass="window__background" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.actt.actt.EditTournament">
    <padding>
-      <Insets left="40.0" top="20.0"/>
+      <Insets left="40.0" top="20.0" />
    </padding>
-   <Label fx:id="editorMode" layoutX="105.0" layoutY="94.0" text="Label" AnchorPane.leftAnchor="0.0"
-          AnchorPane.topAnchor="0.0">
+   <Label fx:id="editorMode" layoutX="105.0" layoutY="94.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
       <font>
-         <Font size="46.0"/>
+         <Font size="46.0" />
       </font>
    </Label>
    <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="88.0" prefHeight="68.0" prefWidth="788.0">
       <children>
-         <Label text="Tournament name">
+         <Label text="Tournament name:">
             <font>
-               <Font size="25.0"/>
+               <Font size="25.0" />
             </font>
          </Label>
          <TextField prefHeight="40.0" prefWidth="547.0">
             <HBox.margin>
-               <Insets left="20.0"/>
+               <Insets left="20.0" />
             </HBox.margin>
          </TextField>
       </children>
