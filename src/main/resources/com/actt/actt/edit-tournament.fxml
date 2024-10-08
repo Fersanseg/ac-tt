@@ -9,11 +9,19 @@
    <padding>
       <Insets left="40.0" top="20.0" />
    </padding>
-   <Label fx:id="editorMode" layoutX="105.0" layoutY="94.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <font>
-         <Font size="46.0" />
-      </font>
-   </Label>
+   <HBox layoutX="40.0" layoutY="20.0" prefHeight="68.0" prefWidth="200.0">
+      <children>
+         <Button fx:id="backButton" contentDisplay="GRAPHIC_ONLY" styleClass="button__back" mnemonicParsing="false" prefHeight="68.0" prefWidth="68.0" onAction="#goHome"/>
+         <Label fx:id="editorMode" text="Label">
+            <font>
+               <Font size="46.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </Label>
+      </children>
+   </HBox>
    <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="88.0" prefHeight="68.0" prefWidth="788.0">
       <children>
          <Label text="Tournament name:">

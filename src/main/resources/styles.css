@@ -13,16 +13,28 @@
  * Button                                                                      *
  *                                                                             *
  ******************************************************************************/
- .button {
+.button {
     -fx-background-color: #29292b;
     -fx-text-fill: white;
     -fx-border-color: #3333f5;
     -fx-cursor: hand;
- }
+}
 
- .button:hover {
+.button:hover {
     -fx-background-color: #333336;
- }
+}
+
+.button__back {
+    -fx-background-color: #29292b;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button__back:hover {
+    -fx-background-color: #29292b;
+    -fx-cursor: hand;
+}
 
 /*******************************************************************************
  *                                                                             *
