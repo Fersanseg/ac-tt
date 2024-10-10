@@ -39,7 +39,6 @@ public class EditTournament implements Initializable {
 
         assert backButton != null;
         backButton.setGraphic(svgPath);
-        backButton.setOnAction(null);
     }
 
     private String loadSVGFromFile(String path) {
