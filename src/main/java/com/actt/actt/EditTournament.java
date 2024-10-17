@@ -20,6 +20,7 @@ import java.util.Scanner;
 public class EditTournament implements Initializable {
     public Label editorMode;
     public Button backButton;
+    public Button addClassButton;
 
     private SceneController sceneController;
 
@@ -27,6 +28,7 @@ public class EditTournament implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sceneController = new SceneController();
         setBackButtonIcon();
+        setAddButtonIcon();
     }
 
     private void setBackButtonIcon() {
@@ -39,6 +41,18 @@ public class EditTournament implements Initializable {
 
         assert backButton != null;
         backButton.setGraphic(svgPath);
+    }
+
+    private void setAddButtonIcon() {
+        String svgContent = loadSVGFromFile("/com/actt/actt/images/add.svg");
+        SVGPath svgPath = new SVGPath();
+        svgPath.setContent(svgContent);
+        svgPath.setFill(Color.AZURE);
+        svgPath.getTransforms().add(new Scale(1, 1));
+        svgPath.getTransforms().add(new Translate(-0, -0));
+
+        assert addClassButton != null;
+        addClassButton.setGraphic(svgPath);
     }
 
     private String loadSVGFromFile(String path) {

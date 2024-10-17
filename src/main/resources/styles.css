@@ -36,6 +36,15 @@
     -fx-cursor: hand;
 }
 
+.button__round {
+    -fx-border-radius: 1000px;
+    -fx-background-radius: 1000px;
+}
+
+.no-border {
+    -fx-border-color: transparent;
+}
+
 /*******************************************************************************
  *                                                                             *
  * ButtonBar                                                                   *

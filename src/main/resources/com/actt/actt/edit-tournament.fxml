@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,12 +10,12 @@
    <padding>
       <Insets left="40.0" top="20.0" />
    </padding>
-   <HBox layoutX="40.0" layoutY="20.0" prefHeight="68.0" prefWidth="200.0">
+   <HBox layoutX="40.0" layoutY="20.0" prefHeight="50.0" prefWidth="200.0">
       <children>
-         <Button fx:id="backButton" contentDisplay="GRAPHIC_ONLY" styleClass="button__back" mnemonicParsing="false" prefHeight="68.0" prefWidth="68.0" onAction="#goHome"/>
+         <Button fx:id="backButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#goHome" prefHeight="58.0" prefWidth="58.0" styleClass="button__back" />
          <Label fx:id="editorMode" text="Label">
             <font>
-               <Font size="46.0" />
+               <Font size="40.0" />
             </font>
             <HBox.margin>
                <Insets left="20.0" />
@@ -22,7 +23,7 @@
          </Label>
       </children>
    </HBox>
-   <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="88.0" prefHeight="68.0" prefWidth="788.0">
+   <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="88.0" prefHeight="58.0" prefWidth="788.0">
       <children>
          <Label text="Tournament name:">
             <font>
@@ -36,4 +37,18 @@
          </TextField>
       </children>
    </HBox>
+   <AnchorPane layoutX="40.0" layoutY="156.0" prefHeight="610.0" prefWidth="774.0">
+      <children>
+         <Label layoutY="8.0" text="Car classes">
+            <font>
+               <Font size="34.0" />
+            </font>
+         </Label>
+         <Button fx:id="addClassButton" contentDisplay="GRAPHIC_ONLY" layoutX="197.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="52.0" text="Button">
+            <styleClass>
+               <String fx:value="no-border" />
+               <String fx:value="button__round" />
+            </styleClass></Button>
+      </children>
+   </AnchorPane>
 </AnchorPane>
