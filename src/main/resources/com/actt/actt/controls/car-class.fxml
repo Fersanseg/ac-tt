@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root prefHeight="200.0" prefWidth="700.0" style="-fx-background-color: #29292b;" type="AnchorPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <children>
+      <Separator prefHeight="3.0" prefWidth="788.0" />
+      <TextField layoutX="14.0" layoutY="14.0" style="-fx-text-fill: AZURE;" text="car class">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <Button fx:id="addCarButton" contentDisplay="GRAPHIC_ONLY" layoutX="222.0" layoutY="14.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" text="Button">
+         <styleClass>
+            <String fx:value="button__round" />
+            <String fx:value="no-border" />
+            <String fx:value="no-hover" />
+         </styleClass>
+      </Button>
+      <Separator layoutX="273.0" layoutY="14.0" orientation="VERTICAL" prefHeight="35.0" prefWidth="4.0" />
+      <Button fx:id="deleteClassButton" contentDisplay="GRAPHIC_ONLY" layoutX="293.0" layoutY="14.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" text="Button">
+         <styleClass>
+            <String fx:value="button__round" />
+            <String fx:value="no-border" />
+            <String fx:value="no-hover" />
+         </styleClass></Button>
+      <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="57.0" pannable="true" prefHeight="97.0" prefWidth="574.0" styleClass="car-list" vbarPolicy="AS_NEEDED">
+        <content>
+           <VBox prefHeight="85.0" prefWidth="580.0" styleClass="car-list__vbox">
+               <children>
+                  <Label text="Label" />
+                  <Label text="Label" />
+                  <Label text="Label" />
+                  <Label text="Label" />
+                  <Label text="Label" />
+                  <Label text="Label" />
+                  <Label text="Label" />
+                  <Label text="Label" />
+               </children></VBox>
+        </content>
+      </ScrollPane>
+   </children>
+</fx:root>

@@ -16,7 +16,7 @@
 .button {
     -fx-background-color: #29292b;
     -fx-text-fill: white;
-    -fx-border-color: #3333f5;
+    /*-fx-border-color: #3333f5;*/
     -fx-cursor: hand;
 }
 
@@ -45,6 +45,10 @@
     -fx-border-color: transparent;
 }
 
+.no-hover:hover {
+    -fx-background-color: transparent;
+}
+
 /*******************************************************************************
  *                                                                             *
  * ButtonBar                                                                   *
@@ -54,6 +58,51 @@
     -fx-border-radius: 1000px;
     -fx-background-radius: 1000px;
  }
+
+/*******************************************************************************
+ *                                                                             *
+ * CarList                                                                     *
+ *                                                                             *
+ ******************************************************************************/
+ .car-list {
+    -fx-background-color: #29292b
+ }
+
+ .car-list .viewport {
+    -fx-background-color: #29292b
+ }
+
+ .car-list .viewport .car-list__vbox {
+    -fx-background-color: #29292b
+ }
+
+/**************************** CarList Scrollbar **************************************/
+.car-list .scroll-bar: vertical *.increment-button,
+.car-list .scroll-bar: vertical *.decrement-button {
+    -fx-background-color: #29292b;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 1;
+}
+
+.car-list .scroll-bar: vertical *.increment-arrow,
+.car-list .scroll-bar: vertical *.decrement-arrow {
+    -fx-background-color: #29292b;
+    -fx-fill-color: #29292b;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-shape: null;
+    -fx-padding: 0.0 0.3em;
+}
+
+.car-list .scroll-bar: vertical *.track {
+    -fx-background-color: #29292b;
+}
+
+.car-list .scroll-bar: vertical *.thumb {
+    -fx-background-color: #3333f5;
+}
+
 /*******************************************************************************
  *                                                                             *
  * Dialog                                                                      *

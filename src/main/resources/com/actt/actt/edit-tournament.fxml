@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import com.actt.actt.controls.CarClass?>
 <AnchorPane prefHeight="800.0" prefWidth="1600.0" styleClass="window__background" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.actt.actt.EditTournament">
    <padding>
       <Insets left="40.0" top="20.0" />
@@ -48,7 +49,11 @@
             <styleClass>
                <String fx:value="no-border" />
                <String fx:value="button__round" />
-            </styleClass></Button>
+            </styleClass>
+         </Button>
+         <VBox layoutY="67.0" prefHeight="543.0" prefWidth="788.0">
+            <CarClass/>
+         </VBox>
       </children>
    </AnchorPane>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package com.actt.actt;
 
+import com.actt.actt.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,11 +12,8 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class EditTournament implements Initializable {
     public Label editorMode;
@@ -32,7 +30,7 @@ public class EditTournament implements Initializable {
     }
 
     private void setBackButtonIcon() {
-        String svgContent = loadSVGFromFile("/com/actt/actt/images/back.svg");
+        String svgContent = Utils.loadSVGFromFile("/com/actt/actt/images/back.svg");
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(svgContent);
         svgPath.setFill(Color.AZURE);
@@ -44,7 +42,7 @@ public class EditTournament implements Initializable {
     }
 
     private void setAddButtonIcon() {
-        String svgContent = loadSVGFromFile("/com/actt/actt/images/add.svg");
+        String svgContent = Utils.loadSVGFromFile("/com/actt/actt/images/add.svg");
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(svgContent);
         svgPath.setFill(Color.AZURE);
@@ -54,18 +52,6 @@ public class EditTournament implements Initializable {
         assert addClassButton != null;
         addClassButton.setGraphic(svgPath);
     }
-
-    private String loadSVGFromFile(String path) {
-        try (InputStream inputStream = getClass().getResourceAsStream(path)) {
-            assert inputStream != null;
-            try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
-                return scanner.useDelimiter("\\A").next();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load SVG file", e);
-        }
-    }
-
 
     public void goHome(ActionEvent ev) throws IOException {
         sceneController.showScene(SceneController.SCENES.MAIN, (Stage) backButton.getScene().getWindow());

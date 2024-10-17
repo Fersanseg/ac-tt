@@ -13,10 +13,7 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Scanner;
 
 public class HeaderButtonBar extends HBox {
     @FXML
@@ -65,7 +62,7 @@ public class HeaderButtonBar extends HBox {
         button.setPrefSize(50, 50);
         button.setOnAction(_ -> fireEvent(new ButtonPressedEvent(buttonName)));
 
-        String svgContent = loadSVGFromFile("/com/actt/actt/images/" + iconFileName);
+        String svgContent = Utils.loadSVGFromFile("/com/actt/actt/images/" + iconFileName);
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(svgContent);
         if (buttonName.equals("refreshButton") || buttonName.equals("editButton")) {
@@ -76,16 +73,5 @@ public class HeaderButtonBar extends HBox {
         svgPath.setFill(Color.SILVER);
 
         button.setGraphic(svgPath);
-    }
-
-    private String loadSVGFromFile(String path) {
-        try (InputStream inputStream = getClass().getResourceAsStream(path)) {
-            assert inputStream != null;
-            try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
-                return scanner.useDelimiter("\\A").next();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load SVG file", e);
-        }
     }
 }
