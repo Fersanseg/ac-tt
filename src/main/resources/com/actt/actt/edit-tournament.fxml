@@ -51,8 +51,7 @@
                <String fx:value="button__round" />
             </styleClass>
          </Button>
-         <VBox layoutY="67.0" prefHeight="543.0" prefWidth="788.0">
-            <CarClass/>
+         <VBox fx:id="carClassesContainer" layoutY="67.0" prefHeight="543.0" prefWidth="788.0">
          </VBox>
       </children>
    </AnchorPane>

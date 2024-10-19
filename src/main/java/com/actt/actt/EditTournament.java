@@ -1,10 +1,13 @@
 package com.actt.actt;
 
+import com.actt.actt.controls.CarClass;
 import com.actt.actt.utils.Utils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
@@ -19,14 +22,21 @@ public class EditTournament implements Initializable {
     public Label editorMode;
     public Button backButton;
     public Button addClassButton;
+    public VBox carClassesContainer;
 
     private SceneController sceneController;
+    private final EventHandler<ActionEvent> onAddClass = _ -> addClass();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sceneController = new SceneController();
         setBackButtonIcon();
+        setupAddButton();
+    }
+
+    private void setupAddButton() {
         setAddButtonIcon();
+        addClassButton.setOnAction(onAddClass);
     }
 
     private void setBackButtonIcon() {
@@ -55,5 +65,11 @@ public class EditTournament implements Initializable {
 
     public void goHome(ActionEvent ev) throws IOException {
         sceneController.showScene(SceneController.SCENES.MAIN, (Stage) backButton.getScene().getWindow());
+    }
+
+    private void addClass() {
+        var classesCount = carClassesContainer.getChildren().filtered(c -> c.getClass().getTypeName().contains("CarClass")).size();
+        CarClass carClass = new CarClass(classesCount);
+        carClassesContainer.getChildren().addLast(carClass);
     }
 }

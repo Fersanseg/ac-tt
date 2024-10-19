@@ -4,6 +4,7 @@ import com.actt.actt.utils.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
@@ -17,16 +18,31 @@ import java.util.ResourceBundle;
 public class CarClass extends AnchorPane implements Initializable {
     public Button addCarButton;
     public Button deleteClassButton;
+    public TextField carClassName;
+
+    private int index;
+
+    private final String DEFAULT_CLASS_NAME = "Class ";
 
     public CarClass() {
+        setup();
+    }
+
+    public CarClass(int index) {
+        setup();
+        index = index;
+        carClassName.setText(DEFAULT_CLASS_NAME + (index + 1));
+    }
+
+    private void setup() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("car-class.fxml"));
-            fxmlLoader.setRoot(this);
-            fxmlLoader.setController(this);
-            try {
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
             fxmlLoader.load();
         }
-            catch (
-        IOException ex) {
+        catch (
+                IOException ex) {
             throw new RuntimeException(ex);
         }
     }

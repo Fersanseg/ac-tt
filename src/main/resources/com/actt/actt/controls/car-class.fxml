@@ -12,7 +12,7 @@
    </opaqueInsets>
    <children>
       <Separator prefHeight="3.0" prefWidth="788.0" />
-      <TextField layoutX="14.0" layoutY="14.0" style="-fx-text-fill: AZURE;" text="car class">
+      <TextField fx:id="carClassName" layoutX="14.0" layoutY="14.0" style="-fx-text-fill: AZURE;" text="car class">
          <font>
             <Font size="16.0" />
          </font>
