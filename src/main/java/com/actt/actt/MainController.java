@@ -108,7 +108,11 @@ public class MainController implements Initializable {
 
     private void openTournamentEditor(boolean isCreateMode) throws IOException {
         System.out.println("EDIT/CREATE TOURNAMENT ("+isCreateMode+")");
-        sceneController.showScene(SceneController.SCENES.EDIT, (Stage) ap.getScene().getWindow());
+        var controller = sceneController.showScene(SceneController.SCENES.EDIT, (Stage) ap.getScene().getWindow());
+        if (controller instanceof EditTournament) {
+            String label = isCreateMode ? "New tournament" : "Edit tournament";
+            ((EditTournament) controller).setTitle(label);
+        }
     }
 
     private void deleteTournament() {

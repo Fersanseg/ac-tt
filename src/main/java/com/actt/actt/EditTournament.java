@@ -36,6 +36,10 @@ public class EditTournament implements Initializable {
         setupAddButton();
     }
 
+    public void setTitle(String title) {
+        editorMode.setText(title);
+    }
+
     private void setupAddButton() {
         setAddButtonIcon();
         addClassButton.setOnAction(onAddClass);

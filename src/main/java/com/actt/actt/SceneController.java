@@ -25,11 +25,17 @@ public class SceneController {
         sceneResources.put(SCENES.EDIT, "edit-tournament.fxml");
     }
 
-    public void showScene(SCENES newScene, Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(sceneResources.get(newScene))));
+    public Object showScene(SCENES newScene, Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneResources.get(newScene)));
+        Parent root = loader.load();
+
+        var controller = loader.getController();
+
         Scene scene = new Scene(root);
         scene.getStylesheets().add("styles.css");
         stage.setScene(scene);
+
+        return controller;
     }
 
 }
