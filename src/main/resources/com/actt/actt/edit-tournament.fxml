@@ -6,12 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import com.actt.actt.controls.CarClass?>
 <AnchorPane prefHeight="800.0" prefWidth="1600.0" styleClass="window__background" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.actt.actt.EditTournament">
    <padding>
       <Insets left="40.0" top="20.0" />
    </padding>
-   <HBox layoutX="40.0" layoutY="20.0" prefHeight="50.0" prefWidth="200.0">
+   <HBox layoutX="40.0" layoutY="20.0" prefHeight="58.0" prefWidth="767.0">
       <children>
          <Button fx:id="backButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#goHome" prefHeight="58.0" prefWidth="58.0" styleClass="button__back" />
          <Label fx:id="editorMode" text="Label">
@@ -22,6 +21,14 @@
                <Insets left="20.0" />
             </HBox.margin>
          </Label>
+         <Button fx:id="saveButton" onAction="#save" mnemonicParsing="false" prefHeight="58.0" prefWidth="102.0" styleClass="button--blue-border" text="Save">
+            <font>
+               <Font size="28.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="40.0" />
+            </HBox.margin>
+         </Button>
       </children>
    </HBox>
    <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="88.0" prefHeight="58.0" prefWidth="788.0">

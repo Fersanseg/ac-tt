@@ -4,6 +4,7 @@ import com.actt.actt.controls.CarClass;
 import com.actt.actt.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ public class EditTournament implements Initializable {
     public Label editorMode;
     public Button backButton;
     public Button addClassButton;
+    public Button saveButton;
     public VBox carClassesContainer;
 
     private SceneController sceneController;
@@ -71,5 +73,10 @@ public class EditTournament implements Initializable {
         var classesCount = carClassesContainer.getChildren().filtered(c -> c.getClass().getTypeName().contains("CarClass")).size();
         CarClass carClass = new CarClass(classesCount);
         carClassesContainer.getChildren().addLast(carClass);
+    }
+
+    @FXML
+    private void save() throws IOException {
+        goHome(null);
     }
 }

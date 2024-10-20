@@ -16,7 +16,6 @@
 .button {
     -fx-background-color: #29292b;
     -fx-text-fill: white;
-    /*-fx-border-color: #3333f5;*/
     -fx-cursor: hand;
 }
 
@@ -39,6 +38,11 @@
 .button__round {
     -fx-border-radius: 1000px;
     -fx-background-radius: 1000px;
+}
+
+.button--blue-border {
+    -fx-border-color: #3333f5;
+    -fx-border-radius: 6;
 }
 
 .no-border {
