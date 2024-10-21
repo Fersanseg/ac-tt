@@ -1,6 +1,7 @@
 package com.actt.actt;
 
 import com.actt.actt.controls.CarClass;
+import com.actt.actt.events.ButtonPressedEvent;
 import com.actt.actt.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -76,7 +77,13 @@ public class EditTournament implements Initializable {
     private void addClass() {
         var classesCount = carClassesContainer.getChildren().filtered(c -> c.getClass().getTypeName().contains("CarClass")).size();
         CarClass carClass = new CarClass(classesCount);
+        carClass.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, this::onDeleteClass);
         carClassesContainer.getChildren().addLast(carClass);
+    }
+
+    private void onDeleteClass(ButtonPressedEvent button) {
+        int index = Integer.parseInt(button.getButtonId());
+        carClassesContainer.getChildren().remove(index);
     }
 
     @FXML

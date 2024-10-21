@@ -1,5 +1,6 @@
 package com.actt.actt.controls;
 
+import com.actt.actt.events.ButtonPressedEvent;
 import com.actt.actt.utils.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,7 +31,7 @@ public class CarClass extends AnchorPane implements Initializable {
 
     public CarClass(int index) {
         setup();
-        index = index;
+        this.index = index;
         carClassName.setText(DEFAULT_CLASS_NAME + (index + 1));
     }
 
@@ -75,6 +76,6 @@ public class CarClass extends AnchorPane implements Initializable {
 
         assert deleteClassButton != null;
         deleteClassButton.setGraphic(svgPath);
-
+        deleteClassButton.setOnAction(_ -> fireEvent(new ButtonPressedEvent(String.valueOf(index))));
     }
 }

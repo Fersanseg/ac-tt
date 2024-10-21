@@ -66,4 +66,5 @@
          </ScrollPane>
       </children>
    </AnchorPane>
+   <AnchorPane layoutX="862.0" layoutY="17.0" prefHeight="749.0" prefWidth="696.0" />
 </AnchorPane>
