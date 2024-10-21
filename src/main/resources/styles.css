@@ -68,19 +68,24 @@
  * CarList                                                                     *
  *                                                                             *
  ******************************************************************************/
+ .car-list-background,
  .car-list {
     -fx-background-color: #29292b
  }
 
+.car-list-background .viewport,
  .car-list .viewport {
     -fx-background-color: #29292b
  }
 
+ .car-list-background .viewport .car-list__vbox,
  .car-list .viewport .car-list__vbox {
     -fx-background-color: #29292b
  }
 
 /**************************** CarList Scrollbar **************************************/
+.car-list-background .scroll-bar: vertical *.increment-button,
+.car-list-background .scroll-bar: vertical *.decrement-button,
 .car-list .scroll-bar: vertical *.increment-button,
 .car-list .scroll-bar: vertical *.decrement-button {
     -fx-background-color: #29292b;
@@ -89,6 +94,8 @@
     -fx-padding: 1;
 }
 
+.car-list-background .scroll-bar: vertical *.increment-arrow,
+.car-list-background .scroll-bar: vertical *.decrement-arrow,
 .car-list .scroll-bar: vertical *.increment-arrow,
 .car-list .scroll-bar: vertical *.decrement-arrow {
     -fx-background-color: #29292b;
@@ -99,10 +106,12 @@
     -fx-padding: 0.0 0.3em;
 }
 
+.car-list-background .scroll-bar: vertical *.track,
 .car-list .scroll-bar: vertical *.track {
     -fx-background-color: #29292b;
 }
 
+.car-list-background .scroll-bar: vertical *.thumb,
 .car-list .scroll-bar: vertical *.thumb {
     -fx-background-color: #3333f5;
 }

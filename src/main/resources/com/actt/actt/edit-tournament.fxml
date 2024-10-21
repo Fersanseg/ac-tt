@@ -21,7 +21,7 @@
                <Insets left="20.0" />
             </HBox.margin>
          </Label>
-         <Button fx:id="saveButton" onAction="#save" mnemonicParsing="false" prefHeight="58.0" prefWidth="102.0" styleClass="button--blue-border" text="Save">
+         <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" prefHeight="58.0" prefWidth="102.0" styleClass="button--blue-border" text="Save">
             <font>
                <Font size="28.0" />
             </font>
@@ -58,8 +58,12 @@
                <String fx:value="button__round" />
             </styleClass>
          </Button>
-         <VBox fx:id="carClassesContainer" layoutY="67.0" prefHeight="543.0" prefWidth="788.0">
-         </VBox>
+         <ScrollPane hbarPolicy="NEVER" layoutY="67.0" prefHeight="543.0" prefWidth="788.0" styleClass="car-list-background">
+            <content>
+               <VBox fx:id="carClassesContainer" prefHeight="491.0" prefWidth="788.0">
+               </VBox>
+            </content>
+         </ScrollPane>
       </children>
    </AnchorPane>
 </AnchorPane>

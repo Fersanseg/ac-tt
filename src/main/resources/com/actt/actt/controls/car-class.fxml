@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root prefHeight="200.0" prefWidth="700.0" style="-fx-background-color: #29292b;" type="AnchorPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="154.0" prefWidth="788.0" style="-fx-background-color: #29292b;" type="AnchorPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
    <opaqueInsets>
       <Insets />
    </opaqueInsets>
@@ -47,4 +47,7 @@
         </content>
       </ScrollPane>
    </children>
+   <padding>
+      <Insets bottom="20.0" />
+   </padding>
 </fx:root>
