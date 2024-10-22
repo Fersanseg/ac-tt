@@ -1,6 +1,6 @@
 package com.actt.actt.controls;
 
-import com.actt.actt.events.ButtonPressedEvent;
+import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,10 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class HeaderButtonBar extends HBox {
     @FXML
@@ -60,7 +63,11 @@ public class HeaderButtonBar extends HBox {
 
         button.setPadding(new Insets(5, 5, 5, 5));
         button.setPrefSize(50, 50);
-        button.setOnAction(_ -> fireEvent(new ButtonPressedEvent(buttonName)));
+        button.setOnAction(_ -> {
+            Map<String, Object> d = new HashMap<>();
+            d.put("btnName", buttonName);
+            fireEvent(new SendDataEvent(d));
+        });
 
         String svgContent = Utils.loadSVGFromFile("/com/actt/actt/images/" + iconFileName);
         SVGPath svgPath = new SVGPath();

@@ -1,7 +1,7 @@
 package com.actt.actt;
 
 import com.actt.actt.controls.CarClass;
-import com.actt.actt.events.ButtonPressedEvent;
+import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +22,9 @@ import java.util.ResourceBundle;
 
 public class EditTournament implements Initializable {
     public Label editorMode;
+    public Label carPickerClassName;
     public Button backButton;
+    public Button carPickerBackButton;
     public Button addClassButton;
     public Button saveButton;
     public VBox carClassesContainer;
@@ -47,6 +49,13 @@ public class EditTournament implements Initializable {
     }
 
     private void setBackButtonIcon() {
+        assert backButton != null;
+        backButton.setGraphic(getBackIcon());
+        assert carPickerBackButton != null;
+        carPickerBackButton.setGraphic(getBackIcon());
+    }
+
+    private SVGPath getBackIcon() {
         String svgContent = Utils.loadSVGFromFile("/com/actt/actt/images/back.svg");
         SVGPath svgPath = new SVGPath();
         svgPath.setContent(svgContent);
@@ -54,8 +63,7 @@ public class EditTournament implements Initializable {
         svgPath.getTransforms().add(new Scale(2.5, 2.5));
         svgPath.getTransforms().add(new Translate(-7, -7));
 
-        assert backButton != null;
-        backButton.setGraphic(svgPath);
+        return svgPath;
     }
 
     private void setAddButtonIcon() {
@@ -77,14 +85,18 @@ public class EditTournament implements Initializable {
     private void addClass() {
         var classesCount = carClassesContainer.getChildren().filtered(c -> c.getClass().getTypeName().contains("CarClass")).size();
         CarClass carClass = new CarClass(classesCount);
-        carClass.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, this::onDeleteClass);
+        carClass.addEventHandler(SendDataEvent.SEND_DATA, this::onDeleteClass);
         carClassesContainer.getChildren().addLast(carClass);
     }
 
-    private void onDeleteClass(ButtonPressedEvent button) {
-        int index = Integer.parseInt(button.getButtonId());
-        carClassesContainer.getChildren().remove(index);
+    private void onDeleteClass(SendDataEvent button) {
+        if (button.getData("index").isPresent()) {
+            int index = (int)(button.getData("index").get());
+            carClassesContainer.getChildren().remove(index);
+        }
     }
+
+    /*private void onAddCar(SendDataEvent button)*/
 
     @FXML
     private void save() throws IOException {

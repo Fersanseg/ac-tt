@@ -1,6 +1,6 @@
 package com.actt.actt.controls;
 
-import com.actt.actt.events.ButtonPressedEvent;
+import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.utils.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +14,8 @@ import javafx.scene.transform.Translate;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class CarClass extends AnchorPane implements Initializable {
@@ -76,6 +78,10 @@ public class CarClass extends AnchorPane implements Initializable {
 
         assert deleteClassButton != null;
         deleteClassButton.setGraphic(svgPath);
-        deleteClassButton.setOnAction(_ -> fireEvent(new ButtonPressedEvent(String.valueOf(index))));
+        deleteClassButton.setOnAction(_ -> {
+            Map<String, Object> d = new HashMap<>();
+            d.put("index", index);
+            fireEvent(new SendDataEvent(d));
+        });
     }
 }

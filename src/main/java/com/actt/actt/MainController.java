@@ -2,7 +2,7 @@ package com.actt.actt;
 
 import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
-import com.actt.actt.events.ButtonPressedEvent;
+import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.utils.FileOperations;
 import com.actt.actt.utils.Logger;
 import javafx.collections.FXCollections;
@@ -47,9 +47,12 @@ public class MainController implements Initializable {
         tournamentsComboBox.setPrefWidth(600);
         tournamentsComboBox.setPrefHeight(50);
 
-        headerButtonBar.addEventHandler(ButtonPressedEvent.BUTTON_PRESSED, event -> {
+        headerButtonBar.addEventHandler(SendDataEvent.SEND_DATA, event -> {
             try {
-                onHeaderButtonPressed(event.getButtonId());
+                if (event.getData("btnName").isPresent()) {
+                    String btnName = (String)(event.getData("btnName").get());
+                    onHeaderButtonPressed(btnName);
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
