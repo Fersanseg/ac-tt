@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
@@ -28,6 +30,8 @@ public class EditTournament implements Initializable {
     public Button addClassButton;
     public Button saveButton;
     public VBox carClassesContainer;
+    public AnchorPane carPickerContainer;
+    public ListView<String> list;
 
     private SceneController sceneController;
     private final EventHandler<ActionEvent> onAddClass = _ -> addClass();
@@ -37,6 +41,10 @@ public class EditTournament implements Initializable {
         sceneController = new SceneController();
         setBackButtonIcon();
         setupAddButton();
+
+        for (int i = 0; i < 400; i++) {
+            list.getItems().add("CAR " + (i+1));
+        }
     }
 
     public void setTitle(String title) {
@@ -108,6 +116,7 @@ public class EditTournament implements Initializable {
     }
 
     private void onAddCar(SendDataEvent ev) {
+        carPickerContainer.setVisible(true);
         if (ev.getData("className").isPresent()) {
             String className = ev.getData("className").get().toString();
             carPickerClassName.setText(className);

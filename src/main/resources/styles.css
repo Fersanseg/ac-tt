@@ -83,6 +83,11 @@
     -fx-background-color: #29292b
  }
 
+ .car-list-background .viewport .car-list__listview,
+ .car-list .viewport .car-list__listview {
+    -fx-background-color: #29292b
+ }
+
 /**************************** CarList Scrollbar **************************************/
 .car-list-background .scroll-bar: vertical *.increment-button,
 .car-list-background .scroll-bar: vertical *.decrement-button,
