@@ -66,7 +66,7 @@
          </ScrollPane>
       </children>
    </AnchorPane>
-   <AnchorPane fx:id="carPickerContainer" layoutX="862.0" layoutY="17.0" prefHeight="749.0" prefWidth="696.0">
+   <AnchorPane fx:id="carPickerContainer" layoutX="862.0" layoutY="17.0" prefHeight="749.0" prefWidth="696.0" visible="false">
       <children>
          <Button fx:id="carPickerBackButton" contentDisplay="GRAPHIC_ONLY" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="58.0" styleClass="button__back" text="Button" />
          <Label fx:id="carPickerClassName" layoutX="113.0" layoutY="14.0" prefHeight="58.0" prefWidth="563.0" text="Label">
@@ -79,7 +79,7 @@
                <Font size="16.0" />
             </font>
          </Label>
-         <TextField layoutX="14.0" layoutY="106.0" prefHeight="40.0" prefWidth="503.0" promptText="Search car" style="-fx-text-fill: white;" visible="false">
+         <TextField layoutX="14.0" layoutY="106.0" prefHeight="40.0" prefWidth="503.0" promptText="Search car" style="-fx-text-fill: white;">
             <font>
                <Font size="16.0" />
             </font>
