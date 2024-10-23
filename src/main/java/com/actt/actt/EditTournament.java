@@ -1,14 +1,19 @@
 package com.actt.actt;
 
 import com.actt.actt.controls.CarClass;
+import com.actt.actt.controls.CarListCell;
 import com.actt.actt.events.SendDataEvent;
+import com.actt.actt.models.Car;
 import com.actt.actt.utils.Utils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -17,9 +22,12 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditTournament implements Initializable {
@@ -31,7 +39,7 @@ public class EditTournament implements Initializable {
     public Button saveButton;
     public VBox carClassesContainer;
     public AnchorPane carPickerContainer;
-    public ListView<String> list;
+    public ListView<Car> carList;
 
     private SceneController sceneController;
     private final EventHandler<ActionEvent> onAddClass = _ -> addClass();
@@ -41,14 +49,25 @@ public class EditTournament implements Initializable {
         sceneController = new SceneController();
         setBackButtonIcon();
         setupAddButton();
+        loadCarList();
 
-        for (int i = 0; i < 400; i++) {
-            list.getItems().add("CAR " + (i+1));
-        }
     }
 
     public void setTitle(String title) {
         editorMode.setText(title);
+    }
+
+    private void loadCarList() {
+        ObservableList<Car> list = FXCollections.observableArrayList();
+
+        for (int i = 0; i < 400; i++) {
+            Car car = new Car();
+            car.setDisplayName("CAR " + (i+1));
+            list.add(car);
+        }
+
+        carList.setItems(list);
+        carList.setCellFactory(carListView -> new CarListCell());
     }
 
     private void setupAddButton() {
