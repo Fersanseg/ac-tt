@@ -7,9 +7,6 @@
 <?import javafx.scene.text.*?>
 
 <fx:root prefHeight="154.0" prefWidth="788.0" style="-fx-background-color: #29292b;" type="AnchorPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
    <children>
       <Separator prefHeight="3.0" prefWidth="788.0" />
       <TextField fx:id="carClassName" layoutX="14.0" layoutY="14.0" style="-fx-text-fill: AZURE;" text="car class">

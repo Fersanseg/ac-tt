@@ -66,7 +66,7 @@ public class HeaderButtonBar extends HBox {
         button.setOnAction(_ -> {
             Map<String, Object> d = new HashMap<>();
             d.put("btnName", buttonName);
-            fireEvent(new SendDataEvent(d));
+            fireEvent(new SendDataEvent("btnClick", d));
         });
 
         String svgContent = Utils.loadSVGFromFile("/com/actt/actt/images/" + iconFileName);

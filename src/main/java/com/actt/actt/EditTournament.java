@@ -85,18 +85,34 @@ public class EditTournament implements Initializable {
     private void addClass() {
         var classesCount = carClassesContainer.getChildren().filtered(c -> c.getClass().getTypeName().contains("CarClass")).size();
         CarClass carClass = new CarClass(classesCount);
-        carClass.addEventHandler(SendDataEvent.SEND_DATA, this::onDeleteClass);
+        carClass.addEventHandler(SendDataEvent.SEND_DATA, this::onCarClassSendData);
         carClassesContainer.getChildren().addLast(carClass);
     }
 
-    private void onDeleteClass(SendDataEvent button) {
-        if (button.getData("index").isPresent()) {
-            int index = (int)(button.getData("index").get());
+    private void onCarClassSendData(SendDataEvent ev) {
+        switch (ev.getAction()) {
+            case "addCar":
+                onAddCar(ev);
+                break;
+            case "deleteClass":
+                onDeleteClass(ev);
+                break;
+        }
+    }
+
+    private void onDeleteClass(SendDataEvent ev) {
+        if (ev.getData("index").isPresent()) {
+            int index = (int)(ev.getData("index").get());
             carClassesContainer.getChildren().remove(index);
         }
     }
 
-    /*private void onAddCar(SendDataEvent button)*/
+    private void onAddCar(SendDataEvent ev) {
+        if (ev.getData("className").isPresent()) {
+            String className = ev.getData("className").get().toString();
+            carPickerClassName.setText(className);
+        }
+    }
 
     @FXML
     private void save() throws IOException {

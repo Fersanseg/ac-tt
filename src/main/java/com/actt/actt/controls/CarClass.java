@@ -66,6 +66,11 @@ public class CarClass extends AnchorPane implements Initializable {
 
         assert addCarButton != null;
         addCarButton.setGraphic(svgPath);
+        addCarButton.setOnAction(_ -> {
+            Map<String, Object> d = new HashMap<>();
+            d.put("className", carClassName.getText());
+            fireEvent(new SendDataEvent("addCar", d));
+        });
     }
 
     private void setDeleteClassButtonIcon() {
@@ -81,7 +86,7 @@ public class CarClass extends AnchorPane implements Initializable {
         deleteClassButton.setOnAction(_ -> {
             Map<String, Object> d = new HashMap<>();
             d.put("index", index);
-            fireEvent(new SendDataEvent(d));
+            fireEvent(new SendDataEvent("deleteClass", d));
         });
     }
 }
