@@ -2,11 +2,8 @@ module com.actt.actt {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires org.controlsfx.controls;
-    requires org.kordamp.bootstrapfx.core;
     requires com.fasterxml.jackson.databind;
     requires java.desktop;
-    requires jdk.jfr;
     requires java.sql;
 
     opens com.actt.actt to javafx.fxml;

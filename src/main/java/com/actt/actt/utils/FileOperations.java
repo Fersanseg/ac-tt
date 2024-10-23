@@ -42,9 +42,11 @@ public class FileOperations {
                     throw new RuntimeException(e);
                 }
             }
-            if (!Files.exists(configPath.resolve(Path.of("log")))) {
+
+            Path log = Path.of("log");
+            if (!Files.exists(configPath.resolve(log))) {
                 try {
-                    Files.createDirectory(configPath.resolve(Path.of("log")));
+                    Files.createDirectory(configPath.resolve(log));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -115,7 +117,7 @@ public class FileOperations {
 
         ButtonType closeButton = new ButtonType("Go", ButtonBar.ButtonData.OK_DONE);
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.getDialogPane().getStylesheets().add(FileOperations.class.getResource("/styles.css").toExternalForm());
+        dialog.getDialogPane().getStylesheets().add(Objects.requireNonNull(FileOperations.class.getResource("/styles.css")).toExternalForm());
         dialog.getDialogPane().getStyleClass().add("dialog");
         dialog.setTitle("Configuration");
         dialog.getDialogPane().getButtonTypes().add(closeButton);

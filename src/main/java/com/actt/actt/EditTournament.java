@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -22,12 +21,9 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditTournament implements Initializable {
@@ -67,7 +63,7 @@ public class EditTournament implements Initializable {
         }
 
         carList.setItems(list);
-        carList.setCellFactory(carListView -> new CarListCell());
+        carList.setCellFactory(_ -> new CarListCell());
     }
 
     private void setupAddButton() {
@@ -105,7 +101,7 @@ public class EditTournament implements Initializable {
         addClassButton.setGraphic(svgPath);
     }
 
-    public void goHome(ActionEvent ev) throws IOException {
+    public void goHome() throws IOException {
         sceneController.showScene(SceneController.SCENES.MAIN, (Stage) backButton.getScene().getWindow());
     }
 
@@ -144,6 +140,6 @@ public class EditTournament implements Initializable {
 
     @FXML
     private void save() throws IOException {
-        goHome(null);
+        goHome();
     }
 }
