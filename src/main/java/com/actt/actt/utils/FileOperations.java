@@ -28,6 +28,7 @@ public class FileOperations {
     private static final String APP_BUTTON_TEXT = "App Path";
     private static final String CONFIG_FILENAME = "config.json";
     private static final String CONFIG_PATH = String.valueOf(Path.of(System.getenv("LOCALAPPDATA"), "AC Tournament Tracker"));
+    private static AppConfig appConfig;
 
     public static void checkAppConfig() throws IOException {
         String os = System.getProperty("os.name").toLowerCase(Locale.ROOT);
@@ -54,6 +55,9 @@ public class FileOperations {
 
             if (!Files.exists(configFilePath)) {
                 showConfigDialog(true);
+            }
+            else {
+                loadConfig();
             }
         }
         else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
@@ -92,6 +96,21 @@ public class FileOperations {
         fileOutputStream.close();
     }
 
+    public static AppConfig getAppConfig() {
+        return appConfig;
+    }
+
+    private static void setAppConfig(AppConfig config) {
+        appConfig = config;
+    }
+
+    private static void loadConfig() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        var json = mapper.readValue(new File(CONFIG_PATH + "\\" + CONFIG_FILENAME), AppConfig.class);
+
+        setAppConfig(json);
+    }
+
     private static String getLogFileName() {
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         String year = String.valueOf(ts.toLocalDateTime().getYear());
@@ -113,7 +132,7 @@ public class FileOperations {
     private static Dialog<ButtonType> CreateInitialConfigDialog() {
         double dialogWidth = 700;
         String defaultAppPath = FileSystemView.getFileSystemView().getDefaultDirectory().toString().replace("/", "\\");
-        String defaultAcPath = (System.getenv("ProgramFiles(x86)") + "/Steam/steamappscommon/assettocorsa").replace("/", "\\");
+        String defaultAcPath = (System.getenv("ProgramFiles(x86)") + "/Steam/steamapps/common/assettocorsa").replace("/", "\\");
 
         ButtonType closeButton = new ButtonType("Go", ButtonBar.ButtonData.OK_DONE);
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -143,15 +162,17 @@ public class FileOperations {
     }
 
     private static void SaveConfig(Dialog<ButtonType> dialog, Path saveToPath) throws IOException {
-        AppConfig configJson = new AppConfig();
         ObjectMapper mapper = new ObjectMapper();
         List<DirectoryPicker> dirPickers = GetNodesByType(dialog.getDialogPane(), DirectoryPicker.class);
         String acDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, AC_BUTTON_TEXT)).getPath();
         String appDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, APP_BUTTON_TEXT)).getPath();
 
-        configJson.setAcPath(acDirPath);
-        configJson.setAppPath(appDirPath);
-        mapper.writeValue(new File(String.valueOf(saveToPath)), configJson);
+        if (appConfig == null)
+            setAppConfig(new AppConfig());
+
+        appConfig.setAcPath(acDirPath);
+        appConfig.setAppPath(appDirPath);
+        mapper.writeValue(new File(String.valueOf(saveToPath)), appConfig);
     }
 
     private static DirectoryPicker GetDirPickerByText(List<DirectoryPicker> dirPickers, String buttonText) {

@@ -3,6 +3,7 @@ package com.actt.actt;
 import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
 import com.actt.actt.events.SendDataEvent;
+import com.actt.actt.utils.AppData;
 import com.actt.actt.utils.FileOperations;
 import com.actt.actt.utils.Logger;
 import javafx.collections.FXCollections;
@@ -60,6 +61,7 @@ public class MainController implements Initializable {
 
         try {
             FileOperations.checkAppConfig();
+            AppData.loadCars();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
