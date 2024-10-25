@@ -3,6 +3,7 @@ package com.actt.actt.utils;
 import com.actt.actt.models.Car;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,9 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class AppData {
     private static ObservableList<Car> cars;
@@ -36,7 +36,9 @@ public class AppData {
         if (carFolders != null) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            for (File carFolder : carFolders) {
+
+            ConcurrentLinkedDeque<Car> threadSafeCarList = new ConcurrentLinkedDeque<>();
+            Arrays.stream(carFolders).parallel().forEach(carFolder -> {
                 try {
                     File carConfig = getCarConfigFile(carFolder);
                     String jsonContent = new String(Files.readAllBytes(carConfig.toPath()));
@@ -46,28 +48,34 @@ public class AppData {
 
                     Car car = mapper.readValue(jsonContent.getBytes(StandardCharsets.UTF_8), Car.class);
                     car.setFolderName(carFolder.getName());
-                    cars.add(car);
+                    threadSafeCarList.add(car);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }
+            });
+
+            Platform.runLater(() -> cars.addAll(threadSafeCarList));
         }
     }
 
     private static File getCarConfigFile(File folder) {
-        File[] innerFolders = folder.listFiles();
-        if (innerFolders == null)
-            return null;
+        Queue<File> folders = new LinkedList<>();
+        folders.add(folder);
 
-        Optional<File> carConfigFile = Arrays.stream(Objects.requireNonNull(folder.listFiles((_, name) -> name.equals("ui_car.json")))).findFirst();
-        if (carConfigFile.isPresent()) {
-            return carConfigFile.get();
-        }
+        while (!folders.isEmpty()) {
+            File currentFolder = folders.poll();
+            File[] children = currentFolder.listFiles();
 
-        for (File innerFolder : innerFolders) {
-            File file = getCarConfigFile(innerFolder);
-            if (file != null) {
-                return file;
+            if (children == null) continue;
+
+            for (File file : children) {
+                if (file.isFile() && file.getName().equals("ui_car.json")) {
+                    return file;
+                }
+
+                if (file.isDirectory()) {
+                    folders.add(file);
+                }
             }
         }
 
