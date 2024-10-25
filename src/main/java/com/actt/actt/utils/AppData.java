@@ -16,6 +16,8 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class AppData {
     private static ObservableList<Car> cars;
+    private static ObservableList<String> brands;
+    private static Map<String, ObservableList<Car>> carsByBrand;
 
     public static ObservableList<Car> getCarList() throws IOException {
         if (cars == null) {
@@ -25,9 +27,29 @@ public class AppData {
         return cars;
     }
 
+    public static ObservableList<String> getBrandList() {
+        return brands;
+    }
+
+    public static ObservableList<Car> getCarListByBrand(String brand) throws IOException {
+        if (carsByBrand == null) {
+            createCarBrandsMap();
+        }
+
+        if (carsByBrand.containsKey(brand)) {
+            return carsByBrand.get(brand);
+        }
+
+        return null;
+    }
+
     public static void loadCars() throws IOException {
-        if (cars == null)
+        if (cars == null) {
             cars = FXCollections.observableArrayList();
+        }
+        if (brands == null) {
+            brands = FXCollections.observableArrayList();
+        }
 
         String acPath = FileOperations.getAppConfig().getAcPath();
 
@@ -55,7 +77,17 @@ public class AppData {
             });
 
             List<Car> sorted = threadSafeCarList.stream().sorted(Comparator.comparing(Car::getName)).toList();
-            Platform.runLater(() -> cars.addAll(sorted));
+            Platform.runLater(() -> {
+                List<String> auxBrandsList = new ArrayList<>();
+                for (Car car : sorted) {
+                    cars.add(car);
+                    if (!auxBrandsList.contains(car.getBrand())) {
+                        auxBrandsList.add(car.getBrand());
+                    }
+                }
+
+                brands.addAll(auxBrandsList.stream().sorted().toList());
+            });
         }
     }
 
@@ -81,5 +113,23 @@ public class AppData {
         }
 
         return null;
+    }
+
+    private static void createCarBrandsMap() throws IOException {
+        if (cars == null) {
+            loadCars();
+        }
+
+        Map<String, ObservableList<Car>> aux = new HashMap<>();
+        for (Car car : cars) {
+            String brand = car.getBrand();
+            if (aux.containsKey(brand)) {
+                aux.get(brand).add(car);
+            }
+            else {
+                ObservableList<Car> newList = FXCollections.observableArrayList(car);
+                aux.put(brand, newList);
+            }
+        }
     }
 }

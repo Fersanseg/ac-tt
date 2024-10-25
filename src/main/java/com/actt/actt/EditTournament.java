@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -35,7 +36,9 @@ public class EditTournament implements Initializable {
     public Button saveButton;
     public VBox carClassesContainer;
     public AnchorPane carPickerContainer;
+    public ScrollPane brandListContainer;
     public ListView<Car> carList;
+    public ListView<String> brandList;
 
     private SceneController sceneController;
     private final EventHandler<ActionEvent> onAddClass = _ -> addClass();
@@ -45,12 +48,8 @@ public class EditTournament implements Initializable {
         sceneController = new SceneController();
         setBackButtonIcon();
         setupAddButton();
-        try {
-            loadCarList();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
+        loadBrandList();
     }
 
     public void setTitle(String title) {
@@ -62,6 +61,11 @@ public class EditTournament implements Initializable {
 
         carList.setItems(list);
         carList.setCellFactory(_ -> new CarListCell());
+    }
+
+    private void loadBrandList() {
+        ObservableList<String> list = AppData.getBrandList();
+        brandList.setItems(list);
     }
 
     private void setupAddButton() {

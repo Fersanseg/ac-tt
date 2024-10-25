@@ -11,7 +11,6 @@ public class CarListCell extends ListCell<Car> {
         super.updateItem(car, empty);
         if (car != null && !empty) {
             setText(car.getName());
-            getStyleClass().add("car-cell");
         }
     }
 }

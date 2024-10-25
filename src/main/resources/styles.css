@@ -241,7 +241,7 @@
     -fx-background-color: #333336;
  }
 
- .car-cell:selected {
+ .car-list-background .list-cell:selected {
     -fx-background-color: #3333f5;
  }
 
