@@ -54,7 +54,8 @@ public class AppData {
                 }
             });
 
-            Platform.runLater(() -> cars.addAll(threadSafeCarList));
+            List<Car> sorted = threadSafeCarList.stream().sorted(Comparator.comparing(Car::getName)).toList();
+            Platform.runLater(() -> cars.addAll(sorted));
         }
     }
 
