@@ -234,6 +234,7 @@
  .list-cell {
     -fx-text-fill: white;
  }
+ .car-list-background .list-cell:empty,
  .list-cell:even {
     -fx-background-color: #29292b;
  }

@@ -63,6 +63,7 @@ public class AppData {
             Arrays.stream(carFolders).parallel().forEach(carFolder -> {
                 try {
                     File carConfig = getCarConfigFile(carFolder);
+                    assert carConfig != null;
                     String jsonContent = new String(Files.readAllBytes(carConfig.toPath()));
                     jsonContent = jsonContent.replace("\n", "");
                     jsonContent = jsonContent.replace("\r", "");
@@ -119,6 +120,9 @@ public class AppData {
         if (cars == null) {
             loadCars();
         }
+        if (carsByBrand == null) {
+            carsByBrand = new HashMap<>();
+        }
 
         Map<String, ObservableList<Car>> aux = new HashMap<>();
         for (Car car : cars) {
@@ -131,5 +135,7 @@ public class AppData {
                 aux.put(brand, newList);
             }
         }
+
+        carsByBrand = aux;
     }
 }

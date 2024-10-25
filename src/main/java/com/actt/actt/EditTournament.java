@@ -56,16 +56,27 @@ public class EditTournament implements Initializable {
         editorMode.setText(title);
     }
 
-    private void loadCarList() throws IOException {
-        ObservableList<Car> list = AppData.getCarList();
+    private void loadCarList(String brand) throws IOException {
+        ObservableList<Car> list = AppData.getCarListByBrand(brand);
 
         carList.setItems(list);
         carList.setCellFactory(_ -> new CarListCell());
+        brandListContainer.setVisible(false);
     }
 
     private void loadBrandList() {
         ObservableList<String> list = AppData.getBrandList();
         brandList.setItems(list);
+        brandList.setOnMouseClicked(click -> {
+            if (click.getClickCount() >= 2) {
+                var selected = brandList.getSelectionModel().getSelectedItem();
+                try {
+                    loadCarList(selected);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     private void setupAddButton() {
