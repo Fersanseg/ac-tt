@@ -237,9 +237,12 @@
  .list-cell:even {
     -fx-background-color: #29292b;
  }
-
  .list-cell:odd {
     -fx-background-color: #333336;
+ }
+
+ .car-cell:selected {
+    -fx-background-color: #3333f5;
  }
 
 /*******************************************************************************

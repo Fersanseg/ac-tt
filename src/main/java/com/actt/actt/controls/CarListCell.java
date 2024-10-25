@@ -9,7 +9,9 @@ public class CarListCell extends ListCell<Car> {
     @Override
     protected void updateItem(Car car, boolean empty) {
         super.updateItem(car, empty);
-        if (car != null && !empty)
+        if (car != null && !empty) {
             setText(car.getName());
+            getStyleClass().add("car-cell");
+        }
     }
 }
