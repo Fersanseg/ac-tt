@@ -10,6 +10,6 @@ public class CarListCell extends ListCell<Car> {
     protected void updateItem(Car car, boolean empty) {
         super.updateItem(car, empty);
         if (car != null && !empty)
-            setText(car.getDisplayName());
+            setText(car.getName());
     }
 }

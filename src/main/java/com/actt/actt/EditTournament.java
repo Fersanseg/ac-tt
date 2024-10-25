@@ -4,8 +4,8 @@ import com.actt.actt.controls.CarClass;
 import com.actt.actt.controls.CarListCell;
 import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
+import com.actt.actt.utils.AppData;
 import com.actt.actt.utils.Utils;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -45,7 +45,11 @@ public class EditTournament implements Initializable {
         sceneController = new SceneController();
         setBackButtonIcon();
         setupAddButton();
-        loadCarList();
+        try {
+            loadCarList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -53,14 +57,8 @@ public class EditTournament implements Initializable {
         editorMode.setText(title);
     }
 
-    private void loadCarList() {
-        ObservableList<Car> list = FXCollections.observableArrayList();
-
-        for (int i = 0; i < 400; i++) {
-            Car car = new Car();
-            car.setDisplayName("CAR " + (i+1));
-            list.add(car);
-        }
+    private void loadCarList() throws IOException {
+        ObservableList<Car> list = AppData.getCarList();
 
         carList.setItems(list);
         carList.setCellFactory(_ -> new CarListCell());
