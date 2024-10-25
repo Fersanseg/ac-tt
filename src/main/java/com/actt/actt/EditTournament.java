@@ -46,7 +46,7 @@ public class EditTournament implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sceneController = new SceneController();
-        setBackButtonIcon();
+        setupBackButtons();
         setupAddButton();
 
         loadBrandList();
@@ -62,6 +62,7 @@ public class EditTournament implements Initializable {
         carList.setItems(list);
         carList.setCellFactory(_ -> new CarListCell());
         brandListContainer.setVisible(false);
+        carPickerBackButton.setVisible(true);
     }
 
     private void loadBrandList() {
@@ -82,6 +83,14 @@ public class EditTournament implements Initializable {
     private void setupAddButton() {
         setAddButtonIcon();
         addClassButton.setOnAction(onAddClass);
+    }
+
+    private void setupBackButtons() {
+        setBackButtonIcon();
+        carPickerBackButton.setOnAction(_ -> {
+            brandListContainer.setVisible(true);
+            carPickerBackButton.setVisible(false);
+        });
     }
 
     private void setBackButtonIcon() {

@@ -68,7 +68,7 @@
    </AnchorPane>
    <AnchorPane fx:id="carPickerContainer" layoutX="862.0" layoutY="17.0" prefHeight="749.0" prefWidth="696.0">
       <children>
-         <Button fx:id="carPickerBackButton" contentDisplay="GRAPHIC_ONLY" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="58.0" styleClass="button__back" text="Button" />
+         <Button fx:id="carPickerBackButton" contentDisplay="GRAPHIC_ONLY" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="58.0" styleClass="button__back" text="Button" visible="false" />
          <Label fx:id="carPickerClassName" layoutX="113.0" layoutY="14.0" prefHeight="58.0" prefWidth="563.0" text="Label">
             <font>
                <Font size="32.0" />

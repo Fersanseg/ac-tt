@@ -9,7 +9,11 @@ public class CarListCell extends ListCell<Car> {
     @Override
     protected void updateItem(Car car, boolean empty) {
         super.updateItem(car, empty);
-        if (car != null && !empty) {
+        if (empty || car == null) {
+            setText(null);
+            setGraphic(null);
+        }
+        else {
             setText(car.getName());
         }
     }
