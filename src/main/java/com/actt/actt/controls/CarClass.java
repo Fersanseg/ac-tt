@@ -34,9 +34,13 @@ public class CarClass extends AnchorPane implements Initializable {
 
     public CarClass(int index) {
         setup();
-        this.index = index;
+        setIndex(index);
         String DEFAULT_CLASS_NAME = "Class ";
         carClassName.setText(DEFAULT_CLASS_NAME + (index + 1));
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     private void setup() {

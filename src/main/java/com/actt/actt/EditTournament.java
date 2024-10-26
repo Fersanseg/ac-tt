@@ -168,6 +168,11 @@ public class EditTournament implements Initializable {
         if (ev.getData("index").isPresent()) {
             int index = (int)(ev.getData("index").get());
             carClassesContainer.getChildren().remove(index);
+
+            for (int i = 0; i < carClassesContainer.getChildren().size(); i++) {
+                CarClass carClass = (CarClass) carClassesContainer.getChildren().get(i);
+                carClass.setIndex(i);
+            }
         }
     }
 
