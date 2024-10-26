@@ -246,6 +246,10 @@
     -fx-background-color: #3333f5;
  }
 
+ .car-list-background .list-cell {
+    -fx-font-size: 14;
+ }
+
 /*******************************************************************************
  *                                                                             *
  * Text field                                                                  *

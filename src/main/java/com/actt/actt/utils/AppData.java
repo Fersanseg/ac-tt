@@ -82,8 +82,9 @@ public class AppData {
                 List<String> auxBrandsList = new ArrayList<>();
                 for (Car car : sorted) {
                     cars.add(car);
-                    if (!auxBrandsList.contains(car.getBrand())) {
-                        auxBrandsList.add(car.getBrand());
+                    String brandText = car.getBrand();
+                    if (!auxBrandsList.contains(brandText)) {
+                        auxBrandsList.add(brandText);
                     }
                 }
 
