@@ -4,7 +4,10 @@ import com.actt.actt.controls.CarClass;
 import com.actt.actt.controls.CarListCell;
 import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
+import com.actt.actt.models.CarClassSettings;
+import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.AppData;
+import com.actt.actt.utils.FileOperations;
 import com.actt.actt.utils.Logger;
 import com.actt.actt.utils.Utils;
 import javafx.collections.ObservableList;
@@ -182,7 +185,7 @@ public class EditTournament implements Initializable {
         }).getFirst();
     }
 
-    private void validateTournament() throws InterruptedException {
+    private void validateTournament() throws InterruptedException, IOException {
         List<Task<Boolean>> checkTasks = new ArrayList<>();
         checkTasks.add(Utils.makeFunctionAsync(this::checkTournamentName));
         /*checkTasks.add(Utils.makeFunctionAsync(this::checkPointScoring));
@@ -206,8 +209,29 @@ public class EditTournament implements Initializable {
         });
 
         if (!failed) {
-            // TODO do save
+            TournamentSettings tournamentSettings = createTournamentSettingsModel();
+            FileOperations.saveTournamentSettings(tournamentSettings);
         }
+    }
+
+    private TournamentSettings createTournamentSettingsModel() {
+        TournamentSettings tournamentSettings = new TournamentSettings();
+        List<CarClassSettings> carClassSettings = new ArrayList<>();
+        for (var carClass : carClassesContainer.getChildren()) {
+            if (carClass.getClass().getTypeName().contains("CarClass")) {
+                CarClassSettings settings = new CarClassSettings();
+                String name = ((CarClass)carClass).carClassName.getText();
+                Car[] cars = ((CarClass)carClass).carsList.getItems().toArray(new Car[0]);
+
+                settings.setName(name);
+                settings.setCars(cars);
+                carClassSettings.add(settings);
+            }
+        }
+
+        tournamentSettings.setName(tournamentName.getText());
+        tournamentSettings.setClasses(carClassSettings.toArray(carClassSettings.toArray(new CarClassSettings[0])));
+        return tournamentSettings;
     }
 
     private boolean checkTournamentName() {
@@ -216,7 +240,7 @@ public class EditTournament implements Initializable {
 
 
     @FXML
-    private void save() throws InterruptedException {
+    private void save() throws InterruptedException, IOException {
         validateTournament();
     }
 }

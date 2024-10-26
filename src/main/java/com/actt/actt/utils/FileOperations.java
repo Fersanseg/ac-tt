@@ -3,6 +3,7 @@ package com.actt.actt.utils;
 import com.actt.actt.controls.DirectoryPicker;
 import com.actt.actt.events.DirectoryChosenEvent;
 import com.actt.actt.models.AppConfig;
+import com.actt.actt.models.TournamentSettings;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,7 +28,7 @@ public class FileOperations {
     private static final String AC_BUTTON_TEXT = "AC Path";
     private static final String APP_BUTTON_TEXT = "App Path";
     private static final String CONFIG_FILENAME = "config.json";
-    private static final String CONFIG_PATH = String.valueOf(Path.of(System.getenv("LOCALAPPDATA"), "AC Tournament Tracker"));
+    private static final String CONFIG_PATH = String.valueOf(Path.of(System.getenv("LOCALAPPDATA"), "AC Tournament Manager"));
     private static AppConfig appConfig;
 
     public static void checkAppConfig() throws IOException {
@@ -100,6 +101,25 @@ public class FileOperations {
         return appConfig;
     }
 
+    public static void saveTournamentSettings(TournamentSettings settings) throws IOException {
+        String appPath = appConfig.getAppPath();
+        Path pathAppPath = Path.of(appPath);
+
+        if (!Files.exists(pathAppPath)) {
+            Files.createDirectory(pathAppPath);
+        }
+
+        Path tournamentPath = Path.of(appPath + "\\" + settings.getName());
+        Path absoluteFilePath = tournamentPath.resolve(Path.of(CONFIG_FILENAME));
+        if (!Files.exists(tournamentPath)) {
+            Files.createDirectory(tournamentPath);
+        }
+        Files.deleteIfExists(absoluteFilePath);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(String.valueOf(absoluteFilePath)), settings);
+    }
+
     private static void setAppConfig(AppConfig config) {
         appConfig = config;
     }
@@ -131,7 +151,7 @@ public class FileOperations {
 
     private static Dialog<ButtonType> CreateInitialConfigDialog() {
         double dialogWidth = 700;
-        String defaultAppPath = FileSystemView.getFileSystemView().getDefaultDirectory().toString().replace("/", "\\");
+        String defaultAppPath = FileSystemView.getFileSystemView().getDefaultDirectory().toString().replace("/", "\\") + "\\AC Tournament Manager";
         String defaultAcPath = (System.getenv("ProgramFiles(x86)") + "/Steam/steamapps/common/assettocorsa").replace("/", "\\");
 
         ButtonType closeButton = new ButtonType("Go", ButtonBar.ButtonData.OK_DONE);
@@ -166,6 +186,7 @@ public class FileOperations {
         List<DirectoryPicker> dirPickers = GetNodesByType(dialog.getDialogPane(), DirectoryPicker.class);
         String acDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, AC_BUTTON_TEXT)).getPath();
         String appDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, APP_BUTTON_TEXT)).getPath();
+        Path pathAppDirPath = Path.of(appDirPath);
 
         if (appConfig == null)
             setAppConfig(new AppConfig());
@@ -173,6 +194,10 @@ public class FileOperations {
         appConfig.setAcPath(acDirPath);
         appConfig.setAppPath(appDirPath);
         mapper.writeValue(new File(String.valueOf(saveToPath)), appConfig);
+
+        if (!Files.exists(pathAppDirPath)) {
+            Files.createDirectory(pathAppDirPath);
+        }
     }
 
     private static DirectoryPicker GetDirPickerByText(List<DirectoryPicker> dirPickers, String buttonText) {

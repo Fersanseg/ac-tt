@@ -42,7 +42,7 @@ public class Utils {
     }
 
     public static <R> Task<R> makeFunctionAsync(Callable<R> callable) {
-        return new Task<R>() {
+        return new Task<>() {
             @Override
             protected R call() throws Exception {
                 return callable.call();
