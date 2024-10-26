@@ -1,13 +1,14 @@
 package com.actt.actt.controls;
 
 import com.actt.actt.events.SendDataEvent;
+import com.actt.actt.models.Car;
 import com.actt.actt.utils.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
@@ -23,7 +24,7 @@ public class CarClass extends AnchorPane implements Initializable {
     public Button addCarButton;
     public Button deleteClassButton;
     public TextField carClassName;
-    public VBox carsList;
+    public ListView<Car> carsList;
 
     private int index;
 
@@ -44,6 +45,13 @@ public class CarClass extends AnchorPane implements Initializable {
         fxmlLoader.setController(this);
         try {
             fxmlLoader.load();
+            carsList.setCellFactory(_ -> new CarListCell());
+            carsList.setOnMouseClicked(click -> {
+                if (click.getClickCount() >= 2) {
+                    Car car = carsList.getSelectionModel().getSelectedItem();
+                    carsList.getItems().remove(car);
+                }
+            });
         }
         catch (
                 IOException ex) {
@@ -55,6 +63,10 @@ public class CarClass extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setAddCarButtonIcon();
         setDeleteClassButtonIcon();
+    }
+
+    public void addCar(Car car) {
+        carsList.getItems().add(car);
     }
 
     private void setAddCarButtonIcon() {

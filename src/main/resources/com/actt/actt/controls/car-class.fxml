@@ -29,10 +29,9 @@
             <String fx:value="no-hover" />
          </styleClass></Button>
       <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="57.0" pannable="true" prefHeight="97.0" prefWidth="574.0" styleClass="car-list" vbarPolicy="AS_NEEDED">
-        <content>
-           <VBox fx:id="carsList" prefHeight="85.0" prefWidth="580.0" styleClass="car-list__vbox">
-           </VBox>
-        </content>
+         <content>
+            <ListView fx:id="carsList" prefHeight="94.0" prefWidth="573.0" styleClass="car-list-background" />
+         </content>
       </ScrollPane>
    </children>
    <padding>

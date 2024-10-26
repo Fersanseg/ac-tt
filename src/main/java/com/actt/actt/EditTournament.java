@@ -155,7 +155,7 @@ public class EditTournament implements Initializable {
     private void addCarToClass(Car car) {
         String carClassName = carPickerClassName.getText();
         CarClass carClass = findCarClassByName(carClassName);
-        carClass.carsList.getChildren().add(new Label(car.getName()));
+        carClass.addCar(car);
     }
 
     private void onDeleteClass(SendDataEvent ev) {
