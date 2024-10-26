@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EditTournament implements Initializable {
@@ -61,6 +62,12 @@ public class EditTournament implements Initializable {
 
         carList.setItems(list);
         carList.setCellFactory(_ -> new CarListCell());
+        carList.setOnMouseClicked(click -> {
+            if (click.getClickCount() >= 2) {
+                var car = carList.getSelectionModel().getSelectedItem();
+                addCarToClass(car);
+            }
+        });
         brandListContainer.setVisible(false);
         carPickerBackButton.setVisible(true);
     }
@@ -137,12 +144,18 @@ public class EditTournament implements Initializable {
     private void onCarClassSendData(SendDataEvent ev) {
         switch (ev.getAction()) {
             case "addCar":
-                onAddCar(ev);
+                onClickAddCarButton(ev);
                 break;
             case "deleteClass":
                 onDeleteClass(ev);
                 break;
         }
+    }
+
+    private void addCarToClass(Car car) {
+        String carClassName = carPickerClassName.getText();
+        CarClass carClass = findCarClassByName(carClassName);
+        carClass.carsList.getChildren().add(new Label(car.getName()));
     }
 
     private void onDeleteClass(SendDataEvent ev) {
@@ -152,12 +165,18 @@ public class EditTournament implements Initializable {
         }
     }
 
-    private void onAddCar(SendDataEvent ev) {
+    private void onClickAddCarButton(SendDataEvent ev) {
         carPickerContainer.setVisible(true);
         if (ev.getData("className").isPresent()) {
             String className = ev.getData("className").get().toString();
             carPickerClassName.setText(className);
         }
+    }
+
+    private CarClass findCarClassByName(String name) {
+        return (CarClass) carClassesContainer.getChildren().filtered(c -> {
+            return Objects.equals(((CarClass) c).carClassName.getText(), name);
+        }).getFirst();
     }
 
     @FXML

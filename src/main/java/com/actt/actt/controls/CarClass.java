@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
@@ -22,6 +23,7 @@ public class CarClass extends AnchorPane implements Initializable {
     public Button addCarButton;
     public Button deleteClassButton;
     public TextField carClassName;
+    public VBox carsList;
 
     private int index;
 
