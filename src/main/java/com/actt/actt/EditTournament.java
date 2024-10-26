@@ -5,16 +5,15 @@ import com.actt.actt.controls.CarListCell;
 import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
 import com.actt.actt.utils.AppData;
+import com.actt.actt.utils.Logger;
 import com.actt.actt.utils.Utils;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,8 +24,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 public class EditTournament implements Initializable {
     public Label editorMode;
@@ -40,6 +42,7 @@ public class EditTournament implements Initializable {
     public ScrollPane brandListContainer;
     public ListView<Car> carList;
     public ListView<String> brandList;
+    public TextField tournamentName;
 
     private SceneController sceneController;
     private final EventHandler<ActionEvent> onAddClass = _ -> addClass();
@@ -179,8 +182,41 @@ public class EditTournament implements Initializable {
         }).getFirst();
     }
 
+    private void validateTournament() throws InterruptedException {
+        List<Task<Boolean>> checkTasks = new ArrayList<>();
+        checkTasks.add(Utils.makeFunctionAsync(this::checkTournamentName));
+        /*checkTasks.add(Utils.makeFunctionAsync(this::checkPointScoring));
+        checkTasks.add(Utils.makeFunctionAsync(this::checkAllCarsExist));
+        checkTasks.add(Utils.makeFunctionAsync(this::checkNoEmptyClasses));
+        checkTasks.add(Utils.makeFunctionAsync(this::checkNoRepeatedCars));*/
+
+        var results = Utils.waitAllTasks(checkTasks);
+        boolean failed = results.stream().anyMatch(t -> {
+            try {
+                return !t.get();
+            } catch (InterruptedException | ExecutionException e) {
+                try {
+                    Logger.log(e.getMessage());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                return false;
+            }
+        });
+
+        if (!failed) {
+            // TODO do save
+        }
+    }
+
+    private boolean checkTournamentName() {
+        return !tournamentName.getText().isEmpty() && tournamentName.getText() != null;
+    }
+
+
     @FXML
-    private void save() throws IOException {
-        goHome();
+    private void save() throws InterruptedException {
+        validateTournament();
     }
 }

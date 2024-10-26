@@ -38,10 +38,13 @@
                <Font size="25.0" />
             </font>
          </Label>
-         <TextField prefHeight="40.0" prefWidth="547.0">
+         <TextField fx:id="tournamentName" prefHeight="40.0" prefWidth="547.0" style="-fx-text-fill: white;">
             <HBox.margin>
                <Insets left="20.0" />
             </HBox.margin>
+            <font>
+               <Font size="16.0" />
+            </font>
          </TextField>
       </children>
    </HBox>
