@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -207,10 +208,9 @@ public class EditTournament implements Initializable {
     private void validateTournament() throws InterruptedException, IOException {
         List<Task<Boolean>> checkTasks = new ArrayList<>();
         checkTasks.add(Utils.makeFunctionAsync(this::checkTournamentName));
-        /*checkTasks.add(Utils.makeFunctionAsync(this::checkPointScoring));
-        checkTasks.add(Utils.makeFunctionAsync(this::checkAllCarsExist));
         checkTasks.add(Utils.makeFunctionAsync(this::checkNoEmptyClasses));
-        checkTasks.add(Utils.makeFunctionAsync(this::checkNoRepeatedCars));*/
+        checkTasks.add(Utils.makeFunctionAsync(this::checkNoRepeatedCars));
+        /*checkTasks.add(Utils.makeFunctionAsync(this::checkPointScoring));*/
 
         var results = Utils.waitAllTasks(checkTasks);
         boolean failed = results.stream().anyMatch(t -> {
@@ -255,6 +255,29 @@ public class EditTournament implements Initializable {
 
     private boolean checkTournamentName() {
         return !tournamentName.getText().isEmpty() && tournamentName.getText() != null;
+    }
+
+    private boolean checkNoEmptyClasses() {
+        var carClasses = carClassesContainer.getChildren();
+        return carClasses.stream().noneMatch(c -> ((CarClass) c).carsList.getItems().isEmpty());
+    }
+
+    private boolean checkNoRepeatedCars() {
+        var carClasses = carClassesContainer.getChildren();
+        for (Node node : carClasses) {
+            CarClass carClass = (CarClass) node;
+            List<String> carNames = new ArrayList<>();
+
+            for (Car car : carClass.carsList.getItems()) {
+                if (carNames.contains(car.getName())) {
+                    return false;
+                }
+
+                carNames.add(car.getName());
+            }
+        }
+
+        return true;
     }
 
 
