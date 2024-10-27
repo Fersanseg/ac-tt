@@ -6,10 +6,7 @@ import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
 import com.actt.actt.models.CarClassSettings;
 import com.actt.actt.models.TournamentSettings;
-import com.actt.actt.utils.AppData;
-import com.actt.actt.utils.FileOperations;
-import com.actt.actt.utils.Logger;
-import com.actt.actt.utils.Utils;
+import com.actt.actt.utils.*;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -24,6 +21,7 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,13 +44,26 @@ public class EditTournament implements Initializable {
     public ListView<Car> carList;
     public ListView<String> brandList;
     public TextField tournamentName;
+    public TextField carSearchField;
 
     private SceneController sceneController;
+    private Debouncer<ObservableList<Car>> searchDebouncer;
+
     private final EventHandler<ActionEvent> onAddClass = _ -> addClass();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sceneController = new SceneController();
+        carSearchField.sceneProperty().addListener((_, _, newScene) -> {
+            if (newScene != null) {
+                newScene.windowProperty().addListener((_, _, newWindow) -> {
+                    if (newWindow != null && searchDebouncer != null) {
+                        newWindow.addEventHandler(WindowEvent.WINDOW_HIDDEN, _ -> searchDebouncer.shutdown());
+                        newWindow.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, _ -> searchDebouncer.shutdown());
+                    }
+                });
+            }
+        });
         setupBackButtons();
         setupAddButton();
 
@@ -65,7 +76,10 @@ public class EditTournament implements Initializable {
 
     private void loadCarList(String brand) throws IOException {
         ObservableList<Car> list = AppData.getCarListByBrand(brand);
+        loadCarList(list);
+    }
 
+    private void loadCarList(ObservableList<Car> list) {
         carList.setItems(list);
         carList.setCellFactory(_ -> new CarListCell());
         carList.setOnMouseClicked(click -> {
@@ -247,5 +261,27 @@ public class EditTournament implements Initializable {
     @FXML
     private void save() throws InterruptedException, IOException {
         validateTournament();
+    }
+
+    @FXML
+    private void search() {
+        if (searchDebouncer == null) {
+            searchDebouncer = new Debouncer<>();
+        }
+
+        if (carSearchField.getText().isEmpty()) {
+            searchDebouncer.cancel();
+            carPickerBackButton.fire();
+            return;
+        }
+
+        searchDebouncer.runDelayed(
+            () -> AppData.filterCarsByName(carSearchField.getText()),
+            500,
+            this::handleFilteredList);
+    }
+
+    private void handleFilteredList(ObservableList<Car> cars) {
+        loadCarList(cars);
     }
 }

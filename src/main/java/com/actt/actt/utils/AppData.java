@@ -93,6 +93,12 @@ public class AppData {
         }
     }
 
+    public static ObservableList<Car> filterCarsByName(String searchTerm) {
+        var filtered = cars.filtered(c -> c.getName().toLowerCase(Locale.ROOT).contains(searchTerm));
+
+        return FXCollections.observableArrayList(filtered);
+    }
+
     private static File getCarConfigFile(File folder) {
         Queue<File> folders = new LinkedList<>();
         folders.add(folder);
