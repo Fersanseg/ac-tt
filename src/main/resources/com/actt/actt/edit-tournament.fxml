@@ -31,23 +31,17 @@
          </Button>
       </children>
    </HBox>
-   <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="88.0" prefHeight="58.0" prefWidth="788.0">
-      <children>
-         <Label text="Tournament name:">
-            <font>
-               <Font size="25.0" />
-            </font>
-         </Label>
-         <TextField fx:id="tournamentName" prefHeight="40.0" prefWidth="547.0" style="-fx-text-fill: white;">
-            <HBox.margin>
-               <Insets left="20.0" />
-            </HBox.margin>
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
-      </children>
-   </HBox>
+   <Button layoutX="40.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Add scoring system">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Button>
+   <ComboBox fx:id="pointsSystemComboBox" layoutX="223.0" layoutY="104.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="425.0" styleClass="dropdown" />
+   <Button layoutX="658.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Edit scoring system">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Button>
    <AnchorPane layoutX="40.0" layoutY="156.0" prefHeight="610.0" prefWidth="774.0">
       <children>
          <Label layoutY="8.0" text="Car classes">
@@ -67,6 +61,11 @@
                </VBox>
             </content>
          </ScrollPane>
+         <TextField fx:id="tournamentName" layoutX="277.0" layoutY="13.0" prefHeight="40.0" prefWidth="503.0" promptText="Tournament name" style="-fx-text-fill: white;">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
       </children>
    </AnchorPane>
    <AnchorPane fx:id="carPickerContainer" layoutX="862.0" layoutY="17.0" prefHeight="749.0" prefWidth="696.0" visible="false">
@@ -82,7 +81,7 @@
                <Font size="16.0" />
             </font>
          </Label>
-         <TextField fx:id="carSearchField" onAction="#search" onKeyTyped="#search" layoutX="14.0" layoutY="106.0" prefHeight="40.0" prefWidth="503.0" promptText="Search car" style="-fx-text-fill: white;">
+         <TextField fx:id="carSearchField" layoutX="14.0" layoutY="106.0" onAction="#search" onKeyTyped="#search" prefHeight="40.0" prefWidth="503.0" promptText="Search car" style="-fx-text-fill: white;">
             <font>
                <Font size="16.0" />
             </font>

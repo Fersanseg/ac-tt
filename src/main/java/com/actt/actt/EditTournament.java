@@ -7,6 +7,7 @@ import com.actt.actt.models.Car;
 import com.actt.actt.models.CarClassSettings;
 import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -46,6 +47,7 @@ public class EditTournament implements Initializable {
     public ListView<String> brandList;
     public TextField tournamentName;
     public TextField carSearchField;
+    public ComboBox<String> pointsSystemComboBox;
 
     private SceneController sceneController;
     private Debouncer<ObservableList<Car>> searchDebouncer;

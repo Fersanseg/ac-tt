@@ -142,35 +142,45 @@
  *                                                                             *
  ******************************************************************************/
 .dropdown {
+    -fx-border-radius: 6;
     -fx-background-color: transparent;
     -fx-border-color: #3333f5;
-    -fx-height: 200px;
     -fx-width: 1000px;
+}
+
+.dropdown .text-input {
+    -fx-border-radius: 6;
+    -fx-background-color: transparent;
 }
 
 .dropdown .list-cell { /*the "button" cell*/
     -fx-text-fill: white;
-    -fx-padding: 10;
-    -fx-font-size: 20;
+    -fx-border-radius: 6;
+    -fx-background-color: transparent;
+    -fx-font-size: 16;
 }
 
 .dropdown__placeholder-value .list-cell {
+    -fx-border-radius: 6;
     -fx-text-fill: grey;
 }
 
 .dropdown .combo-box-popup .list-view { /*the popup's background, behind each cell*/
     -fx-background-color: #29292b;
+    -fx-border-radius: 6;
     -fx-border-color: #3333f5;
     -fx-border-width: 0 1 1 1;
 }
 
 .dropdown .combo-box-popup .list-view .list-cell { /*the popup's cells*/
     -fx-border-width: 0px;
+    -fx-border-radius: 6;
     -fx-text-fill: white;
     -fx-background-color: #29292b;
 }
 
 .dropdown .combo-box-popup .list-view .list-cell:hover {
+    -fx-border-radius: 6;
     -fx-background-color: #56565c;
 }
 
