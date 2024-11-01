@@ -136,6 +136,9 @@
     -fx-border-radius: 6;
 }
 
+.dialog .text-field .no-border-radius {
+    -fx-border-radius: 0;
+}
 /*******************************************************************************
  *                                                                             *
  * Dropdown (Custom ComboBox)                                                  *
@@ -269,4 +272,13 @@
     -fx-border-color: #3333f5;
     -fx-border-radius: 6;
     -fx-background-color: #333336;
+}
+
+.text-field .no-border-radius {
+    -fx-border-radius: 0;
+}
+
+.grid-scores .text-field {
+    -fx-border-radius: 0;
+    -fx-border-color: #333336;
 }

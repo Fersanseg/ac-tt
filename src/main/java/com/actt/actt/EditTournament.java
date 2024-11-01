@@ -123,6 +123,7 @@ public class EditTournament implements Initializable {
     @FXML
     private void showAddScoringSystem() throws IOException {
         ScoringSystemModel model = new ScoringSystemModel();
+        model.setName(tournamentName.getText());
         Dialog<ScoringSystemModel> dialog = createScoringSystemDialog(model);
         handleScoringSystemDialogResult(dialog.showAndWait());
     }
@@ -311,7 +312,7 @@ public class EditTournament implements Initializable {
         ScoringSystem scoringSystem = loader.getController();
         scoringSystem.setData(model);
 
-        String dialogMode = Objects.equals(scoringSystem.getName(), "") ? "New" : "Edit"; // El modelo tendra un campo name
+        String dialogMode = Objects.equals(scoringSystem.getName(), "") ? "New" : "Edit";
         Dialog<ScoringSystemModel> dialog = new Dialog<>();
         dialog.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
         dialog.getDialogPane().getStyleClass().add("dialog");
@@ -331,8 +332,9 @@ public class EditTournament implements Initializable {
 
     private <T> void handleScoringSystemDialogResult(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> result) {
         //noinspection OptionalGetWithoutIsPresent
-        if (result.get() instanceof ScoringSystemModel) {
-
+        if (result.get() instanceof ScoringSystemModel model) {
+            System.out.println("TOURNAMENT NAME: " + model.getName());
+            System.out.println("POINTS: " + Arrays.toString(model.getPoints()));
         }
     }
 

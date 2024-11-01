@@ -2,10 +2,16 @@ package com.actt.actt.controls;
 
 import com.actt.actt.models.ScoringSystemModel;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.util.Stack;
 
 public class ScoringSystem extends VBox {
     private final int MAX_ITEMS_PER_COLUMN = 25;
@@ -15,6 +21,7 @@ public class ScoringSystem extends VBox {
     public GridPane grid;
 
     private int counter = 0;
+    private final Stack<TextField> tfStack = new Stack<>();
 
     public void setDialog(Dialog<ScoringSystemModel> dialog) {
         this.dialog = dialog;
@@ -33,14 +40,30 @@ public class ScoringSystem extends VBox {
         if (counter >= (MAX_ITEMS_PER_COLUMN * 2)) {
             return;
         }
-
-        Label label = new Label("text " + counter);
         counter++;
+
+        TextField tf = new TextField("0");
+        tf.textProperty().addListener((_, _, t1) -> {
+            if (!t1.matches("\\d*")) {
+                tf.setText(t1.replaceAll("\\D", ""));
+            }
+        });
+        tf.setPadding(new Insets(0.5, 0.5, 0.5, 4.5));
+        tf.setPrefWidth(50);
+        tfStack.push(tf);
+
+        Label posLabel = new Label(String.valueOf(counter));
+        HBox hbox =  new HBox();
+        hbox.setSpacing(15);
+        hbox.getChildren().add(posLabel);
+        hbox.getChildren().add(tf);
+        hbox.setAlignment(Pos.BASELINE_CENTER);
+
 
         int col = counter <= MAX_ITEMS_PER_COLUMN ? 0 : 1;
         int row = counter > MAX_ITEMS_PER_COLUMN ? (counter - 1 - MAX_ITEMS_PER_COLUMN) : (counter - 1);
 
-        grid.add(label, col, row);
+        grid.add(hbox, col, row);
     }
 
     @FXML
@@ -54,12 +77,20 @@ public class ScoringSystem extends VBox {
         int col = counter >= MAX_ITEMS_PER_COLUMN ? 1 : 0;
         int row = counter >= MAX_ITEMS_PER_COLUMN ? (counter - MAX_ITEMS_PER_COLUMN) : (counter);
 
-        grid.getChildren().removeIf(i -> GridPane.getRowIndex(i) == row && GridPane.getColumnIndex(i) == col);
+        if (grid.getChildren().removeIf(i -> GridPane.getRowIndex(i) == row && GridPane.getColumnIndex(i) == col)) {
+            tfStack.pop();
+        }
     }
 
     @FXML
     private void submit() {
-        dialog.setResult(new ScoringSystemModel());
+        int[] points = new int[tfStack.size()];
+        for (int i = tfStack.size() - 1; i >= 0 ; i--) {
+            points[i] = Integer.parseInt(tfStack.pop().getText());
+        }
+        model.setPoints(points);
+
+        dialog.setResult(model);
         dialog.close();
     }
 }
