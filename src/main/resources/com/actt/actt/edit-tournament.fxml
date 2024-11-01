@@ -31,13 +31,13 @@
          </Button>
       </children>
    </HBox>
-   <Button layoutX="40.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Add scoring system">
+   <Button fx:id="addScoringSystemButton" onAction="#showAddScoringSystem" layoutX="40.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Add scoring system">
       <font>
          <Font size="16.0" />
       </font>
    </Button>
    <ComboBox fx:id="pointsSystemComboBox" layoutX="223.0" layoutY="104.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="425.0" styleClass="dropdown" />
-   <Button layoutX="658.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Edit scoring system">
+   <Button fx:id="editScoringSystemButton" onAction="#showEditScoringSystem" layoutX="658.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Edit scoring system">
       <font>
          <Font size="16.0" />
       </font>

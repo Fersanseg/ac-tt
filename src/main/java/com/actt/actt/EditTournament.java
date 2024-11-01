@@ -2,17 +2,19 @@ package com.actt.actt;
 
 import com.actt.actt.controls.CarClass;
 import com.actt.actt.controls.CarListCell;
+import com.actt.actt.controls.ScoringSystem;
 import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
 import com.actt.actt.models.CarClassSettings;
+import com.actt.actt.models.ScoringSystemModel;
 import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.*;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -27,10 +29,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class EditTournament implements Initializable {
@@ -40,6 +39,8 @@ public class EditTournament implements Initializable {
     public Button carPickerBackButton;
     public Button addClassButton;
     public Button saveButton;
+    public Button addScoringSystemButton;
+    public Button editScoringSystemButton;
     public VBox carClassesContainer;
     public AnchorPane carPickerContainer;
     public ScrollPane brandListContainer;
@@ -47,7 +48,7 @@ public class EditTournament implements Initializable {
     public ListView<String> brandList;
     public TextField tournamentName;
     public TextField carSearchField;
-    public ComboBox<String> pointsSystemComboBox;
+    public ComboBox<ScoringSystemModel> pointsSystemComboBox;
 
     private SceneController sceneController;
     private Debouncer<ObservableList<Car>> searchDebouncer;
@@ -69,6 +70,7 @@ public class EditTournament implements Initializable {
         });
         setupBackButtons();
         setupAddButton();
+        setupScoringSystemStuff();
 
         loadBrandList();
     }
@@ -95,6 +97,14 @@ public class EditTournament implements Initializable {
         carPickerBackButton.setVisible(true);
     }
 
+    private void setupScoringSystemStuff() {
+        pointsSystemComboBox.setOnAction(_ -> {
+            if (pointsSystemComboBox.getValue() != null) {
+                editScoringSystemButton.setVisible(true);
+            }
+        });
+    }
+
     private void loadBrandList() {
         ObservableList<String> list = AppData.getBrandList();
         brandList.setItems(list);
@@ -108,6 +118,19 @@ public class EditTournament implements Initializable {
                 }
             }
         });
+    }
+
+    @FXML
+    private void showAddScoringSystem() throws IOException {
+        ScoringSystemModel model = new ScoringSystemModel();
+        Dialog<ScoringSystemModel> dialog = createScoringSystemDialog(model);
+        handleScoringSystemDialogResult(dialog.showAndWait());
+    }
+
+    @FXML
+    private void showEditScoringSystem() throws IOException {
+        ScoringSystemModel selectedSystem = pointsSystemComboBox.getValue();
+        Dialog<ScoringSystemModel> dialog = createScoringSystemDialog(selectedSystem);
     }
 
     private void setupAddButton() {
@@ -280,6 +303,37 @@ public class EditTournament implements Initializable {
         }
 
         return true;
+    }
+
+    private Dialog<ScoringSystemModel> createScoringSystemDialog(ScoringSystemModel model) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("controls/scoring-system.fxml"));
+        VBox formPane = loader.load();
+        ScoringSystem scoringSystem = loader.getController();
+        scoringSystem.setData(model);
+
+        String dialogMode = Objects.equals(scoringSystem.getName(), "") ? "New" : "Edit"; // El modelo tendra un campo name
+        Dialog<ScoringSystemModel> dialog = new Dialog<>();
+        dialog.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialog");
+        dialog.setTitle(dialogMode + " Scoring System");
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+        Button closebutton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CLOSE);
+        closebutton.setOnAction(_ -> dialog.setResult(null));
+        closebutton.setPrefSize(1, 1);
+        closebutton.setVisible(false);
+
+        dialog.getDialogPane().setContent(formPane);
+        scoringSystem.setDialog(dialog);
+
+        return dialog;
+    }
+
+    private <T> void handleScoringSystemDialogResult(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> result) {
+        //noinspection OptionalGetWithoutIsPresent
+        if (result.get() instanceof ScoringSystemModel) {
+            System.out.println("submit bien");
+        }
     }
 
 
