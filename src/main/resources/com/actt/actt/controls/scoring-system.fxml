@@ -4,21 +4,57 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.actt.actt.controls.ScoringSystem">
+<VBox prefHeight="527.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.actt.actt.controls.ScoringSystem">
    <children>
-      <AnchorPane prefHeight="399.0" prefWidth="600.0">
+      <AnchorPane prefHeight="651.0" prefWidth="602.0">
          <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Class Scoring System">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Label>
-            <Label contentDisplay="TEXT_ONLY" layoutX="14.0" layoutY="52.0" prefHeight="50.0" prefWidth="588.0" text="Click the button to add scoring positions, and type the points that each finishing position scores in their text box" wrapText="true">
+            <Label contentDisplay="TEXT_ONLY" layoutX="14.0" layoutY="14.0" prefHeight="50.0" prefWidth="588.0" text="Click the button to add scoring positions, and type the points that each finishing position scores in their text box" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button layoutX="255.0" layoutY="187.0" mnemonicParsing="false" onAction="#submit" text="Button" />
+            <HBox layoutX="13.0" layoutY="97.0" prefHeight="25.0" prefWidth="576.0" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#addPosition" prefHeight="25.0" prefWidth="282.0" styleClass="button--blue-border" text="Add position" />
+                  <Button mnemonicParsing="false" onAction="#removePosition" prefHeight="25.0" prefWidth="282.0" styleClass="button--blue-border" text="Remove position" />
+               </children>
+            </HBox>
+            <GridPane fx:id="grid" layoutX="14.0" layoutY="135.0" prefHeight="494.0" prefWidth="576.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" prefWidth="287.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="10.0" prefWidth="289.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+               </children>
+            </GridPane>
+            <Button onAction="#submit" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="576.0" styleClass="button--blue-border" text="Save" />
          </children>
       </AnchorPane>
    </children>

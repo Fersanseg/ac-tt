@@ -332,7 +332,7 @@ public class EditTournament implements Initializable {
     private <T> void handleScoringSystemDialogResult(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> result) {
         //noinspection OptionalGetWithoutIsPresent
         if (result.get() instanceof ScoringSystemModel) {
-            System.out.println("submit bien");
+
         }
     }
 
