@@ -31,17 +31,6 @@
          </Button>
       </children>
    </HBox>
-   <Button fx:id="addScoringSystemButton" onAction="#showAddScoringSystem" layoutX="40.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Add scoring system">
-      <font>
-         <Font size="16.0" />
-      </font>
-   </Button>
-   <ComboBox fx:id="pointsSystemComboBox" layoutX="223.0" layoutY="104.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="425.0" styleClass="dropdown" />
-   <Button fx:id="editScoringSystemButton" onAction="#showEditScoringSystem" layoutX="658.0" layoutY="104.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="button--blue-border" text="Edit scoring system">
-      <font>
-         <Font size="16.0" />
-      </font>
-   </Button>
    <AnchorPane layoutX="40.0" layoutY="156.0" prefHeight="610.0" prefWidth="774.0">
       <children>
          <Label layoutY="8.0" text="Car classes">
@@ -55,23 +44,29 @@
                <String fx:value="button__round" />
             </styleClass>
          </Button>
-         <ScrollPane hbarPolicy="NEVER" layoutY="67.0" prefHeight="543.0" prefWidth="788.0" styleClass="car-list-background">
+         <ScrollPane hbarPolicy="NEVER" layoutY="67.0" prefHeight="543.0" prefWidth="864.0" styleClass="car-list-background">
             <content>
-               <VBox fx:id="carClassesContainer" prefHeight="491.0" prefWidth="788.0">
+               <VBox fx:id="carClassesContainer" prefHeight="491.0" prefWidth="864.0">
                </VBox>
             </content>
          </ScrollPane>
-         <TextField fx:id="tournamentName" layoutX="277.0" layoutY="13.0" prefHeight="40.0" prefWidth="503.0" promptText="Tournament name" style="-fx-text-fill: white;">
+         <ComboBox fx:id="pointsSystemComboBox" layoutX="270.0" layoutY="13.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="425.0" styleClass="dropdown" />
+         <Button fx:id="editScoringSystemButton" layoutX="796.0" layoutY="13.0" mnemonicParsing="false" onAction="#showEditScoringSystem" prefHeight="40.0" prefWidth="52.0" styleClass="button--blue-border" text="Edit">
             <font>
                <Font size="16.0" />
             </font>
-         </TextField>
+         </Button>
+         <Button fx:id="addScoringSystemButton" layoutX="721.0" layoutY="13.0" mnemonicParsing="false" onAction="#showAddScoringSystem" prefHeight="40.0" prefWidth="58.0" styleClass="button--blue-border" text="Add">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </Button>
       </children>
    </AnchorPane>
-   <AnchorPane fx:id="carPickerContainer" layoutX="862.0" layoutY="17.0" prefHeight="749.0" prefWidth="696.0" visible="false">
+   <AnchorPane fx:id="carPickerContainer" layoutX="937.0" layoutY="26.0" prefHeight="749.0" prefWidth="620.0" visible="false">
       <children>
          <Button fx:id="carPickerBackButton" contentDisplay="GRAPHIC_ONLY" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="58.0" styleClass="button__back" text="Button" visible="false" />
-         <Label fx:id="carPickerClassName" layoutX="113.0" layoutY="14.0" prefHeight="58.0" prefWidth="563.0" text="Label">
+         <Label fx:id="carPickerClassName" layoutX="113.0" layoutY="14.0" prefHeight="58.0" prefWidth="402.0" text="Label">
             <font>
                <Font size="32.0" />
             </font>
@@ -86,15 +81,20 @@
                <Font size="16.0" />
             </font>
          </TextField>
-         <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="156.0" prefHeight="593.0" prefWidth="671.0" styleClass="car-list-background">
+         <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="156.0" prefHeight="593.0" prefWidth="595.0" styleClass="car-list-background">
             <content>
-               <ListView fx:id="carList" prefHeight="589.0" prefWidth="669.0" styleClass="car-list-background" />
+               <ListView fx:id="carList" prefHeight="589.0" prefWidth="593.0" styleClass="car-list-background" />
             </content>
          </ScrollPane>
-         <ScrollPane fx:id="brandListContainer" layoutX="14.0" layoutY="156.0" prefHeight="593.0" prefWidth="671.0" styleClass="car-list-background">
+         <ScrollPane fx:id="brandListContainer" layoutX="14.0" layoutY="156.0" prefHeight="593.0" prefWidth="595.0" styleClass="car-list-background">
             <content>
-               <ListView fx:id="brandList" prefHeight="589.0" prefWidth="669.0" styleClass="car-list-background" />
+               <ListView fx:id="brandList" prefHeight="589.0" prefWidth="593.0" styleClass="car-list-background" />
             </content>
          </ScrollPane>
       </children></AnchorPane>
+   <TextField fx:id="tournamentName" layoutX="40.0" layoutY="100.0" prefHeight="40.0" prefWidth="503.0" promptText="Tournament name" style="-fx-text-fill: white;">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </TextField>
 </AnchorPane>

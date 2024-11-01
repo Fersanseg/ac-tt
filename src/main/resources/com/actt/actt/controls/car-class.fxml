@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root prefHeight="154.0" prefWidth="788.0" style="-fx-background-color: #29292b;" type="AnchorPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="154.0" prefWidth="864.0" style="-fx-background-color: #29292b;" type="AnchorPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Separator prefHeight="3.0" prefWidth="788.0" />
+      <Separator prefHeight="3.0" prefWidth="864.0" />
       <TextField fx:id="carClassName" layoutX="14.0" layoutY="14.0" style="-fx-text-fill: AZURE;" text="car class">
          <font>
             <Font size="16.0" />
