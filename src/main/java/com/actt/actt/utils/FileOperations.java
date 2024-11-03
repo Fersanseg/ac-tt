@@ -29,6 +29,7 @@ public class FileOperations {
     private static final String APP_BUTTON_TEXT = "App Path";
     private static final String CONFIG_FILENAME = "config.json";
     private static final String CONFIG_PATH = String.valueOf(Path.of(System.getenv("LOCALAPPDATA"), "AC Tournament Manager"));
+    private static final String POINTS_FOLDER = "points";
     private static AppConfig appConfig;
 
     public static void checkAppConfig() throws IOException {
@@ -71,7 +72,7 @@ public class FileOperations {
 
     public static void showConfigDialog(boolean killOnExit) throws IOException {
         Dialog<ButtonType> dialog = showInitialConfigDialog(killOnExit);
-        SaveConfig(dialog, Path.of(CONFIG_PATH).resolve(Path.of(CONFIG_FILENAME)));
+        saveConfig(dialog, Path.of(CONFIG_PATH).resolve(Path.of(CONFIG_FILENAME)));
     }
 
     public static FileInputStream getLogFile() throws IOException {
@@ -120,6 +121,16 @@ public class FileOperations {
         mapper.writeValue(new File(String.valueOf(absoluteFilePath)), settings);
     }
 
+    public static File[] getPointSystems() throws IOException {
+        Path pointsPath = Path.of(CONFIG_PATH).resolve(POINTS_FOLDER);
+        if (!Files.exists(pointsPath)) {
+            Files.createDirectory(pointsPath);
+        }
+
+        File pointsFolder = new File(String.valueOf(pointsPath));
+        return pointsFolder.listFiles();
+    }
+
     private static void setAppConfig(AppConfig config) {
         appConfig = config;
     }
@@ -131,6 +142,7 @@ public class FileOperations {
         setAppConfig(json);
     }
 
+
     private static String getLogFileName() {
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         String year = String.valueOf(ts.toLocalDateTime().getYear());
@@ -140,7 +152,7 @@ public class FileOperations {
     }
 
     private static Dialog<ButtonType> showInitialConfigDialog(boolean killOnExit) {
-        Dialog<ButtonType> dialog = CreateInitialConfigDialog();
+        Dialog<ButtonType> dialog = createInitialConfigDialog();
         Optional<ButtonType> res = dialog.showAndWait();
         if (killOnExit && (res.isEmpty() || res.get().getButtonData() != ButtonBar.ButtonData.OK_DONE)) {
             System.exit(1);
@@ -149,7 +161,7 @@ public class FileOperations {
         return dialog;
     }
 
-    private static Dialog<ButtonType> CreateInitialConfigDialog() {
+    private static Dialog<ButtonType> createInitialConfigDialog() {
         double dialogWidth = 700;
         String defaultAppPath = FileSystemView.getFileSystemView().getDefaultDirectory().toString().replace("/", "\\") + "\\AC Tournament Manager";
         String defaultAcPath = (System.getenv("ProgramFiles(x86)") + "/Steam/steamapps/common/assettocorsa").replace("/", "\\");
@@ -181,11 +193,11 @@ public class FileOperations {
         return dialog;
     }
 
-    private static void SaveConfig(Dialog<ButtonType> dialog, Path saveToPath) throws IOException {
+    private static void saveConfig(Dialog<ButtonType> dialog, Path saveToPath) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         List<DirectoryPicker> dirPickers = GetNodesByType(dialog.getDialogPane(), DirectoryPicker.class);
-        String acDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, AC_BUTTON_TEXT)).getPath();
-        String appDirPath = Objects.requireNonNull(GetDirPickerByText(dirPickers, APP_BUTTON_TEXT)).getPath();
+        String acDirPath = Objects.requireNonNull(getDirPickerByText(dirPickers, AC_BUTTON_TEXT)).getPath();
+        String appDirPath = Objects.requireNonNull(getDirPickerByText(dirPickers, APP_BUTTON_TEXT)).getPath();
         Path pathAppDirPath = Path.of(appDirPath);
 
         if (appConfig == null)
@@ -200,7 +212,7 @@ public class FileOperations {
         }
     }
 
-    private static DirectoryPicker GetDirPickerByText(List<DirectoryPicker> dirPickers, String buttonText) {
+    private static DirectoryPicker getDirPickerByText(List<DirectoryPicker> dirPickers, String buttonText) {
         return dirPickers != null
                 ? dirPickers.stream()
                     .filter(p -> Objects.equals(p.getButton().getText(), buttonText))
@@ -221,12 +233,10 @@ public class FileOperations {
         System.exit(1);
     }
 
-    // When the selected AC installation path changes, validates it as a correct AC installation
     private static final EventHandler<DirectoryChosenEvent> onACPathPicked = event -> {
         File dir = event.getDirectory();
         File acExe = new File(dir, "AssettoCorsa.exe");
         if (!acExe.exists()) {
-            // TODO validate and show error msg if not AC installation directory
             System.out.println("Invalid Assetto Corsa installation directory!");
         }
     };

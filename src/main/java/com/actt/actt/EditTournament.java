@@ -9,6 +9,9 @@ import com.actt.actt.models.CarClassSettings;
 import com.actt.actt.models.ScoringSystemModel;
 import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -16,7 +19,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -27,6 +29,7 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -52,6 +55,7 @@ public class EditTournament implements Initializable {
 
     private SceneController sceneController;
     private Debouncer<ObservableList<Car>> searchDebouncer;
+    private ObservableList<ScoringSystemModel> pointsSystems;
 
     private final EventHandler<ActionEvent> onAddClass = _ -> addClass();
 
@@ -70,7 +74,11 @@ public class EditTournament implements Initializable {
         });
         setupBackButtons();
         setupAddButton();
-        setupScoringSystemStuff();
+        try {
+            setupScoringSystemStuff();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         loadBrandList();
     }
@@ -97,12 +105,29 @@ public class EditTournament implements Initializable {
         carPickerBackButton.setVisible(true);
     }
 
-    private void setupScoringSystemStuff() {
+    private void setupScoringSystemStuff() throws IOException {
         pointsSystemComboBox.setOnAction(_ -> {
             if (pointsSystemComboBox.getValue() != null) {
                 editScoringSystemButton.setVisible(true);
             }
         });
+
+        pointsSystems = FXCollections.observableArrayList();
+        var fs = FileOperations.getPointSystems();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        for (File f : fs) {
+            try {
+                ScoringSystemModel model = mapper.readValue(f, ScoringSystemModel.class);
+                if (model.isValid()) {
+                    pointsSystems.add(model);
+                }
+            }
+            catch (Exception _) {
+
+            }
+        }
     }
 
     private void loadBrandList() {

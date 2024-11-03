@@ -19,4 +19,10 @@ public class ScoringSystemModel {
     public void setPoints(int[] points) {
         this.points = points;
     }
+
+    public boolean isValid() {
+        boolean validPoints = getPoints() != null && getPoints().length != 0;
+        boolean validName = getName() != null && !getName().isEmpty();
+        return validPoints && validName;
+    }
 }
