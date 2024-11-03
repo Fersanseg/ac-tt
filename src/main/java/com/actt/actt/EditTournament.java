@@ -202,7 +202,9 @@ public class EditTournament implements Initializable {
     private void addCarToClass(Car car) {
         String carClassName = carPickerClassName.getText();
         CarClass carClass = findCarClassByName(carClassName);
-        carClass.addCar(car);
+        if (!carClass.carsList.getItems().stream().map(Car::getName).toList().contains(car.getName())) {
+            carClass.addCar(car);
+        }
     }
 
     private void onDeleteClass(SendDataEvent ev) {
@@ -235,7 +237,6 @@ public class EditTournament implements Initializable {
         List<Task<Boolean>> checkTasks = new ArrayList<>();
         checkTasks.add(Utils.makeFunctionAsync(this::checkTournamentName));
         checkTasks.add(Utils.makeFunctionAsync(this::checkNoEmptyClasses));
-        checkTasks.add(Utils.makeFunctionAsync(this::checkNoRepeatedCars));
         /*checkTasks.add(Utils.makeFunctionAsync(this::checkPointScoring));*/
 
         var results = Utils.waitAllTasks(checkTasks);
@@ -256,6 +257,8 @@ public class EditTournament implements Initializable {
         if (!failed) {
             TournamentSettings tournamentSettings = createTournamentSettingsModel();
             FileOperations.saveTournamentSettings(tournamentSettings);
+
+            goHome();
         }
     }
 
@@ -280,30 +283,39 @@ public class EditTournament implements Initializable {
     }
 
     private boolean checkTournamentName() {
-        return !tournamentName.getText().isEmpty() && tournamentName.getText() != null;
+        boolean valid = !tournamentName.getText().isEmpty() && tournamentName.getText() != null;
+        if (!valid) {
+            tournamentName.getStyleClass().add("text-field-error");
+        }
+        else tournamentName.getStyleClass().remove("text-field-error");
+
+        return valid;
     }
 
     private boolean checkNoEmptyClasses() {
         var carClasses = carClassesContainer.getChildren();
-        return carClasses.stream().noneMatch(c -> ((CarClass) c).carsList.getItems().isEmpty());
-    }
-
-    private boolean checkNoRepeatedCars() {
-        var carClasses = carClassesContainer.getChildren();
-        for (Node node : carClasses) {
-            CarClass carClass = (CarClass) node;
-            List<String> carNames = new ArrayList<>();
-
-            for (Car car : carClass.carsList.getItems()) {
-                if (carNames.contains(car.getName())) {
-                    return false;
-                }
-
-                carNames.add(car.getName());
+        var emptyClasses = carClasses
+                .stream()
+                .filter(c -> ((CarClass) c).carsList.getItems().isEmpty())
+                .map(c -> (CarClass)c)
+                .toList();
+        boolean valid = emptyClasses.isEmpty();
+        if (!valid) {
+            for (CarClass carClass : emptyClasses) {
+                carClass.carClassName.getStyleClass().remove("text-color-normal");
+                carClass.carClassName.getStyleClass().add("text-color-error");
+                carClass.carClassName.getStyleClass().add("text-field-error");
+            }
+        }
+        else {
+            for (var carClass : carClasses) {
+                ((CarClass)carClass).carClassName.getStyleClass().remove("text-color-error");
+                ((CarClass)carClass).carClassName.getStyleClass().remove("text-field-error");
+                ((CarClass)carClass).carClassName.getStyleClass().add("text-color-normal");
             }
         }
 
-        return true;
+        return valid;
     }
 
     private Dialog<ScoringSystemModel> createScoringSystemDialog(ScoringSystemModel model) throws IOException {

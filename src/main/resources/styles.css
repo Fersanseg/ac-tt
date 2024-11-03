@@ -282,3 +282,16 @@
     -fx-border-radius: 0;
     -fx-border-color: #333336;
 }
+
+.text-field-error {
+    -fx-border-color: red;
+    -fx-border-width: 2;
+}
+
+.text-color-error {
+    -fx-text-fill: red;
+}
+
+.text-color-normal {
+    -fx-text-fill: azure;
+}
