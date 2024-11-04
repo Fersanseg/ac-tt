@@ -3,6 +3,7 @@ package com.actt.actt.utils;
 import com.actt.actt.controls.DirectoryPicker;
 import com.actt.actt.events.DirectoryChosenEvent;
 import com.actt.actt.models.AppConfig;
+import com.actt.actt.models.ScoringSystemModel;
 import com.actt.actt.models.TournamentSettings;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.EventHandler;
@@ -129,6 +130,19 @@ public class FileOperations {
 
         File pointsFolder = new File(String.valueOf(pointsPath));
         return pointsFolder.listFiles();
+    }
+
+    public static void savePointsSystem(ScoringSystemModel model) throws IOException {
+        Path pointsPath = Path.of(CONFIG_PATH).resolve(POINTS_FOLDER);
+        if (!Files.exists(pointsPath)) {
+            Files.createDirectory(pointsPath);
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        String fileName = model.getName() + ".json";
+        File file = new File(pointsPath + "\\" + fileName);
+
+        mapper.writeValue(file, model);
     }
 
     private static void setAppConfig(AppConfig config) {

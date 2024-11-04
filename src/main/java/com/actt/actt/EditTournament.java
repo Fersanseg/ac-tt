@@ -157,6 +157,7 @@ public class EditTournament implements Initializable {
     private void showEditScoringSystem() throws IOException {
         ScoringSystemModel selectedSystem = pointsSystemComboBox.getValue();
         Dialog<ScoringSystemModel> dialog = createScoringSystemDialog(selectedSystem);
+        // TODO
     }
 
     private void setupAddButton() {
@@ -367,11 +368,14 @@ public class EditTournament implements Initializable {
         return dialog;
     }
 
-    private <T> void handleScoringSystemDialogResult(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> result) {
+    private <T> void handleScoringSystemDialogResult(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> result) throws IOException {
         //noinspection OptionalGetWithoutIsPresent
         if (result.get() instanceof ScoringSystemModel model) {
             System.out.println("TOURNAMENT NAME: " + model.getName());
             System.out.println("POINTS: " + Arrays.toString(model.getPoints()));
+
+            FileOperations.savePointsSystem(model);
+            // TODO refetch point systems files, add them to the combobox, then mark the result here as selected in the cb
         }
     }
 
