@@ -126,14 +126,16 @@
  * Dialog                                                                      *
  *                                                                             *
  ******************************************************************************/
- .dialog * {
+ .dialog  {
     -fx-background-color: #29292b;
     -fx-text-fill: white;
 }
 
 .dialog .text-field {
     -fx-border-color: #3333f5;
+    -fx-background-color: #333336;
     -fx-border-radius: 6;
+    -fx-text-fill: white;
 }
 
 .dialog .text-field .no-border-radius {
