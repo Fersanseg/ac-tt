@@ -45,6 +45,14 @@
     -fx-border-radius: 6;
 }
 
+.button--cancel {
+    -fx-background-color: #820514;
+    -fx-background-radius: 6;
+}
+.button--cancel:hover {
+    -fx-background-color: #610510;
+}
+
 .no-border {
     -fx-border-color: transparent;
 }

@@ -1,19 +1,18 @@
 package com.actt.actt.controls;
 
 import com.actt.actt.models.ScoringSystemModel;
+import com.actt.actt.utils.FileOperations;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ScoringSystem extends VBox {
     private final int MAX_ITEMS_PER_COLUMN = 25;
@@ -113,7 +112,34 @@ public class ScoringSystem extends VBox {
         model.setName(pointsSystemName.getText());
         model.setPoints(points);
 
+        if (!checkExistingFile(model.getName())) {
+            return;
+        }
+
         dialog.setResult(model);
         dialog.close();
+    }
+
+    private boolean checkExistingFile(String fileName) {
+        if (!FileOperations.checkPointsFileExists(fileName)) {
+            return true;
+        }
+
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        Dialog<ButtonType> overwriteDialog = new Dialog<>();
+        overwriteDialog.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
+        overwriteDialog.getDialogPane().getStyleClass().add("dialog");
+        overwriteDialog.setTitle("Overwrite?");
+        overwriteDialog.getDialogPane().setContent(new Label("A scoring system with the same name already exists. " +
+                "Do you want to overwrite it?"));
+        overwriteDialog.getDialogPane().getButtonTypes().add(yesButton);
+        overwriteDialog.getDialogPane().getButtonTypes().add(noButton);
+
+        overwriteDialog.getDialogPane().lookupButton(yesButton).getStyleClass().add("button--blue-border");
+        overwriteDialog.getDialogPane().lookupButton(noButton).getStyleClass().add("button--cancel");
+
+        var r = overwriteDialog.showAndWait();
+        return r.isPresent() && r.get().getButtonData() == ButtonBar.ButtonData.YES;
     }
 }

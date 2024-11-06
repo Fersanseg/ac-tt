@@ -145,6 +145,12 @@ public class FileOperations {
         mapper.writeValue(file, model);
     }
 
+    public static boolean checkPointsFileExists(String fileName) {
+        Path pointsPath = Path.of(CONFIG_PATH).resolve(POINTS_FOLDER);
+        String fullFileName = "\\" + fileName + ".json";
+        return Files.exists(Path.of(pointsPath + fullFileName));
+    }
+
     private static void setAppConfig(AppConfig config) {
         appConfig = config;
     }
