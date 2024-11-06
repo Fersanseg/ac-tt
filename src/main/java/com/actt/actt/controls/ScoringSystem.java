@@ -4,6 +4,7 @@ import com.actt.actt.models.ScoringSystemModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,7 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScoringSystem extends VBox {
     private final int MAX_ITEMS_PER_COLUMN = 25;
@@ -19,9 +21,11 @@ public class ScoringSystem extends VBox {
     private Dialog<ScoringSystemModel> dialog;
 
     public GridPane grid;
+    public TextField pointsSystemName;
+    public Button addButton;
 
     private int counter = 0;
-    private final Stack<TextField> tfStack = new Stack<>();
+    private final List<TextField> tfStack = new ArrayList<>();
 
     public void setDialog(Dialog<ScoringSystemModel> dialog) {
         this.dialog = dialog;
@@ -50,7 +54,7 @@ public class ScoringSystem extends VBox {
         });
         tf.setPadding(new Insets(0.5, 0.5, 0.5, 4.5));
         tf.setPrefWidth(50);
-        tfStack.push(tf);
+        tfStack.add(tf);
 
         Label posLabel = new Label(String.valueOf(counter));
         HBox hbox =  new HBox();
@@ -78,7 +82,7 @@ public class ScoringSystem extends VBox {
         int row = counter >= MAX_ITEMS_PER_COLUMN ? (counter - MAX_ITEMS_PER_COLUMN) : (counter);
 
         if (grid.getChildren().removeIf(i -> GridPane.getRowIndex(i) == row && GridPane.getColumnIndex(i) == col)) {
-            tfStack.pop();
+            tfStack.removeLast();
         }
     }
 
@@ -86,8 +90,27 @@ public class ScoringSystem extends VBox {
     private void submit() {
         int[] points = new int[tfStack.size()];
         for (int i = tfStack.size() - 1; i >= 0 ; i--) {
-            points[i] = Integer.parseInt(tfStack.pop().getText());
+            points[i] = Integer.parseInt(tfStack.get(i).getText());
         }
+
+        boolean valid = true;
+        if (pointsSystemName.getText().isEmpty()) {
+            pointsSystemName.getStyleClass().add("text-field-error");
+            valid = false;
+        }
+        else pointsSystemName.getStyleClass().remove("text-field-error");
+
+        if (points.length == 0) {
+            addButton.getStyleClass().add("text-field-error");
+            valid = false;
+        }
+        else addButton.getStyleClass().remove("text-field-error");
+
+        if (!valid) {
+            return;
+        }
+
+        model.setName(pointsSystemName.getText());
         model.setPoints(points);
 
         dialog.setResult(model);
