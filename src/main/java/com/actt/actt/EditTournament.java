@@ -2,6 +2,7 @@ package com.actt.actt;
 
 import com.actt.actt.controls.CarClass;
 import com.actt.actt.controls.CarListCell;
+import com.actt.actt.controls.PointsSystemCell;
 import com.actt.actt.controls.ScoringSystem;
 import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
@@ -28,6 +29,7 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.StringConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -111,8 +113,27 @@ public class EditTournament implements Initializable {
                 editScoringSystemButton.setVisible(true);
             }
         });
+        pointsSystemComboBox.setCellFactory(_ -> new PointsSystemCell());
+        pointsSystemComboBox.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(ScoringSystemModel model) {
+                return model == null ? "" : model.getName();
+            }
 
+            @Override
+            public ScoringSystemModel fromString(String s) {
+                var model = new ScoringSystemModel();
+                model.setName(s);
+                return model;
+            }
+        });
+
+        refreshPointsComboBox();
+    }
+
+    private void refreshPointsComboBox() throws IOException {
         pointsSystems = FXCollections.observableArrayList();
+
         var fs = FileOperations.getPointSystems();
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -128,6 +149,8 @@ public class EditTournament implements Initializable {
 
             }
         }
+
+        pointsSystemComboBox.setItems(pointsSystems);
     }
 
     private void loadBrandList() {
@@ -371,10 +394,9 @@ public class EditTournament implements Initializable {
     private <T> void handleScoringSystemDialogResult(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> result) throws IOException {
         //noinspection OptionalGetWithoutIsPresent
         if (result.get() instanceof ScoringSystemModel model) {
-            System.out.println("TOURNAMENT NAME: " + model.getName());
-            System.out.println("POINTS: " + Arrays.toString(model.getPoints()));
-
             FileOperations.savePointsSystem(model);
+            refreshPointsComboBox();
+            pointsSystemComboBox.setValue(model);
             // TODO refetch point systems files, add them to the combobox, then mark the result here as selected in the cb
         }
     }
