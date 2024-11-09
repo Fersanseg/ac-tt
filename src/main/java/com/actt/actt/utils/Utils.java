@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 public class Utils {
@@ -61,5 +62,9 @@ public class Utils {
         var futures = executorService.invokeAll(callables);
         executorService.shutdown();
         return futures;
+    }
+
+    public static String getRandomID() {
+        return UUID.randomUUID().toString().substring(0, 8);
     }
 }

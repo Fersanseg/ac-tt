@@ -139,7 +139,7 @@ public class FileOperations {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        String fileName = model.getName() + ".json";
+        String fileName = model.getId() + ".json";
         File file = new File(pointsPath + "\\" + fileName);
 
         mapper.writeValue(file, model);
