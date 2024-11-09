@@ -173,6 +173,7 @@
     -fx-font-size: 16;
 }
 
+.placeholder-value .list-cell,
 .dropdown__placeholder-value .list-cell {
     -fx-border-radius: 6;
     -fx-text-fill: grey;

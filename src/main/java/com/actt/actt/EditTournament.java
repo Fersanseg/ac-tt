@@ -108,8 +108,10 @@ public class EditTournament implements Initializable {
     }
 
     private void setupScoringSystemStuff() throws IOException {
+        pointsSystemComboBox.getStyleClass().add("placeholder-value");
         pointsSystemComboBox.setOnAction(_ -> {
             if (pointsSystemComboBox.getValue() != null) {
+                pointsSystemComboBox.getStyleClass().remove("placeholder-value");
                 editScoringSystemButton.setVisible(true);
             }
         });
@@ -286,7 +288,7 @@ public class EditTournament implements Initializable {
         List<Task<Boolean>> checkTasks = new ArrayList<>();
         checkTasks.add(Utils.makeFunctionAsync(this::checkTournamentName));
         checkTasks.add(Utils.makeFunctionAsync(this::checkNoEmptyClasses));
-        /*checkTasks.add(Utils.makeFunctionAsync(this::checkPointScoring));*/
+        checkTasks.add(Utils.makeFunctionAsync(this::checkPointScoring));
 
         var results = Utils.waitAllTasks(checkTasks);
         boolean failed = results.stream().anyMatch(t -> {
@@ -364,6 +366,17 @@ public class EditTournament implements Initializable {
             }
         }
 
+        return valid;
+    }
+
+    private boolean checkPointScoring() {
+        boolean valid = pointsSystemComboBox.getValue() != null;
+        if (!valid) {
+            pointsSystemComboBox.getStyleClass().add("text-field-error");
+        }
+        else {
+            pointsSystemComboBox.getStyleClass().remove("text-field-error");
+        }
         return valid;
     }
 

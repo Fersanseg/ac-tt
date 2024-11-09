@@ -50,8 +50,8 @@
                </VBox>
             </content>
          </ScrollPane>
-         <ComboBox fx:id="pointsSystemComboBox" layoutX="270.0" layoutY="13.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="425.0" styleClass="dropdown" />
-         <Button fx:id="editScoringSystemButton" layoutX="796.0" layoutY="13.0" mnemonicParsing="false" onAction="#showEditScoringSystem" prefHeight="40.0" prefWidth="52.0" styleClass="button--blue-border" text="Edit">
+         <ComboBox fx:id="pointsSystemComboBox" layoutX="270.0" layoutY="13.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="425.0" promptText="Select a point scoring system" styleClass="dropdown" />
+         <Button fx:id="editScoringSystemButton" layoutX="796.0" layoutY="13.0" mnemonicParsing="false" onAction="#showEditScoringSystem" prefHeight="40.0" prefWidth="52.0" styleClass="button--blue-border" text="Edit" visible="false">
             <font>
                <Font size="16.0" />
             </font>
