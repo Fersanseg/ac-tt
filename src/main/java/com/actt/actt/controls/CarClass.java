@@ -1,5 +1,6 @@
 package com.actt.actt.controls;
 
+import com.actt.actt.controls.cellFactories.CarListCell;
 import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
 import com.actt.actt.utils.Utils;

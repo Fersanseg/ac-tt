@@ -35,4 +35,20 @@ public class SceneController {
 
         return controller;
     }
+
+    public void showHomeScene(Stage stage, String tournamentName) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneResources.get(SCENES.MAIN)));
+        Parent root = loader.load();
+
+        var controller = loader.getController();
+
+        if (controller instanceof MainController && !tournamentName.isEmpty()) {
+            ((MainController) controller).setTournamentsList(tournamentName);
+        }
+
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("styles.css");
+        stage.setScene(scene);
+    }
 }

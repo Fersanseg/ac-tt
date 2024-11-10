@@ -3,9 +3,12 @@ package com.actt.actt;
 import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
 import com.actt.actt.events.SendDataEvent;
+import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.AppData;
 import com.actt.actt.utils.FileOperations;
 import com.actt.actt.utils.Logger;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,9 +18,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -34,17 +40,12 @@ public class MainController implements Initializable {
 
     @FXML
     private HeaderButtonBar headerButtonBar;
-    private ObservableList<String> tournamentsList = FXCollections.observableArrayList(
-            "2024 WEC",
-            "2001 Formula One World Championship",
-            "1980 BMW M1 Procar Championship"
-    );
+    private ObservableList<TournamentSettings> tournamentsList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         sceneController = new SceneController();
 
-        tournamentsComboBox.setItems(tournamentsList);
         tournamentsComboBox.setPrefWidth(600);
         tournamentsComboBox.setPrefHeight(50);
 
@@ -67,6 +68,44 @@ public class MainController implements Initializable {
         }
     }
 
+    public void setTournamentsList(String name) throws IOException {
+        File[] tournamentsFolders = FileOperations.getTournaments();
+        ObjectMapper mapper = new ObjectMapper();
+        TournamentSettings objToSelect = null;
+        ObservableList<TournamentSettings> tournamentList = FXCollections.observableArrayList();
+
+        AppData.setTournamentFolders(tournamentsFolders);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        tournamentsComboBox.getItems().clear();
+        tournamentsComboBox.setValue(null);
+
+
+        for (var folder : tournamentsFolders) {
+            Optional<File> configOpt = Arrays.stream(folder.listFiles(f -> f.getName().equals("config.json"))).findFirst();
+            if (configOpt.isEmpty()) {
+                continue;
+            }
+
+            File config = configOpt.get();
+            try {
+                TournamentSettings settings = mapper.readValue(config, TournamentSettings.class);
+                if (settings.getName().equals(name)) {
+                    objToSelect = settings;
+                }
+
+                tournamentList.add(settings);
+            }
+            catch (Exception _) {
+
+            }
+        }
+
+        tournamentsComboBox.setItems(tournamentList);
+        if (objToSelect != null) {
+            tournamentsComboBox.setValue(objToSelect);
+        }
+    }
+
     @FXML
     protected void onHelloButtonClick() {
         if (Objects.equals(welcomeText.getText(), "")) {
@@ -79,7 +118,7 @@ public class MainController implements Initializable {
 
     @FXML
     protected void onDropdownSelect(ActionEvent ev) {
-        String selectedTournament = ((Dropdown)ev.getTarget()).getValue();
+        String selectedTournament = ((Dropdown)ev.getTarget()).getValue().getName();
         System.out.println("SELECTED TOURNAMENT: " + selectedTournament);
     }
 

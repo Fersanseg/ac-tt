@@ -132,6 +132,13 @@ public class FileOperations {
         return pointsFolder.listFiles();
     }
 
+    public static File[] getTournaments() {
+        String tourneysPath = appConfig.getAppPath();
+        File tourneysFolder = new File(tourneysPath);
+
+        return tourneysFolder.listFiles();
+    }
+
     public static void savePointsSystem(ScoringSystemModel model) throws IOException {
         Path pointsPath = Path.of(CONFIG_PATH).resolve(POINTS_FOLDER);
         if (!Files.exists(pointsPath)) {

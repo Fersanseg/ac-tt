@@ -18,6 +18,7 @@ public class AppData {
     private static ObservableList<Car> cars;
     private static ObservableList<String> brands;
     private static Map<String, ObservableList<Car>> carsByBrand;
+    private static File[] tournamentFolders;
 
     public static ObservableList<Car> getCarList() throws IOException {
         if (cars == null) {
@@ -144,5 +145,13 @@ public class AppData {
         }
 
         carsByBrand = aux;
+    }
+
+    public static File[] getTournamentFolders() {
+        return tournamentFolders;
+    }
+
+    public static void setTournamentFolders(File[] tournamentFolders) {
+        AppData.tournamentFolders = tournamentFolders;
     }
 }

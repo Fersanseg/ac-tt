@@ -1,13 +1,13 @@
-package com.actt.actt.controls;
+package com.actt.actt.controls.cellFactories;
 
-import com.actt.actt.models.ScoringSystemModel;
+import com.actt.actt.models.TournamentSettings;
 import javafx.scene.control.ListCell;
 
-public class PointsSystemCell extends ListCell<ScoringSystemModel> {
-    public PointsSystemCell() {}
+public class TournamentCell extends ListCell<TournamentSettings> {
+    public TournamentCell() {}
 
     @Override
-    protected void updateItem(ScoringSystemModel item, boolean empty) {
+    protected void updateItem(TournamentSettings item, boolean empty) {
         super.updateItem(item, empty);
         if (empty || item == null) {
             setText(null);

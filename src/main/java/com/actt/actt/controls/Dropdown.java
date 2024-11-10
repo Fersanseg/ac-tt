@@ -1,16 +1,18 @@
 package com.actt.actt.controls;
 
+import com.actt.actt.controls.cellFactories.TournamentCell;
+import com.actt.actt.models.TournamentSettings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 
-public class Dropdown extends ComboBox<String>  {
+public class Dropdown extends ComboBox<TournamentSettings>  {
     @FXML
-    private String defaultValue;
     private final EventHandler<ActionEvent> onSelectedValue = _ -> getStyleClass().remove("dropdown__placeholder-value");
 
     public Dropdown() {
@@ -23,6 +25,20 @@ public class Dropdown extends ComboBox<String>  {
         getStyleClass().add("dropdown__placeholder-value");
         fxmlLoader.setController(this);
         addEventHandler(ActionEvent.ACTION, onSelectedValue);
+        setCellFactory(_ -> new TournamentCell());
+        setConverter(new StringConverter<>() {
+            @Override
+            public String toString(TournamentSettings model) {
+                return model == null ? "" : model.getName();
+            }
+
+            @Override
+            public TournamentSettings fromString(String s) {
+                var model = new TournamentSettings();
+                model.setName(s);
+                return model;
+            }
+        });
 
         try {
             fxmlLoader.load();
@@ -31,17 +47,4 @@ public class Dropdown extends ComboBox<String>  {
             throw new RuntimeException(ex);
         }
     }
-
-    @SuppressWarnings("unused")
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-    @SuppressWarnings("unused")
-    public void setDefaultValue(String value) {
-        if (defaultValue == null) {
-            setValue(value);
-        }
-        defaultValue = value;
-    }
-
 }

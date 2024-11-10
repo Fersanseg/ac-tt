@@ -17,9 +17,15 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        var controller = fxmlLoader.getController();
+
         scene.getStylesheets().add("styles.css");
         stage.setTitle("Assetto Corsa Tournament Tracker");
         stage.setScene(scene);
         stage.show();
+
+        if (controller instanceof MainController) {
+            ((MainController)controller).setTournamentsList(null);
+        }
     }
 }

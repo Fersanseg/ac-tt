@@ -1,8 +1,8 @@
 package com.actt.actt;
 
 import com.actt.actt.controls.CarClass;
-import com.actt.actt.controls.CarListCell;
-import com.actt.actt.controls.PointsSystemCell;
+import com.actt.actt.controls.cellFactories.CarListCell;
+import com.actt.actt.controls.cellFactories.PointsSystemCell;
 import com.actt.actt.controls.ScoringSystem;
 import com.actt.actt.events.SendDataEvent;
 import com.actt.actt.models.Car;
@@ -236,7 +236,7 @@ public class EditTournament implements Initializable {
     }
 
     public void goHome() throws IOException {
-        sceneController.showScene(SceneController.SCENES.MAIN, (Stage) backButton.getScene().getWindow());
+        sceneController.showHomeScene((Stage) backButton.getScene().getWindow(), tournamentName.getText());
     }
 
     private void addClass() {

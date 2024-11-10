@@ -1,4 +1,4 @@
-package com.actt.actt.controls;
+package com.actt.actt.controls.cellFactories;
 
 import com.actt.actt.models.Car;
 import javafx.scene.control.ListCell;
