@@ -337,6 +337,7 @@ public class EditTournament implements Initializable {
 
         tournamentSettings.setName(tournamentName.getText());
         tournamentSettings.setClasses(carClassSettings.toArray(carClassSettings.toArray(new CarClassSettings[0])));
+        tournamentSettings.setPointsSystem(pointsSystemComboBox.getValue());
         return tournamentSettings;
     }
 
