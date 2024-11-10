@@ -56,6 +56,8 @@ public class CarClass extends AnchorPane implements Initializable {
                     carsList.getItems().remove(car);
                 }
             });
+
+            carClassName.setOnKeyPressed(this::fireEvent);
         }
         catch (
                 IOException ex) {

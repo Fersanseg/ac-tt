@@ -12,7 +12,6 @@ import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -22,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -240,9 +240,12 @@ public class EditTournament implements Initializable {
     }
 
     private void addClass() {
+        carPickerContainer.setVisible(false);
+
         var classesCount = carClassesContainer.getChildren().filtered(c -> c.getClass().getTypeName().contains("CarClass")).size();
         CarClass carClass = new CarClass(classesCount);
         carClass.addEventHandler(SendDataEvent.SEND_DATA, this::onCarClassSendData);
+        carClass.addEventHandler(KeyEvent.ANY, _ -> carPickerContainer.setVisible(false));
         carClassesContainer.getChildren().addLast(carClass);
     }
 
@@ -278,11 +281,17 @@ public class EditTournament implements Initializable {
     }
 
     private void onClickAddCarButton(SendDataEvent ev) {
-        carPickerContainer.setVisible(true);
+        showCarPicker();
+
         if (ev.getData("className").isPresent()) {
             String className = ev.getData("className").get().toString();
             carPickerClassName.setText(className);
         }
+    }
+
+    private void showCarPicker() {
+        carPickerContainer.setVisible(true);
+        brandListContainer.setVisible(true);
     }
 
     private CarClass findCarClassByName(String name) {
