@@ -14,6 +14,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -118,8 +121,10 @@ public class MainController implements Initializable {
 
     @FXML
     protected void onDropdownSelect(ActionEvent ev) {
-        String selectedTournament = ((Dropdown)ev.getTarget()).getValue().getName();
-        System.out.println("SELECTED TOURNAMENT: " + selectedTournament);
+        TournamentSettings selectedTournament = ((Dropdown)ev.getTarget()).getValue();
+        if (selectedTournament != null) {
+            System.out.println("SELECTED TOURNAMENT: " + selectedTournament.getName());
+        }
     }
 
     @FXML
@@ -160,11 +165,49 @@ public class MainController implements Initializable {
     }
 
     private void deleteTournament() {
-        System.out.println("DELETE TOURNAMENT");
+        if (tournamentsComboBox.getValue() == null) {
+            return;
+        }
+
+        createDeleteTournamentDialog().showAndWait().ifPresent(b -> {
+            var bData = b.getButtonData();
+            if (bData == ButtonBar.ButtonData.YES) {
+                var tournamentName = tournamentsComboBox.getValue().getName();
+                var list = tournamentsComboBox.getItems();
+                var itemToRemove = list.filtered(t -> t.getName().equals(tournamentName)).getFirst();
+                tournamentsComboBox.setValue(null);
+
+                list.remove(itemToRemove);
+                tournamentsComboBox.setItems(list);
+                try {
+                    FileOperations.deleteTournament(itemToRemove.getName());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
+    private Dialog<ButtonType> createDeleteTournamentDialog() {
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialog");
+        dialog.setTitle("Delete tournament");
+        dialog.getDialogPane().setContent(new Label("Delete this tournament?"));
+        dialog.getDialogPane().getButtonTypes().add(yesButton);
+        dialog.getDialogPane().getButtonTypes().add(noButton);
+
+        dialog.getDialogPane().lookupButton(yesButton).getStyleClass().add("button--blue-border");
+        dialog.getDialogPane().lookupButton(noButton).getStyleClass().add("button--cancel");
+
+        return dialog;
     }
 
     private void config() throws IOException {
         FileOperations.showConfigDialog(false);
     }
+
 
 }

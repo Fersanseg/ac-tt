@@ -158,6 +158,22 @@ public class FileOperations {
         return Files.exists(Path.of(pointsPath + fullFileName));
     }
 
+    public static void deleteTournament(String name) throws IOException {
+        Path path = Path.of(appConfig.getAppPath() + "\\" + name);
+        if (Files.exists(path)) {
+            File[] files = new File(String.valueOf(path)).listFiles();
+            if (files == null) {
+                return;
+            }
+
+            for (File file : files) {
+                Files.delete(file.toPath());
+            }
+
+            Files.delete(path);
+        }
+    }
+
     private static void setAppConfig(AppConfig config) {
         appConfig = config;
     }
