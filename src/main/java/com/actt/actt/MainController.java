@@ -123,6 +123,7 @@ public class MainController implements Initializable {
     protected void onDropdownSelect(ActionEvent ev) {
         TournamentSettings selectedTournament = ((Dropdown)ev.getTarget()).getValue();
         if (selectedTournament != null) {
+            tournamentsComboBox.getStyleClass().remove("text-field-error");
             System.out.println("SELECTED TOURNAMENT: " + selectedTournament.getName());
         }
     }
@@ -156,12 +157,20 @@ public class MainController implements Initializable {
     }
 
     private void openTournamentEditor(boolean isCreateMode) throws IOException {
-        System.out.println("EDIT/CREATE TOURNAMENT ("+isCreateMode+")");
-        var controller = sceneController.showScene(SceneController.SCENES.EDIT, (Stage) ap.getScene().getWindow());
-        if (controller instanceof EditTournament) {
-            String label = isCreateMode ? "New tournament" : "Edit tournament";
-            ((EditTournament) controller).setTitle(label);
+        if (tournamentsComboBox.getValue() == null) {
+            tournamentsComboBox.getStyleClass().add("text-field-error");
+            return;
         }
+        else {
+            tournamentsComboBox.getStyleClass().remove("text-field-error");
+        }
+
+        System.out.println("EDIT/CREATE TOURNAMENT ("+isCreateMode+")");
+        EditTournament controller = (EditTournament) sceneController.showScene(SceneController.SCENES.EDIT, (Stage) ap.getScene().getWindow());
+        String label = isCreateMode ? "New tournament" : "Edit tournament";
+
+        controller.setTitle(label);
+        controller.setTournament(tournamentsComboBox.getValue());
     }
 
     private void deleteTournament() {

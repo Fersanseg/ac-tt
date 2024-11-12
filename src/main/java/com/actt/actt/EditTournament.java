@@ -90,6 +90,19 @@ public class EditTournament implements Initializable {
         editorMode.setText(title);
     }
 
+    public void setTournament(TournamentSettings tournament) {
+        String tName = tournament.getName();
+        ScoringSystemModel pointsSystem = tournament.getPointsSystem();
+        CarClassSettings[] classes = tournament.getClasses();
+
+        if (tName != null) {
+            tournamentName.setText(tName);
+        }
+        if (pointsSystem != null) {
+            pointsSystemComboBox.setValue(pointsSystem);
+        }
+    }
+
     private void loadCarList(String brand) throws IOException {
         ObservableList<Car> list = AppData.getCarListByBrand(brand);
         loadCarList(list);
