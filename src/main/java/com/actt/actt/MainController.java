@@ -157,20 +157,22 @@ public class MainController implements Initializable {
     }
 
     private void openTournamentEditor(boolean isCreateMode) throws IOException {
-        if (tournamentsComboBox.getValue() == null) {
-            tournamentsComboBox.getStyleClass().add("text-field-error");
-            return;
-        }
-        else {
-            tournamentsComboBox.getStyleClass().remove("text-field-error");
-        }
-
-        System.out.println("EDIT/CREATE TOURNAMENT ("+isCreateMode+")");
         EditTournament controller = (EditTournament) sceneController.showScene(SceneController.SCENES.EDIT, (Stage) ap.getScene().getWindow());
         String label = isCreateMode ? "New tournament" : "Edit tournament";
 
+        if (!isCreateMode) {
+            if (tournamentsComboBox.getValue() == null) {
+                tournamentsComboBox.getStyleClass().add("text-field-error");
+                return;
+            }
+            else {
+                tournamentsComboBox.getStyleClass().remove("text-field-error");
+            }
+
+            controller.setTournament(tournamentsComboBox.getValue());
+        }
+
         controller.setTitle(label);
-        controller.setTournament(tournamentsComboBox.getValue());
     }
 
     private void deleteTournament() {

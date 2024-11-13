@@ -44,6 +44,16 @@ public class CarClass extends AnchorPane implements Initializable {
         this.index = index;
     }
 
+    public void addCar(Car car) {
+        carsList.getItems().add(car);
+    }
+
+    public void setCarsFromSettings(Car[] cars) {
+        for (Car car : cars) {
+            addCar(car);
+        }
+    }
+
     private void setup() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("car-class.fxml"));
         fxmlLoader.setRoot(this);
@@ -70,10 +80,6 @@ public class CarClass extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setAddCarButtonIcon();
         setDeleteClassButtonIcon();
-    }
-
-    public void addCar(Car car) {
-        carsList.getItems().add(car);
     }
 
     private void setAddCarButtonIcon() {

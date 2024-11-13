@@ -101,6 +101,12 @@ public class EditTournament implements Initializable {
         if (pointsSystem != null) {
             pointsSystemComboBox.setValue(pointsSystem);
         }
+        if (classes != null) {
+            for (CarClassSettings item : classes) {
+                var cl = addClass();
+                cl.setCarsFromSettings(item.getCars());
+            }
+        }
     }
 
     private void loadCarList(String brand) throws IOException {
@@ -252,7 +258,7 @@ public class EditTournament implements Initializable {
         sceneController.showHomeScene((Stage) backButton.getScene().getWindow(), tournamentName.getText());
     }
 
-    private void addClass() {
+    private CarClass addClass() {
         carPickerContainer.setVisible(false);
 
         var classesCount = carClassesContainer.getChildren().filtered(c -> c.getClass().getTypeName().contains("CarClass")).size();
@@ -260,6 +266,8 @@ public class EditTournament implements Initializable {
         carClass.addEventHandler(SendDataEvent.SEND_DATA, this::onCarClassSendData);
         carClass.addEventHandler(KeyEvent.ANY, _ -> carPickerContainer.setVisible(false));
         carClassesContainer.getChildren().addLast(carClass);
+
+        return carClass;
     }
 
     private void onCarClassSendData(SendDataEvent ev) {
