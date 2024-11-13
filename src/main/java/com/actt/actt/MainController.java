@@ -43,7 +43,6 @@ public class MainController implements Initializable {
 
     @FXML
     private HeaderButtonBar headerButtonBar;
-    private ObservableList<TournamentSettings> tournamentsList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,7 +70,11 @@ public class MainController implements Initializable {
         }
     }
 
-    public void setTournamentsList(String name) throws IOException {
+    public void setTournamentsList(String name) {
+        if (name != null) {
+            tournamentsComboBox.getStyleClass().remove("dropdown__placeholder-value");
+        }
+
         File[] tournamentsFolders = FileOperations.getTournaments();
         ObjectMapper mapper = new ObjectMapper();
         TournamentSettings objToSelect = null;
@@ -124,7 +127,6 @@ public class MainController implements Initializable {
         TournamentSettings selectedTournament = ((Dropdown)ev.getTarget()).getValue();
         if (selectedTournament != null) {
             tournamentsComboBox.getStyleClass().remove("text-field-error");
-            System.out.println("SELECTED TOURNAMENT: " + selectedTournament.getName());
         }
     }
 
@@ -219,6 +221,4 @@ public class MainController implements Initializable {
     private void config() throws IOException {
         FileOperations.showConfigDialog(false);
     }
-
-
 }
