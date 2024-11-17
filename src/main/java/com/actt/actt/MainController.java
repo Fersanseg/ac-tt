@@ -126,6 +126,7 @@ public class MainController implements Initializable {
     protected void onDropdownSelect(ActionEvent ev) {
         TournamentSettings selectedTournament = ((Dropdown)ev.getTarget()).getValue();
         if (selectedTournament != null) {
+            loadTournament();
             tournamentsComboBox.getStyleClass().remove("text-field-error");
         }
     }
@@ -155,6 +156,8 @@ public class MainController implements Initializable {
     }
 
     private void loadTournament() {
+        String tourName = tournamentsComboBox.getValue().getName();
+        File[] resultFiles = FileOperations.getRaceResultsFromTournament(tourName);
         System.out.println("LOAD TOURNAMENT");
     }
 

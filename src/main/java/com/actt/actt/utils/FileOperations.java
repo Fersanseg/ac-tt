@@ -3,8 +3,10 @@ package com.actt.actt.utils;
 import com.actt.actt.controls.DirectoryPicker;
 import com.actt.actt.events.DirectoryChosenEvent;
 import com.actt.actt.models.AppConfig;
+import com.actt.actt.models.ResultJSONModel;
 import com.actt.actt.models.ScoringSystemModel;
 import com.actt.actt.models.TournamentSettings;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -137,6 +139,27 @@ public class FileOperations {
         File tourneysFolder = new File(tourneysPath);
 
         return tourneysFolder.listFiles();
+    }
+
+    public static File[] getRaceResultsFromTournament(String name) {
+        String tournamentPath = appConfig.getAppPath() + "\\" + name;
+        File tourneyFolder = new File(tournamentPath);
+        File[] allFiles = tourneyFolder.listFiles();
+        if (allFiles == null || allFiles.length == 0) {
+            return new File[0];
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        return Arrays.stream(allFiles).filter(f -> {
+            try {
+                var ob = mapper.readValue(f, ResultJSONModel.class);
+                return ob.getTrack() != null && ob.getPlayers() != null && ob.getSessions() != null;
+            } catch (Exception _) {
+                return false;
+            }
+        }).toArray(File[]::new);
     }
 
     public static void savePointsSystem(ScoringSystemModel model) throws IOException {
