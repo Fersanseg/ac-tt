@@ -3,6 +3,7 @@ package com.actt.actt;
 import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
 import com.actt.actt.events.SendDataEvent;
+import com.actt.actt.models.ResultJSONModel;
 import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.AppData;
 import com.actt.actt.utils.FileOperations;
@@ -157,7 +158,7 @@ public class MainController implements Initializable {
 
     private void loadTournament() {
         String tourName = tournamentsComboBox.getValue().getName();
-        File[] resultFiles = FileOperations.getRaceResultsFromTournament(tourName);
+        ResultJSONModel[] resultFiles = FileOperations.getRaceResultsFromTournament(tourName);
         System.out.println("LOAD TOURNAMENT");
     }
 

@@ -141,25 +141,34 @@ public class FileOperations {
         return tourneysFolder.listFiles();
     }
 
-    public static File[] getRaceResultsFromTournament(String name) {
+    public static ResultJSONModel[] getRaceResultsFromTournament(String name) {
         String tournamentPath = appConfig.getAppPath() + "\\" + name;
         File tourneyFolder = new File(tournamentPath);
         File[] allFiles = tourneyFolder.listFiles();
         if (allFiles == null || allFiles.length == 0) {
-            return new File[0];
+            return new ResultJSONModel[0];
         }
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        return Arrays.stream(allFiles).filter(f -> {
+        return Arrays.stream(allFiles).map(f -> {
             try {
                 var ob = mapper.readValue(f, ResultJSONModel.class);
-                return ob.getTrack() != null && ob.getPlayers() != null && ob.getSessions() != null;
+                if (ob.getTrack() == null && ob.getPlayers() == null && ob.getSessions() == null) {
+                    return null;
+                }
+
+                var obPlayers = ob.getPlayers();
+                for (int i = 0; i < obPlayers.length; i++) {
+                    obPlayers[i].setId(i);
+                }
+
+                return ob;
             } catch (Exception _) {
-                return false;
+                return null;
             }
-        }).toArray(File[]::new);
+        }).toArray(ResultJSONModel[]::new);
     }
 
     public static void savePointsSystem(ScoringSystemModel model) throws IOException {
