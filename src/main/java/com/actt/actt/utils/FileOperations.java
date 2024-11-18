@@ -165,7 +165,9 @@ public class FileOperations {
             } catch (Exception _) {
                 return null;
             }
-        }).toArray(ResultJSONModel[]::new);
+        })
+            .filter(Objects::nonNull)
+            .toArray(ResultJSONModel[]::new);
     }
 
     public static void savePointsSystem(ScoringSystemModel model) throws IOException {
