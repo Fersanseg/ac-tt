@@ -1,5 +1,7 @@
 package com.actt.actt.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ScoringSystemModel {
     private String name;
     private int[] points;
@@ -30,6 +32,7 @@ public class ScoringSystemModel {
         return id;
     }
 
+    @JsonIgnore
     public boolean isValid() {
         boolean validPoints = getPoints() != null && getPoints().length != 0;
         boolean validName = getName() != null && !getName().isEmpty();
