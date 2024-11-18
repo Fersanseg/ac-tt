@@ -1,5 +1,8 @@
 package com.actt.actt.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResultJSONModel {
     private String track;
     public String getTrack() { return track; }
@@ -13,5 +16,14 @@ public class ResultJSONModel {
 
     private ResultsJSONSessions[] sessions;
     public ResultsJSONSessions[] getSessions() { return sessions; }
+
+    public List<Driver> getDrivers() {
+        List<Driver> out = new ArrayList<>();
+        for (var player : getPlayers()) {
+            out.add(new Driver(player));
+        }
+
+        return out;
+    }
 }
 

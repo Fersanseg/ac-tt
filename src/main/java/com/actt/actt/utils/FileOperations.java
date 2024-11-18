@@ -105,6 +105,17 @@ public class FileOperations {
         return appConfig;
     }
 
+    public static TournamentSettings getTournamentSettings(String name) throws IOException {
+        String path = appConfig.getAppPath() + "\\" + name + "\\config.json";
+        if (!Files.exists(Path.of(path))) {
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        File settings = new File(path);
+        return mapper.readValue(settings, TournamentSettings.class);
+    }
+
     public static void saveTournamentSettings(TournamentSettings settings) throws IOException {
         String appPath = appConfig.getAppPath();
         Path pathAppPath = Path.of(appPath);

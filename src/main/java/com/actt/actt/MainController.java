@@ -124,7 +124,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    protected void onDropdownSelect(ActionEvent ev) {
+    protected void onDropdownSelect(ActionEvent ev) throws IOException {
         TournamentSettings selectedTournament = ((Dropdown)ev.getTarget()).getValue();
         if (selectedTournament != null) {
             loadTournament();
@@ -156,9 +156,12 @@ public class MainController implements Initializable {
         }
     }
 
-    private void loadTournament() {
+    private void loadTournament() throws IOException {
         String tourName = tournamentsComboBox.getValue().getName();
+        TournamentSettings settings = FileOperations.getTournamentSettings(tourName);
         ResultJSONModel[] resultFiles = FileOperations.getRaceResultsFromTournament(tourName);
+        TournamentLoader loader = new TournamentLoader(settings);
+        var results = loader.loadTournament(resultFiles);
         System.out.println("LOAD TOURNAMENT");
     }
 
