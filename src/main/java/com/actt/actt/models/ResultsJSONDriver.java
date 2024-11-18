@@ -3,7 +3,6 @@ package com.actt.actt.models;
 public class ResultsJSONDriver {
     private String name;
     private String car;
-    private int id;
 
     public String getName() {
         return name;
@@ -19,13 +18,5 @@ public class ResultsJSONDriver {
 
     public void setCar(String car) {
         this.car = car;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

@@ -159,11 +159,6 @@ public class FileOperations {
                     return null;
                 }
 
-                var obPlayers = ob.getPlayers();
-                for (int i = 0; i < obPlayers.length; i++) {
-                    obPlayers[i].setId(i);
-                }
-
                 return ob;
             } catch (Exception _) {
                 return null;
