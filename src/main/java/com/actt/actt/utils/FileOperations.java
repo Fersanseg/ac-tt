@@ -159,6 +159,8 @@ public class FileOperations {
                     return null;
                 }
 
+                ob.setTrackId(f.getName().replace(".json", ""));
+
                 return ob;
             } catch (Exception _) {
                 return null;
