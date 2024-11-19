@@ -26,26 +26,33 @@ public class TournamentLoader {
 
     private void processRace(ResultJSONModel race) {
         List<Driver> raceDrivers = race.getDrivers();
+        Map<CarClassSettings, List<Driver>> driversByClass = createDriversListByClass(raceDrivers);
+        // TODO score each driver according to their position in the model
+    }
+
+    private Map<CarClassSettings, List<Driver>> createDriversListByClass(List<Driver> driversInRace) {
         Map<CarClassSettings, List<Driver>> driversByClass = new HashMap<>();
         for (var carClass : classes) {
             driversByClass.put(carClass, new ArrayList<>());
         }
 
-        for (var driver : raceDrivers) {
-            if (!drivers.contains(driver)) {
-                drivers.add(driver);
-            }
-
-            // From here on its assumed that "driver" contains the accumulated points and results
-            Driver finalDriver = Driver.find(drivers, driver.getName());
+        for (var raceDriver : driversInRace) {
+            Driver tournamentDriver = getTournamentDriver(raceDriver);
             driversByClass.forEach((carClass, list) -> {
-                assert finalDriver != null;
-                if (carClass.isInClass(finalDriver.getCar())) {
-                    list.add(finalDriver);
+                if (carClass.isInClass(tournamentDriver.getCar())) {
+                    list.add(tournamentDriver);
                 }
             });
         }
 
-        // TODO score each driver according to their position in the model
+        return driversByClass;
+    }
+
+    private Driver getTournamentDriver(Driver raceDriver) {
+        if (!drivers.contains(raceDriver)) {
+            drivers.add(raceDriver);
+        }
+
+        return Driver.find(drivers, raceDriver.getName());
     }
 }
