@@ -148,8 +148,12 @@ public class FileOperations {
     public static File[] getTournaments() {
         String tourneysPath = appConfig.getAppPath();
         File tourneysFolder = new File(tourneysPath);
+        File[] folders = tourneysFolder.listFiles();
+        if (folders == null || folders.length == 0) {
+            return new File[0];
+        }
 
-        return tourneysFolder.listFiles();
+        return Arrays.stream(folders).filter(f -> Files.isDirectory(f.toPath())).toArray(File[]::new);
     }
 
     public static ResultJSONModel[] getRaceResultsFromTournament(String name) {
