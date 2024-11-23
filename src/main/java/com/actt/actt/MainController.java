@@ -3,6 +3,7 @@ package com.actt.actt;
 import com.actt.actt.controls.Dropdown;
 import com.actt.actt.controls.HeaderButtonBar;
 import com.actt.actt.events.SendDataEvent;
+import com.actt.actt.models.Driver;
 import com.actt.actt.models.ResultJSONModel;
 import com.actt.actt.models.TournamentSettings;
 import com.actt.actt.utils.AppData;
@@ -25,10 +26,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainController implements Initializable {
     private SceneController sceneController;
@@ -159,9 +157,13 @@ public class MainController implements Initializable {
     private void loadTournament() throws IOException {
         String tourName = tournamentsComboBox.getValue().getName();
         TournamentSettings settings = FileOperations.getTournamentSettings(tourName);
+        if (settings == null) {
+            return;
+        }
+
         ResultJSONModel[] resultFiles = FileOperations.getRaceResultsFromTournament(tourName);
         TournamentLoader loader = new TournamentLoader(settings);
-        var results = loader.loadTournament(resultFiles);
+        List<Driver> drivers = loader.loadTournament(resultFiles);
         System.out.println("LOAD TOURNAMENT");
     }
 
