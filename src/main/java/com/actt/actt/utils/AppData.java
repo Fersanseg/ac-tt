@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class AppData {
@@ -19,6 +20,7 @@ public class AppData {
     private static ObservableList<String> brands;
     private static Map<String, ObservableList<Car>> carsByBrand;
     private static File[] tournamentFolders;
+    private static ConcurrentHashMap<String, String> trackNames; // K: foldername-layoutname. V: layout UI name
 
     public static ObservableList<Car> getCarList() throws IOException {
         if (cars == null) {
@@ -100,7 +102,15 @@ public class AppData {
         return FXCollections.observableArrayList(filtered);
     }
 
-    private static File getCarConfigFile(File folder) {
+    public static File getCarConfigFile(File folder) {
+        return getConfigFile(folder, "ui_car.json");
+    }
+
+    public static File getTrackConfigFile(File folder) {
+        return getConfigFile(folder, "ui_track.json");
+    }
+
+    private static File getConfigFile(File folder, String fileName) {
         Queue<File> folders = new LinkedList<>();
         folders.add(folder);
 
@@ -111,7 +121,7 @@ public class AppData {
             if (children == null) continue;
 
             for (File file : children) {
-                if (file.isFile() && file.getName().equals("ui_car.json")) {
+                if (file.isFile() && file.getName().equals(fileName)) {
                     return file;
                 }
 
@@ -153,5 +163,21 @@ public class AppData {
 
     public static void setTournamentFolders(File[] tournamentFolders) {
         AppData.tournamentFolders = tournamentFolders;
+    }
+
+    public static ConcurrentHashMap<String, String> getTrackNames() {
+        if (trackNames == null) {
+            trackNames = new ConcurrentHashMap<>();
+        }
+
+        return trackNames;
+    }
+
+    public static String getTrackName(String folderName) {
+        if (trackNames == null) {
+            trackNames = new ConcurrentHashMap<>();
+        }
+
+        return trackNames.get(folderName);
     }
 }

@@ -5,6 +5,10 @@ public class DriverResults {
     public String getRaceId() { return raceId; }
     public void setRaceId(String raceId) { this.raceId = raceId; }
 
+    private String trackName; // the name of the file
+    public String getTrackName() { return trackName; }
+    public void setTrackName(String trackName) { this.trackName = trackName; }
+
     private int position; // CLASS position, not OVERALL race position
     public int getPosition() { return position; }
     public void setPosition(int position) { this.position = position; }

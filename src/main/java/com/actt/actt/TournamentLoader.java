@@ -1,13 +1,14 @@
 package com.actt.actt;
 
 import com.actt.actt.models.*;
+import com.actt.actt.utils.AppData;
 
 import java.util.*;
 
 public class TournamentLoader {
     protected List<Driver> drivers;
-    private CarClassSettings[] classes;
-    private TournamentSettings settings; // TODO is this actually needed?
+    private final CarClassSettings[] classes;
+    private final TournamentSettings settings;
 
     public TournamentLoader(TournamentSettings settings) {
         drivers = new ArrayList<>();
@@ -15,19 +16,35 @@ public class TournamentLoader {
         classes = settings.getClasses();
     }
 
-    // TODO method: score by class (pass SORTED lists of drivers, each list for one class, and apply the scores. First of each class gets full points, second gets p2's points etc.)
-    public Object loadTournament(ResultJSONModel[] resultFiles) {
+    public List<Driver> loadTournament(ResultJSONModel[] resultFiles) {
         for (var result : resultFiles) {
             processRace(result);
         }
 
-        return null;
+        return drivers;
     }
 
     private void processRace(ResultJSONModel race) {
+        ResultsJSONSessions[] sessions = race.getSessions();
         List<Driver> raceDrivers = race.getDrivers();
-        Map<CarClassSettings, List<Driver>> driversByClass = createDriversListByClass(raceDrivers);
-        // TODO score each driver according to their position in the model
+        List<Driver> sortedDrivers = sortDrivers(raceDrivers, sessions);
+        Map<CarClassSettings, List<Driver>> driversByClass = createDriversListByClass(sortedDrivers);
+        scoreDrivers(driversByClass, race.getTrack(), race.getTrackId());
+    }
+
+    private List<Driver> sortDrivers(List<Driver> jsonOrderedDrivers, ResultsJSONSessions[] sessions) {
+        List<Driver> sortedDrivers = new ArrayList<>();
+        int[] results = getRaceSessionResults(sessions);
+
+        for (int driverIndex : results) {
+            Driver driver = getTournamentDriver(jsonOrderedDrivers.get(driverIndex));
+
+            if (driver != null) {
+                sortedDrivers.add(driver);
+            }
+        }
+
+        return sortedDrivers;
     }
 
     private Map<CarClassSettings, List<Driver>> createDriversListByClass(List<Driver> driversInRace) {
@@ -37,10 +54,10 @@ public class TournamentLoader {
         }
 
         for (var raceDriver : driversInRace) {
-            Driver tournamentDriver = getTournamentDriver(raceDriver);
             driversByClass.forEach((carClass, list) -> {
-                if (carClass.isInClass(tournamentDriver.getCar())) {
-                    list.add(tournamentDriver);
+                if (carClass.isInClass(raceDriver.getCar())) {
+                    raceDriver.setCarClass(carClass.getName());
+                    list.add(raceDriver);
                 }
             });
         }
@@ -54,5 +71,37 @@ public class TournamentLoader {
         }
 
         return Driver.find(drivers, raceDriver.getName());
+    }
+
+    private void scoreDrivers(Map<CarClassSettings, List<Driver>> driversByClass, String trackFolderName, String raceId) {
+        int[] pointsSystem = settings.getPointsSystem().getPoints();
+
+        driversByClass.forEach((_, list) -> {
+            for (int i = 0; i < list.size(); i++) {
+                Driver driver = list.get(i);
+                DriverResults newResults = new DriverResults();
+
+                int points = 0;
+                if (i < pointsSystem.length) {
+                    points = pointsSystem[i];
+                }
+
+                newResults.setRaceId(raceId);
+                newResults.setTrackName(AppData.getTrackName(trackFolderName));
+                newResults.setPoints(points);
+                newResults.setPosition(i+1);
+                driver.addPoints(points);
+
+                driver.addDriverResults(newResults);
+            }
+        });
+    }
+
+    private int[] getRaceSessionResults(ResultsJSONSessions[] sessions) {
+        return Arrays.stream(sessions)
+                .filter(s -> s.getName().equals("Quick Race") || s.getName().equals("Race"))
+                .toList()
+                .getFirst()
+                .getRaceResult();
     }
 }

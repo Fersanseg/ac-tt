@@ -2,10 +2,7 @@ package com.actt.actt.utils;
 
 import com.actt.actt.controls.DirectoryPicker;
 import com.actt.actt.events.DirectoryChosenEvent;
-import com.actt.actt.models.AppConfig;
-import com.actt.actt.models.ResultJSONModel;
-import com.actt.actt.models.ScoringSystemModel;
-import com.actt.actt.models.TournamentSettings;
+import com.actt.actt.models.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.EventHandler;
@@ -24,6 +21,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.actt.actt.utils.ControlOperations.GetNodesByType;
 
@@ -185,6 +185,27 @@ public class FileOperations {
             .toArray(ResultJSONModel[]::new);
     }
 
+    public static void setupTrackNamesMap(ResultJSONModel[] resultFiles) {
+        ExecutorService executor = Executors.newFixedThreadPool(10); // Thread pool for async tasks
+        List<String> trackFolderNames = Arrays.stream(resultFiles).map(ResultJSONModel::getTrack).toList();
+        Set<String> uniqueTrackFolderNames = new HashSet<>(trackFolderNames);
+
+        List<CompletableFuture<String>> futures = uniqueTrackFolderNames
+            .stream()
+            .map(folderName ->
+                CompletableFuture.supplyAsync(() ->
+                    AppData.getTrackNames().computeIfAbsent(folderName, FileOperations::getACTrackFile),
+                    executor)
+            )
+            .toList();
+
+        CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new))
+            .thenApply(_ -> futures
+                .stream().map(CompletableFuture::join) // Wait for all tasks
+                .toList())
+            .whenComplete((_, _) -> executor.shutdown());
+    }
+
     public static void savePointsSystem(ScoringSystemModel model) throws IOException {
         Path pointsPath = Path.of(CONFIG_PATH).resolve(POINTS_FOLDER);
         if (!Files.exists(pointsPath)) {
@@ -229,6 +250,45 @@ public class FileOperations {
         var json = mapper.readValue(new File(CONFIG_PATH + "\\" + CONFIG_FILENAME), AppConfig.class);
 
         setAppConfig(json);
+    }
+
+    private static String getACTrackFile(String folderName) {
+        var split = folderName.split("-");
+
+        String acPath = FileOperations.getAppConfig().getAcPath();
+        File[] tracks = new File(acPath + "\\content\\tracks").listFiles();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        if (split.length == 1) {
+            Optional<File> optTrackFolder = Arrays.stream(tracks).filter(t -> t.getName().equals(folderName)).findFirst();
+            if (optTrackFolder.isEmpty()) {
+                return folderName;
+            }
+
+            File trackFolder = optTrackFolder.get();
+            File json = AppData.getTrackConfigFile(trackFolder);
+            try {
+                return mapper.readValue(json, Track.class).getName();
+            } catch (IOException e) {
+                return folderName;
+            }
+        }
+        else {
+            String searchTerm = split[0];
+            String layoutName = split[1];
+            File layoutFolder = new File(acPath + "\\content\\tracks\\" + searchTerm + "\\ui\\" + layoutName);
+            if (!layoutFolder.exists()) {
+                return folderName;
+            }
+
+            File json = AppData.getTrackConfigFile(layoutFolder);
+            try {
+                return mapper.readValue(json, Track.class).getName();
+            } catch (IOException e) {
+                return folderName;
+            }
+        }
     }
 
 

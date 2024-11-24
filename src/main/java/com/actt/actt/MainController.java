@@ -162,6 +162,7 @@ public class MainController implements Initializable {
         }
 
         ResultJSONModel[] resultFiles = FileOperations.getRaceResultsFromTournament(tourName);
+        FileOperations.setupTrackNamesMap(resultFiles);
         TournamentLoader loader = new TournamentLoader(settings);
         List<Driver> drivers = loader.loadTournament(resultFiles);
         System.out.println("LOAD TOURNAMENT");
